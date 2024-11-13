@@ -1,0 +1,14 @@
+/* Chat.css */
+#messages {
+    max-height: 400px; /* Adjust based on your design */
+    /* overflow-y: auto; */
+  }
+  
+  #messages div {
+    transition: background-color 0.3s;
+  }
+  
+  #messages div:hover {
+    background-color: #e0e0e0; /* Light gray background on hover */
+  }
+  
