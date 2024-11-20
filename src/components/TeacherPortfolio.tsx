@@ -19,7 +19,7 @@ const VideoPortfolio: React.FC = ({video}: any) => {
   const { t, i18n } = useTranslation();
   const videos = teacher?.portfolioVideo?.split(',');
     return (
-      <div className="p-4">
+      <div className="">
         <h2 className="text-xl font-semibold mb-4">{t("Video_Portfolio")}</h2>
         <div className="grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-5 gap-4">
           {videos?.map((video:any) => (

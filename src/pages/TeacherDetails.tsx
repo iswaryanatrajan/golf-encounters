@@ -40,7 +40,7 @@ const TeacherDetails: React.FC = () => {
 
   return (
     <div className="mx-4 md:mx-20">
-      <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-8">
         <div className="col-span-1 md:col-span-4 order-last md:order-first">
           <TeacherSlotss
             slots={slots}
@@ -62,28 +62,27 @@ const TeacherDetails: React.FC = () => {
               <h3 className="text-lg font-semibold mb-2 text-[#565656]">
                 {t("MAIN_VIDEO")}
               </h3>
-              <div className="relative flex justify-center items-center bg-gray-200 p-4 rounded-lg shadow-md overflow-hidden">
+              <div className="relative flex justify-center items-center rounded-lg shadow-md overflow-hidden">
                 <video
-                  className="rounded-lg w-full h-[260px]"
+                  className="rounded-lg w-[480px] h-[270px]"
                   src={teacher.introductionVideo}
                   title="Introduction Video"
-                  width={260}
                   controls
                 ></video>
               </div>
             </div>
           </div>
-          <div>
+          <div className="text-[#565656] text-lg font-semibold">
             <VideoPortfolio />
           </div>
           <div className="my-8">  
-            <h2 className="text-xl text-start font-semibold mb-4">Gigs:</h2>
+          <h3 className="text-lg font-semibold mb-4 text-[#565656]">Gigs:</h3>
             {tId !== teacher?.id ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {gigs.gigs?.length != 0 ? (
                   gigs.gigs?.map((item: any) => (
                     <div
-                      className="xl:w-auto mb-4 xl:mb-0 px-2 py-4 space-y-4 text-white hover:bg-[#f1f1f1] cursor-pointer border border-yellow-400 rounded-lg bg-white lg:py-10 md:px-12 md:w-auto md:flex-row md:items-center md:space-x-4 lg:space-x-12"
+                      className="xl:w-auto mb-4 xl:mb-0 px-2 py-4 space-y-4 text-white hover:bg-[#f1f1f1] cursor-pointer border border-yellow-400 rounded-lg bg-white lg:py-3 md:px-3 md:w-auto md:flex-row md:items-center md:space-x-4 lg:space-x-12"
                       style={{
                         boxShadow:
                           "rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px",
@@ -95,12 +94,12 @@ const TeacherDetails: React.FC = () => {
                         <div className="w-full h-full xl:w-[100%] xl:h-[260px]">
                           <img
                             className="w-full h-full rounded border-2 border-solid border-[#2dd4bf]"
-                            src={item?.imageUrl || teacher?.profileImage}
+                            src={item?.imageUrl || teacher?.profileImage || "../../img/profile-page.png"}
                             alt="No image"
                           />
                         </div>
                         <div className="flex flex-col">
-                          <div className="flex items-center mt-2">
+                          <div className="flex items-center">
                             {[1, 2, 3, 4, 5].map((star, index) => (
                               <svg
                                 key={index}
@@ -120,7 +119,7 @@ const TeacherDetails: React.FC = () => {
                               4.5(20 reviews)
                             </p>
                           </div>
-                          <h3>{item.title}</h3>
+                          <h3 className="my-1">{item.title}</h3>
                           <p>
                           {t("PRICE")}{" "}
                             <span className="text-green font-bold text-2xl">
@@ -145,16 +144,16 @@ const TeacherDetails: React.FC = () => {
                   ))
                 ) : (
                   <div className="flex flex-col items-center">
-                    <h2>{t("OPPS")}</h2>
+                    <p>{t("OPPS")}</p>
                   </div>
                 )}
               </div>
             ) : (
               <>
-                <h2>
+                <p>
                   {t("OPPS")}
                   <span className="text-[#17b3a6]">GIGS!SS</span>
-                </h2>
+                </p>
                 <button
                   className="text-white bg-[#17b3a6] px-6 py-2 cursor-pointer rounded hover:bg-green-600 text-sm md:text-base"
                   onClick={() => router(`/create-catalogs/${teacher?.id}`)}

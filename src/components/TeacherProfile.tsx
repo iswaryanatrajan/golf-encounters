@@ -43,13 +43,13 @@ const UserProfile: React.FC<UserProfileProps> = ({
   const { t, i18n } = useTranslation();
   const router = useNavigate();
   return (
-    <div className="p-6  rounded  text-white ">
+    <div className="p-3 rounded  text-white ">
       <div className="flex items-center lg:justify-around">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start ">
           <div className="text-center">
             <img
               className="w-24 h-24 md:w-32 md:h-32 mx-auto rounded-full"
-              src={profileImage || imageUrl}
+              src={profileImage || imageUrl || "../../img/Profile.png"}
               alt="Profile"
             />
             <div className="mt-4">
@@ -73,62 +73,62 @@ const UserProfile: React.FC<UserProfileProps> = ({
             <div className="ml-0 col-span-2 xl:ml-4 grid grid-cols-2 xl:grid-cols-2 gap-6  justify-center ">
               <div className="">
                 <div className="flex flex-col gap-1">
-                  <div className="flex gap-2 items-center">
+                  <div className="flex gap-2 mb-1 items-center">
                     <MapPinIcon
                       className="w-4 h-4 text-white border-[1px] border-white border-solid rounded-full p-1"
                       aria-hidden="true"
                     />
                     <p className="m-0 font-bold">{t("Prefectures")}</p>
                   </div>
-                  <p className="text-sm text-white m-0 pl-[calc(1rem+1.2rem)] w-full">
+                  <p className="text-sm text-white m-0 pl-[calc(1rem+1.5rem)]">
                     {location}
                   </p>
                 </div>
               </div>
 
               <div className="">
-                <div className="flex gap-2 items-center">
+                <div className="flex gap-2 mb-1 items-center">
                   <EnvelopeIcon
                     className="w-4 h-4 text-white border-[1px] border-white border-solid rounded-full p-1"
                     aria-hidden="true"
                   />
-                  <p className="m-0">{t("EMAIL")}</p>
+                  <p className="m-0 font-bold">{t("EMAIL")}</p>
                 </div>
                 <p className="text-sm text-white m-0 pl-[calc(1rem+1.5rem)]">
                   {email}
                 </p>
               </div>
               <div className="">
-                <div className="flex gap-2 items-center">
+                <div className="flex gap-2 mb-1 items-center">
                   <PhoneArrowUpRightIcon
                     className="w-4 h-4 text-white border-[1px] border-white border-solid rounded-full p-1"
                     aria-hidden="true"
                   />
-                  <p className="m-0">{t("TEl_NUM")}</p>
+                  <p className="m-0 font-bold">{t("TEl_NUM")}</p>
                 </div>
                 <p className="text-sm text-white m-0 pl-[calc(1rem+1.5rem)]">
                   {phoneNumber}
                 </p>
               </div>
               <div className="">
-                <div className="flex gap-2 items-center">
+                <div className="flex gap-2 mb-1 items-center">
                   <StarIcon
                     className="w-4 h-4 text-white border-[1px] border-white border-solid rounded-full p-1"
                     aria-hidden="true"
                   />
-                  <p className="m-0">{t("RATING")}</p>
+                  <p className="m-0 font-bold">{t("RATING")}</p>
                 </div>
                 <p className="text-sm text-white m-0 pl-[calc(1rem+1.5rem)]">
                   {rating}/{ratingCount} {t("RATING")}
                 </p>
               </div>
               <div className="">
-                <div className="flex gap-2 items-center">
+                <div className="flex gap-2 mb-1 items-center">
                   <StarIcon
                     className="w-4 h-4 text-white border-[1px] border-white border-solid rounded-full p-1"
                     aria-hidden="true"
                   />
-                  <p className="m-0">{t("LEVEL")}</p>
+                  <p className="m-0 font-bold">{t("LEVEL")}</p>
                 </div>
                 <p className="text-sm text-white m-0 pl-[calc(1rem+1.5rem)]">
                   {level}
