@@ -45,7 +45,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
   return (
     <div className="p-3 rounded  text-white ">
       <div className="flex items-center lg:justify-around">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start ">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-start ">
           <div className="text-center">
             <img
               className="w-24 h-24 md:w-32 md:h-32 mx-auto rounded-full"
@@ -68,7 +68,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
             </div>
           </div>
 
-          <div className="ml-0 xl:ml-4 grid xl:grid-cols-2 gap-6  justify-center ">
+          <div className="ml-0 xl:ml-4 grid xl:grid-cols-2 gap-6 md:col-span-2 justify-center ">
 
             <div className="ml-0 col-span-2 xl:ml-4 grid grid-cols-2 xl:grid-cols-2 gap-6  justify-center ">
               <div className="">
