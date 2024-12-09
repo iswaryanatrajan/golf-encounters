@@ -23,6 +23,8 @@ export default function AllNotification() {
 
 
   const translateBatch = async (batch: { id: number; message: string }[]) => {
+    console.log(" messages:",batch.map((item) => ({ id: item.id, text: item.message })),"targetLanguage:",i18n.language);
+
     try {
       const response = await axios.post('/api/translate', {
         messages: batch.map((item) => ({ id: item.id, text: item.message })),
