@@ -134,6 +134,7 @@ export const API_ENDPOINTS = {
 
   //notification hanlder
   UPDATENOTIFICATIONSTATUS: `${API_BASE_URL}/${API_VERSION}/update-notification-response`,
+  UPDATEALLNOTIFICATIONSTATUS: `${API_BASE_URL}/${API_VERSION}/mark-all-notification-as-read`,
 
 
 

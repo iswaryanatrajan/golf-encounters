@@ -18,7 +18,7 @@ export default function AllNotification() {
     notificationsContextStore();
   
   const [translatedMessages, setTranslatedMessages] = useState<Record<number, string>>({});
-  const BATCH_SIZE = 1;
+  const BATCH_SIZE = 5;
 
 
 
@@ -29,6 +29,9 @@ export default function AllNotification() {
       const response = await axios.post('/api/translate', {
         messages: batch.map((item) => ({ id: item.id, text: item.message })),
         targetLanguage: i18n.language, // Current language from i18n
+        batchlimit:BATCH_SIZE
+      }, {
+        headers: { 'Content-Type': 'application/json' },
       });
   
       if (response.status === 200) {
@@ -61,6 +64,33 @@ export default function AllNotification() {
     }
   }, [notificationData, i18n.language]);
 
+  const handleApproveAll = async (e: React.MouseEvent) => {
+    e.preventDefault();
+
+   /* const obj = {
+      notificationId: eventId,
+      message: message,
+    };*/
+
+    try {
+      handleMessage(true);
+      const token = localStorage.getItem("token");
+      const headers: any = {};
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
+      const response = await axios.put(API_ENDPOINTS.UPDATEALLNOTIFICATIONSTATUS, { headers });
+      if (response.status === 200) {
+        window.location.reload();
+      }
+      handleMessage(false);
+      toast.success(t("MARKED_SUCCESS"));
+    } catch (error) {
+      console.error(error);
+      handleMessage(false);
+    }
+  };
+
 
 
   const handleApprove = async (e: React.MouseEvent, eventId: number, message: string) => {
@@ -80,7 +110,8 @@ export default function AllNotification() {
       }
       const response = await axios.put(API_ENDPOINTS.UPDATENOTIFICATIONSTATUS, obj, { headers });
       if (response.status === 200) {
-        window.location.reload();
+        console.log("success")
+        //window.location.reload();
       }
       handleMessage(false);
       toast.success(t("MARKED_SUCCESS"));
@@ -102,6 +133,13 @@ export default function AllNotification() {
       ) : (
         <div className="max-w-7xl mx-10 xl:mx-auto">
           <h4>{t("ALL_NOTIFICATION")}</h4>
+          <button
+              type="button"
+              className="bg-green-500 text-[#17b3a6] px-4 py-2 rounded hover:bg-green-600 cursor-pointer"
+              onClick={(e) => handleApproveAll(e)}
+            >
+              {t("IS_READ")}
+            </button>
           <div aria-live="assertive" className="h-screen animate__animated animate__fadeInLeft">
             <div className="w-full justify-center">
               {notificationData?.map((item: any) => (
