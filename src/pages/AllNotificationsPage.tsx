@@ -20,67 +20,46 @@ export default function AllNotification() {
   const [translatedMessages, setTranslatedMessages] = useState<Record<number, string>>({});
   const BATCH_SIZE = 1;
 
-  // Function to translate a batch of messages using Google Translate API
+
+
   const translateBatch = async (batch: { id: number; message: string }[]) => {
     try {
-      const translationsPromises = batch.map((item) =>
-        axios.post(
-          `https://translation.googleapis.com/language/translate/v2`,
-          null,
-          {
-            params: {
-              key: GOOGLE_API_KEY,
-              q: item.message,
-              target: i18n.language, // Use the current language set in i18n
-            },
-          }
-        )
-      );
-
-      const responses = await Promise.all(translationsPromises);
-      const newTranslations: Record<number, string> = {};
-
-      responses.forEach((response, index) => {
-        const translatedText = response.data.data.translations[0]?.translatedText || batch[index].message;
-        newTranslations[batch[index].id] = translatedText;
+      const response = await axios.post('/api/translate', {
+        messages: batch.map((item) => ({ id: item.id, text: item.message })),
+        targetLanguage: i18n.language, // Current language from i18n
       });
-
-      setTranslatedMessages((prev) => ({ ...prev, ...newTranslations }));
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // Throttle requests
+  
+      if (response.status === 200) {
+        const newTranslations: Record<number, string> = {};
+        response.data.translations.forEach((translation: any) => {
+          newTranslations[translation.id] = translation.text;
+        });
+  
+        setTranslatedMessages((prev) => ({ ...prev, ...newTranslations }));
+      } else {
+        console.error('Translation failed:', response);
+      }
     } catch (error) {
-      console.error("Translation Error:", error);
+      console.error('Translation Error:', error);
     }
   };
 
   // Use Effect to process notifications in batches
   useEffect(() => {
+    // Clear translations and re-translate when language changes
+    setTranslatedMessages({});
+  
     if (notificationData?.length) {
-      const unprocessedMessages = notificationData.filter((item: any) => !translatedMessages[item.id]);
-      const batches = Array.from({ length: Math.ceil(unprocessedMessages.length / BATCH_SIZE) }, (_, i) =>
-        unprocessedMessages.slice(i * BATCH_SIZE, i * BATCH_SIZE + BATCH_SIZE)
-      );
-
-      (async () => {
-        for (const batch of batches) {
-          await translateBatch(batch); // Translate batch-by-batch
-        }
-      })();
+      const unprocessedMessages = notificationData.map((item: any) => ({
+        id: item.id,
+        message: item.message,
+      }));
+  
+      translateBatch(unprocessedMessages);
     }
+  }, [notificationData, i18n.language]);
 
-    // Listen to language change and trigger translations
-    const handleLanguageChange = () => {
-      setTranslatedMessages({}); // Clear current translations when language changes
-      translateBatch(notificationData.map((item: any) => ({ id: item.id, message: item.message })));
-    };
 
-    // Register the language change listener
-    i18n.on('languageChanged', handleLanguageChange);
-
-    // Cleanup listener on unmount
-    return () => {
-      i18n.off('languageChanged', handleLanguageChange);
-    };
-  }, [notificationData, i18n.language, translatedMessages]);
 
   const handleApprove = async (e: React.MouseEvent, eventId: number, message: string) => {
     e.preventDefault();
