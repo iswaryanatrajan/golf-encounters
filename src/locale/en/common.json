@@ -485,5 +485,6 @@
      "RATING_WITH_COUNT": "{{count}} ({{numRatings}} 評価)",
     "NO_RATINGS_YET": "No ratings yet",
     "COMPLETE_LESSON": "Complete Lesson",
-    "WRITE_FEEDBACK": "Write feedback"
+    "WRITE_FEEDBACK": "Write feedback",
+    "CONFIRM_ALL": "Mark all as read"
 }

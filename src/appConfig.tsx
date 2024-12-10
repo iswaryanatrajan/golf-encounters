@@ -49,6 +49,7 @@ export const API_ENDPOINTS = {
 
   // get notfication
   GET_NOTIFICATION: `${API_BASE_URL}/${API_VERSION}/get-notifications`,
+  TRANSLATE_NOTIFICATION: `${API_BASE_URL}/${API_VERSION}/translate`,
 
   // teacher
   BECOMETEACHER: `${API_BASE_URL}/${API_VERSION}/become-teacher`,

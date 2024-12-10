@@ -485,6 +485,7 @@
     "RATING_WITH_COUNT": "{{count}} ({{numRatings}} ベヴェルトゥンゲン)",
     "NO_RATINGS_YET": "まだレビューはありません",
     "COMPLETE_LESSON": "レッスンを完了する",
-    "WRITE_FEEDBACK": "フィードバックを書く"
+    "WRITE_FEEDBACK": "フィードバックを書く",
+    "CONFIRM_ALL": "すべてを既読にする"
 
 }

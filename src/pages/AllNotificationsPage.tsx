@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { API_ENDPOINTS } from "../appConfig";
+import Button from "@mui/material/Button";
 
 const GOOGLE_API_KEY = process.env.REACT_APP_GOOGLE_API_KEY; // Add this key in your .env file
 
@@ -26,7 +27,7 @@ export default function AllNotification() {
     console.log(" messages:",batch.map((item) => ({ id: item.id, text: item.message })),"targetLanguage:",i18n.language);
 
     try {
-      const response = await axios.post('/api/translate', {
+      const response = await axios.post(API_ENDPOINTS.TRANSLATE_NOTIFICATION, {
         messages: batch.map((item) => ({ id: item.id, text: item.message })),
         targetLanguage: i18n.language, // Current language from i18n
         batchlimit:BATCH_SIZE
@@ -79,7 +80,7 @@ export default function AllNotification() {
       if (token) {
         headers["Authorization"] = `Bearer ${token}`;
       }
-      const response = await axios.put(API_ENDPOINTS.UPDATEALLNOTIFICATIONSTATUS, { headers });
+      const response = await axios.put(API_ENDPOINTS.UPDATEALLNOTIFICATIONSTATUS,{}, { headers });
       if (response.status === 200) {
         window.location.reload();
       }
@@ -110,8 +111,7 @@ export default function AllNotification() {
       }
       const response = await axios.put(API_ENDPOINTS.UPDATENOTIFICATIONSTATUS, obj, { headers });
       if (response.status === 200) {
-        console.log("success")
-        //window.location.reload();
+        window.location.reload();
       }
       handleMessage(false);
       toast.success(t("MARKED_SUCCESS"));
@@ -133,13 +133,7 @@ export default function AllNotification() {
       ) : (
         <div className="max-w-7xl mx-10 xl:mx-auto">
           <h4>{t("ALL_NOTIFICATION")}</h4>
-          <button
-              type="button"
-              className="bg-green-500 text-[#17b3a6] px-4 py-2 rounded hover:bg-green-600 cursor-pointer"
-              onClick={(e) => handleApproveAll(e)}
-            >
-              {t("IS_READ")}
-            </button>
+          <Button variant="contained" color="primary"  onClick={(e) => handleApproveAll(e)}>{t("CONFIRM_ALL")}</Button>
           <div aria-live="assertive" className="h-screen animate__animated animate__fadeInLeft">
             <div className="w-full justify-center">
               {notificationData?.map((item: any) => (
