@@ -22,48 +22,67 @@ export default function AllNotification() {
   const BATCH_SIZE = 5;
 
 
+ // Function to translate a batch of messages using Google Translate API
+ const translateBatch = async (batch: { id: number; message: string }[]) => {
+  try {
+    const translationsPromises = batch.map((item) =>
+      axios.post(
+        `https://translation.googleapis.com/language/translate/v2`,
+        null,
+        {
+          params: {
+            key: GOOGLE_API_KEY,
+            q: item.message,
+            target: i18n.language, // Use the current language set in i18n
+          },
+        }
+      )
+    );
 
-  const translateBatch = async (batch: { id: number; message: string }[]) => {
-    console.log(" messages:",batch.map((item) => ({ id: item.id, text: item.message })),"targetLanguage:",i18n.language);
+    const responses = await Promise.all(translationsPromises);
+    const newTranslations: Record<number, string> = {};
 
-    try {
-      const response = await axios.post(API_ENDPOINTS.TRANSLATE_NOTIFICATION, {
-        messages: batch.map((item) => ({ id: item.id, text: item.message })),
-        targetLanguage: i18n.language, // Current language from i18n
-        batchlimit:BATCH_SIZE
-      }, {
-        headers: { 'Content-Type': 'application/json' },
-      });
-  
-      if (response.status === 200) {
-        const newTranslations: Record<number, string> = {};
-        response.data.translations.forEach((translation: any) => {
-          newTranslations[translation.id] = translation.text;
-        });
-  
-        setTranslatedMessages((prev) => ({ ...prev, ...newTranslations }));
-      } else {
-        console.error('Translation failed:', response);
+    responses.forEach((response, index) => {
+      const translatedText = response.data.data.translations[0]?.translatedText || batch[index].message;
+      newTranslations[batch[index].id] = translatedText;
+    });
+
+    setTranslatedMessages((prev) => ({ ...prev, ...newTranslations }));
+    await new Promise((resolve) => setTimeout(resolve, 2000)); // Throttle requests
+  } catch (error) {
+    console.error("Translation Error:", error);
+  }
+};
+
+// Use Effect to process notifications in batches
+useEffect(() => {
+  if (notificationData?.length) {
+    const unprocessedMessages = notificationData.filter((item: any) => !translatedMessages[item.id]);
+    const batches = Array.from({ length: Math.ceil(unprocessedMessages.length / BATCH_SIZE) }, (_, i) =>
+      unprocessedMessages.slice(i * BATCH_SIZE, i * BATCH_SIZE + BATCH_SIZE)
+    );
+
+    (async () => {
+      for (const batch of batches) {
+        await translateBatch(batch); // Translate batch-by-batch
       }
-    } catch (error) {
-      console.error('Translation Error:', error);
-    }
+    })();
+  }
+
+  // Listen to language change and trigger translations
+  const handleLanguageChange = () => {
+    setTranslatedMessages({}); // Clear current translations when language changes
+    translateBatch(notificationData.map((item: any) => ({ id: item.id, message: item.message })));
   };
 
-  // Use Effect to process notifications in batches
-  useEffect(() => {
-    // Clear translations and re-translate when language changes
-    setTranslatedMessages({});
-  
-    if (notificationData?.length) {
-      const unprocessedMessages = notificationData.map((item: any) => ({
-        id: item.id,
-        message: item.message,
-      }));
-  
-      translateBatch(unprocessedMessages);
-    }
-  }, [notificationData, i18n.language]);
+  // Register the language change listener
+  i18n.on('languageChanged', handleLanguageChange);
+
+  // Cleanup listener on unmount
+  return () => {
+    i18n.off('languageChanged', handleLanguageChange);
+  };
+}, [notificationData, i18n.language, translatedMessages]);
 
   const handleApproveAll = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -132,8 +151,11 @@ export default function AllNotification() {
         </div>
       ) : (
         <div className="max-w-7xl mx-10 xl:mx-auto">
+          <div className="flex max-w-5xl justify-between items-center">
           <h4>{t("ALL_NOTIFICATION")}</h4>
           <Button variant="contained" color="primary"  onClick={(e) => handleApproveAll(e)}>{t("CONFIRM_ALL")}</Button>
+          </div>
+          
           <div aria-live="assertive" className="h-screen animate__animated animate__fadeInLeft">
             <div className="w-full justify-center">
               {notificationData?.map((item: any) => (
@@ -149,9 +171,8 @@ export default function AllNotification() {
                   key={item.id}
                 >
                   <div
-                    className={`mt-2 pointer-events-auto w-full max-w-5xl rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 ${
-                      !item.isRead ? "bg-[#f3f3f3]" : "bg-white"
-                    }`}
+                    className={`mt-2 cursor-pointer w-full max-w-5xl rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 
+                      ${!item.isRead ? "bg-[#fff]" : "bg-[#f3f3f3]"}`}
                     onClick={(e) => {
                       if (!item.isRead) {
                         handleApprove(e, item.id, item.message);
@@ -182,7 +203,7 @@ export default function AllNotification() {
                           {!item.isRead && (
                             <button
                               type="button"
-                              className="text-[11px] cursor-pointer text-black bg-transparent text-xs"
+                              className="text-[11px] cursor-pointer text-primary bg-transparent text-xs"
                               onClick={(e) => handleApprove(e, item.id, item.message)}
                             >
                               {t("IS_READ")}
