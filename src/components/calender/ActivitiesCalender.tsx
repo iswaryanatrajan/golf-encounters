@@ -18,6 +18,7 @@ import i18n from "../../locale";
 import { Link, useLocation } from "react-router-dom";
 ;
 import { useTranslation } from "react-i18next";
+import { fetchTeachersAppointments } from "../../utils/fetchTeacher";
 function classNames(...classes:any) {
   return classes.filter(Boolean).join(" ");
 }
@@ -33,13 +34,68 @@ export const ActivitiesCalender = ({ onWeekSelected }:any) => {
   const startDay = startOfWeek(startOfMonth(currentMonth));
   const endDay = endOfWeek(endOfMonth(currentMonth));
   const days = eachDayOfInterval({ start: startDay, end: endDay });
+  const [teacherAppointments, setTeacherAppointments] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState<any>(false);
 
   useEffect(() => {
+    fetchTeachersAppointments(setTeacherAppointments, setIsLoading);
+  }, []);
+
+  /* --------- First date appts. of current month --------- */
+  /*useEffect(() => {
+    const startOfCurrentMonth = startOfMonth(currentMonth);
+    const endOfCurrentMonth = endOfMonth(currentMonth);
+
+    const firstAppointment = teacherAppointments
+    ?.filter((appointment: any) => {
+      
+      const appointmentDate = new Date(appointment.date);
+      if(appointmentDate){
+
+      return (
+        appointmentDate >= startOfCurrentMonth &&
+        appointmentDate <= endOfCurrentMonth
+      );
+    }
+    })
+    ?.sort((a: any, b: any) => {
+      const dateA = new Date(a.date).toISOString().split("T")[0]; // Extract date-only
+      const dateB = new Date(b.date).toISOString().split("T")[0];
+      return dateA.localeCompare(dateB); // Compare as strings
+    })[0];
+
+  if (firstAppointment) {
+    setSelectedDate(new Date(firstAppointment.date));
+  }
+}, [currentMonth]); */
+
+
+
+useEffect(() => {
     if (selectedDate !== null) {
       const formattedDate = format(selectedDate, "yyyy-MM-dd");
       onWeekSelected(formattedDate); // Ensure this function filters based on the provided date
     }
   }, [selectedDate, onWeekSelected]);
+
+ /* const appointmentDates = teacherAppointments
+  ?.map((appointment: any) => {
+    const appointmentDate = new Date(appointment.date);
+    if (!isNaN(appointmentDate.getTime())) {
+      return appointmentDate.toISOString().split("T")[0]; // Format: "YYYY-MM-DD"
+    }
+    console.warn("Invalid appointment date:", appointment.date);
+    return null;
+  })
+  ?.filter((date) => date !== null); // Remove invalid dates
+
+console.log("Appointment Dates:", appointmentDates); */
+
+const isHighlighted = (day: any) => {
+  return teacherAppointments.some((appointment) => 
+    isSameDay(new Date(appointment.date), new Date(day))
+  );
+};
 
  const handleDateClick = (date: any) => {
   console.log(date, 'Date clicked'); // This should show the correct clicked date
@@ -78,19 +134,21 @@ export const ActivitiesCalender = ({ onWeekSelected }:any) => {
                 </button>
               </div>
             </div>
-            <div className="mt-2 grid grid-cols-7 gap-px rounded-lg bg-gray-200 text-sm shadow ring-1 ring-gray-200">
+            <div className="mt-2 grid grid-cols-7 gap-px rounded-lg  text-sm shadow ring-1 ring-gray-200">
               {days.map((day) => (
                  <button
                  key={day.toString()}
                  onClick={() => handleDateClick(day)}
                  className={classNames(
-                   "py-1.5 hover:bg-gray-300 focus:z-10",
+                   "py-1.5   focus:z-10",
                    isSameMonth(day, currentMonth)
                      ? "text-gray-900"
                      : "text-gray-300",
+                                        
                    selectedDate !== null && isSameDay(day, selectedDate)
-                     ? "bg-[blue] text-white" // Red background and white text for selected date
-                     : "bg-[#17b3a6] text-white hover:bg-gray-400"
+                     ? "border" // Red background and white text for selected date
+                     : "",
+                     isHighlighted(day) || (selectedDate !== null && isSameDay(day, selectedDate))? "hover:bg-[#2dd4bf] bg-[#2cd4bf99]" : "bg-gray-200 hover:bg-gray-300"
                  )}
                >
                  <time dateTime={format(day, "yyyy-MM-dd")}>

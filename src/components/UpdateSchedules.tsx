@@ -351,7 +351,7 @@ const updateSchedules: React.FC = () => {
     };
 
     console.log(formData,"payyy")
-    alert('hello')
+   // alert('hello')
     try {
       const response = await axios.put(API_ENDPOINTS.UPDATEUSER, payload, {
         headers: {
@@ -521,73 +521,10 @@ const updateSchedules: React.FC = () => {
     isLoading ? <div className="flex items-center justify-center h-[100vh] ">
       <BeatLoader color="#51ff85" size={15} />
     </div> : <div className="py-8 mx-4 xl:mx-0 ">
-      <div className="max-w-[1500px] mx-auto">
+      <div className="max-w-7xl mx-auto">
         <div className="text-center bg-[#1e40af] p-1">
           <h3 className="text-white">{t("EDIT_SCHEDULES")}</h3>
         </div>
-
-        <div className="mx-10 xl:mx-0">
-          <h3>{t("Your Previous Schedules")}</h3>
-          <div className="grid grid-flow-col auto-cols-max gap-4 px-4 overflow-x-auto snap-x py-4">
-
-            {groupedSchedules?.map((schedule: any, index: any) => (
-              <>
-                <div key={index} className="snap-start bg-white shadow-[0px_0px_13px_rgba(0,_0,_0,_0.25)] p-5 md:p-[23px] rounded-lg p-4 w-[260px] ">
-                  <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-sm font-bold">{schedule.startDate}</h2>
-                    {!schedule.shifts.length && <button
-                      onClick={() => handleScheduleDelete(schedule?.id)}
-                      className="bg-transparent hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                    >
-                      <TrashIcon
-                        className="h-[16px] text-red  p-[2px] border-2 border-solid rounded-full cursor-pointer ml-2 "
-                        onClick={() => setShowMediaUrl(!showMediaUrl)}
-
-                      />
-                    </button>}
-                  </div>
-                  <div className="h-[240px] overflow-y-auto">
-                    {schedule.shifts?.map((shift: any, shiftIndex: any) => {
-                      // console.log(shift?.isBooked, "hello imran")
-
-                      return <div key={shiftIndex} className="bg-[#1e40af] text-white p-3 rounded-lg flex justify-between items-center mb-2 ">
-                        <span className="font-medium text-sm">
-                          {t(`${shift.day.toUpperCase()}`)} {shift.startTime}
-                        </span>
-
-                        {
-                          shift?.status == "BOOKED" ? <button
-
-
-                            className="bg-[#17b3a6]  hover:bg-red-700 text-white font-bold py-1  rounded cursor-pointer w-[80px] cursor-not-allowed"
-                          >
-                            {t("BOOKED")}
-
-                          </button> : <button
-
-
-                            className="bg-red hover:bg-red-700 text-white font-bold py-1  rounded "
-                            onClick={() => handleShiftDelete(shift.id)}
-
-                          >
-                            {t("REMOVE")}
-                          </button>
-                        }
-                      </div>
-                    })}
-                  </div>
-
-                </div>
-
-
-              </>
-            ))}
-          </div>
-        </div>
-
-
-
-
 
         <div className="my-4 mx-10   xl:mx-0">
           <SlotsCalendar  handleTimeSlotClick={handleTimeSlotClick} startEndDates={teacher.schedules} resetSchedules={resetSchedules} handleState={handleState} onWeekSelected={handleWeekSelected} />
@@ -669,6 +606,75 @@ const updateSchedules: React.FC = () => {
         </Link>
 
       </div>
+      <div className="max-w-7xl mx-auto">
+      <div className="mx-10 xl:mx-0">
+          <h3>{t("Your Previous Schedules")}</h3>
+          <div className="grid grid-flow-col auto-cols-max gap-4 px-4 overflow-x-auto snap-x py-4">
+
+            {groupedSchedules
+            ?.filter((schedule: any) => {
+              // Convert schedule.startDate and today's date to Date objects for comparison
+              const scheduleDate = new Date(schedule.startDate);
+              const today = new Date();
+              // Ensure only schedules after today are shown
+              return scheduleDate > today;
+            })
+            
+            .map((schedule: any, index: any) => (
+              <>
+                <div key={index} className="snap-start bg-white shadow-[0px_0px_13px_rgba(0,_0,_0,_0.25)] p-5 md:p-[23px] rounded-lg p-4 w-[200px] ">
+                  <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-sm font-bold">{schedule.startDate} {t(`${schedule.shifts[0].day.toUpperCase()}`)} </h2>
+                    {!schedule.shifts.length && <button
+                      onClick={() => handleScheduleDelete(schedule?.id)}
+                      className="bg-transparent hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                    >
+                      <TrashIcon
+                        className="h-[16px] text-red  p-[2px] border-2 border-solid rounded-full cursor-pointer ml-2 "
+                        onClick={() => setShowMediaUrl(!showMediaUrl)}
+
+                      />
+                    </button>}
+                  </div>
+                  <div className="h-[240px] overflow-y-auto">
+                    {schedule.shifts?.map((shift: any, shiftIndex: any) => {
+                      // console.log(shift?.isBooked, "hello imran")
+
+                      return <div key={shiftIndex} className="bg-[#1e40af] text-white p-3 rounded-lg flex justify-between items-center mb-2 ">
+                        <span className="font-medium text-sm">
+                          {shift.startTime}
+                        </span>
+
+                        {
+                          shift?.status == "BOOKED" ? <button
+
+
+                            className="bg-[#17b3a6]  hover:bg-red-700 text-white font-bold py-1  rounded cursor-pointer w-[80px] cursor-not-allowed"
+                          >
+                            {t("BOOKED")}
+
+                          </button> : <button
+
+
+                            className="bg-red hover:bg-red-700 text-white font-bold py-1 cursor-pointer rounded "
+                            onClick={() => handleShiftDelete(shift.id)}
+
+                          >
+                            {t("REMOVE")}
+                          </button>
+                        }
+                      </div>
+                    })}
+                  </div>
+
+                </div>
+
+
+              </>
+            ))}
+          </div>
+        </div>
+        </div>
     </div>
   );
 };

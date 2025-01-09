@@ -38,6 +38,8 @@ const isDayDisabled = (day:any, startEndDates:any) => {
   );
 };
 
+
+
 export const TeacherCalender = ({ startEndDates, onMatchedShifts, onClicked, dayFilter }:any) => {
   const findFirstActiveMonth = () => {
     if (!Array.isArray(startEndDates) || startEndDates.length === 0) {
@@ -50,9 +52,17 @@ export const TeacherCalender = ({ startEndDates, onMatchedShifts, onClicked, day
         const start = parseISO(startDate);
         const end = parseISO(endDate);
         const daysInRange = eachDayOfInterval({ start, end });
+        const now = new Date();
+        const firstDayOfCurrentMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
         for (let day of daysInRange) {
           if (!isDayDisabled(day, startEndDates)) {
+            console.log(day + "day");
+            if (day < firstDayOfCurrentMonth) {
+              console.log('The date is past the first day of the current month.');
+              return startOfMonth(now);
+            }
+            else
             return startOfMonth(day);
           }
         }
@@ -79,6 +89,47 @@ export const TeacherCalender = ({ startEndDates, onMatchedShifts, onClicked, day
   const days = eachDayOfInterval({ start: startDay, end: endDay });
 
   useEffect(() => {
+    const firstDayWithShifts = findFirstActiveDayWithShifts();
+    if (firstDayWithShifts) {
+      setSelectedDate(firstDayWithShifts); // Automatically set the first valid date
+      setClick(true); // Indicate the calendar has been clicked
+    } else {
+      console.log("No future shifts available for this month.");
+    }
+  }, [startEndDates, currentMonth]);
+  
+  const findFirstActiveDayWithShifts = () => {
+    if (!Array.isArray(startEndDates) || startEndDates.length === 0) {
+      return null;
+    }
+  
+    const startOfCurrentMonth = startOfMonth(new Date());
+    const endOfCurrentMonth = endOfMonth(new Date());
+    const today = new Date();
+  
+    const daysWithShifts = startEndDates.flatMap(({ shifts }: any) =>
+      shifts.filter((shift: any) => {
+        const shiftDate = parseISO(shift.date);
+        return (
+          isWithinInterval(shiftDate, { start: startOfCurrentMonth, end: endOfCurrentMonth }) &&
+          shiftDate >= today
+        );
+      })
+    );
+  
+    if (daysWithShifts.length > 0) {
+      const firstShift = daysWithShifts.sort((a: any, b: any) => {
+        const dateA = parseISO(a.date);
+        const dateB = parseISO(b.date);
+        return dateA.getTime() - dateB.getTime();
+      })[0];
+      return parseISO(firstShift.date);
+    }
+  
+    return null;
+  };
+
+  useEffect(() => {
     const formattedMonth = format(selectedDate, "EEEE");
     const matchedShifts = startEndDates?.flatMap(({ shifts }:any) =>
       shifts.filter((shift:any) => shift.day.toLowerCase() === formattedMonth.toLowerCase())
@@ -97,6 +148,12 @@ export const TeacherCalender = ({ startEndDates, onMatchedShifts, onClicked, day
     if (isDayDisabled(date, startEndDates) === false) {
       setSelectedDate(date);
       setClick(true)
+    }
+  };
+
+  const isPastDay = (day:any, today : any) => {
+    if (day < today) {
+      return true;
     }
   };
 
@@ -139,11 +196,11 @@ export const TeacherCalender = ({ startEndDates, onMatchedShifts, onClicked, day
                   onClick={() => handleDateClick(day)}
                   disabled={isDayDisabled(day, startEndDates)}
                   className={classNames(
-                    "py-1.5 bg-[#2dd4bf] text-white hover:bg-gray focus:z-10",
-                    isSameMonth(day, currentMonth) ? "text-gray-900" : "text-gray-300",
-                    !isDayDisabled(day, startEndDates) ? "hover:bg-blue-100" : "cursor-not-allowed",
-                    isSameDay(day, selectedDate) ? "bg-blue-200 text-black" : "",
-                    isSameDay(day, new Date()) && !isSameDay(day, selectedDate) ? "text-red-600" : ""
+                    "py-1.5  text-white hover:bg-gray focus:z-10 ",
+                    isSameMonth(day, currentMonth) ? "text-gray-900" : "text-gray-300 ",
+                    !isDayDisabled(day, startEndDates) ? "hover:bg-[#2dd4bf] bg-[#2cd4bf99] cursor-pointer" : "cursor-not-allowed",
+                    isSameDay(day, selectedDate) ? "bg-primary border text-black" : "",
+                    isSameDay(day, new Date()) && !isSameDay(day, selectedDate) ? "text-red-600" : "",
                   )}
                 >
                   <time dateTime={format(day, "yyyy-MM-dd")}>{format(day, "d")}</time>

@@ -171,8 +171,8 @@ useEffect(() => {
                   key={item.id}
                 >
                   <div
-                    className={`mt-2 cursor-pointer w-full max-w-5xl rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 
-                      ${!item.isRead ? "bg-[#fff]" : "bg-[#f3f3f3]"}`}
+                    className={`mt-2 cursor-pointer w-full max-w-5xl rounded-lg shadow-lg  ring-black  
+                      ${!item.isRead ? "bg-[#fff] ring-opacity-20 ring-2" : "bg-[#f3f3f3] ring-opacity-5 ring-1"}`}
                     onClick={(e) => {
                       if (!item.isRead) {
                         handleApprove(e, item.id, item.message);
@@ -199,17 +199,17 @@ useEffect(() => {
                             {translatedMessages[item.id] || item.message} 
                           </p>
                         </div>
-                        <div className="text-start flex-col mb-2">
+                        <div className="text-end flex-col mb-2">
                           {!item.isRead && (
                             <button
                               type="button"
-                              className="text-[11px] cursor-pointer text-primary bg-transparent text-xs"
+                              className="text-[11px] cursor-pointer text-blue-600 bg-transparent text-xs"
                               onClick={(e) => handleApprove(e, item.id, item.message)}
                             >
                               {t("IS_READ")}
                             </button>
                           )}
-                          <p className="text-[12px]">{getTimeAgo(new Date(item?.createdAt), t)}</p>
+                          <p className="text-[12px] pr-3">{getTimeAgo(new Date(item?.createdAt), t)}</p>
                         </div>
                       </div>
                     </div>

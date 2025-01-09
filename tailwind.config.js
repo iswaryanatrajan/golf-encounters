@@ -183,6 +183,8 @@ module.exports = {
         "body-b2": "Inter",
         lato: "Lato",
         sans: ['Montserrat', 'Helvetica', 'Arial', 'sans-serif'],
+        en: ['Roboto', 'sans-serif'], // Font for English
+        jp: ['"Noto Sans JP"', 'sans-serif'], // Font for Japanese
       },
       borderRadius: {
         "8xs": "5px",

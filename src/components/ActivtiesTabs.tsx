@@ -32,9 +32,14 @@ export default function Activeties({ selectedDate }: any) {
   useEffect(() => {
     // const combinedAppointments = [...studentAppointments, ...teacherAppointments];
 
+
+
+
     const pending = teacherAppointments.filter((appointment: any) => {
       if (!selectedDate) {
-        return appointment.status === 'PENDING';
+        return (
+          appointment.status === "PENDING" 
+        );
       } else {
         const date = new Date(appointment.date);
         const formattedDate = date.toISOString().slice(0, 10);
@@ -114,6 +119,7 @@ export default function Activeties({ selectedDate }: any) {
             </div>
           </Tab.List>
           <Tab.Panels>
+
             <Tab.Panel>
               <div>
                 {

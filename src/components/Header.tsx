@@ -49,14 +49,14 @@ const Header: React.FC = () => {
     <div>
       <header className="mx-4 sm:mx-20 my-4 overflow-hidden text-[#fff] bg-[#17b3a6] shadow-[0px_0px_13px_rgba(0,_0,_0,_0.25)]">
         <nav
-          className="flex justify-between  gap-x-12  px-4 py-2  lg:items-center xl:px-12 sm:justify-start"
+          className="flex justify-between  gap-x-12  px-2 py-2  lg:items-center xl:px-2 sm:justify-start"
           aria-label="Global"
         >
           <button onClick={toggleMenu} className="mr-4 lg:hidden">
             {mobileMenuOpen ? <XMarkIcon className="w-6 h-6" /> : <Bars3Icon className="w-6 h-6" />}
           </button>
 
-          <div className="hidden gap-x-12 lg:flex items-center">
+          <div className="hidden gap-x-8 w-max lg:flex items-center">
             {navigation.map((item) => (
               <Link
                 key={item.name}

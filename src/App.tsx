@@ -81,6 +81,7 @@ import ReservationDetails from "./components/TeacherReservedGigs"
 // import StudentActivitiesPage from "./components/StudentActivitiesPage";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { useTranslation } from 'react-i18next';
 
 function App() {
 
@@ -90,6 +91,13 @@ function App() {
   const pathname = location.pathname;
   const [isTeacher, setIsTeacher] = useState(false);
   const tId = localStorage.getItem("teacher_id");
+  const { i18n } = useTranslation();
+
+  useEffect(() => {
+    // Add a class to the `html` element based on the current language
+    document.documentElement.lang = i18n.language;
+    document.documentElement.className = i18n.language;
+  }, [i18n.language]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -296,7 +304,7 @@ function App() {
       <div className="">
         <Header/>
         <SideIconMenu />
-        <div className="">
+        <div className="container  xl:max-w-7xl lg:max-w-4xl md:max-w-2xl max-w-sm mx-auto px-2 md:px-0">
         <Routes>
           <Route path="/event-main-page" element={<EventMainPage />} index />
           <Route path="/event-main-page/:userId" element={<EventMainPage />} index />

@@ -8,7 +8,7 @@ const TeachersListPage: React.FC = () => {
   const { teachers, isLoading }  = teacherContext();
 
  return (
-    <div className="mx-2 xl:mx-20 px-4 sm:px-6 lg:px-8">
+    <div className="">
       {isLoading ? (
         <div className="flex justify-center items-center h-[100vh] bg-green">
           <div className="text-center bg-red">
@@ -21,7 +21,7 @@ const TeachersListPage: React.FC = () => {
           <div className="col-span-12 xl:col-span-3 bg-gray-200 p-4 h-full order-last xl:order-first">
             <AllTeacherFilters />
           </div>
-          <div className="col-span-12 xl:col-span-9 rounded py-4 xl:px-10">
+          <div className="col-span-12 xl:col-span-9 rounded py-4 xl:px-8">
             <TeacherListHeader />
             {teachers?.map((teacher: any, index: any) => (
               <EducatorCard

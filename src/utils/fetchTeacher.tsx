@@ -218,7 +218,7 @@ export const fetchTeachersAppointments = async (
         },
       }
     );
-
+console.log("fetchTeachersAppointments" , response.data);
     setAppointments(response.data.bookedAppointments);
   } catch (error: any) {
     // toast.error("ログインされていません");

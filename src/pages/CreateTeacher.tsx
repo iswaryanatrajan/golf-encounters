@@ -418,7 +418,9 @@ const CreateTeacher: React.FC = () => {
       setShowInputIndexes([...showInputIndexes, index]);
     }
   };
-
+  const handleState = () => {
+    setActiveStates(initialActiveStates);
+  };
   return (
     <div className="py-8 mx-4 xl:mx-0 ">
       <div className="bg-[#17b3a6] p-4 rounded max-w-7xl mx-auto">
@@ -663,7 +665,7 @@ const CreateTeacher: React.FC = () => {
 
 
         <div className="my-4 mx-10   xl:mx-0">
-          <SlotsCalendar onWeekSelected={handleWeekSelected} />
+          <SlotsCalendar handleTimeSlotClick={handleTimeSlotClick} handleState={handleState} onWeekSelected={handleWeekSelected} />
           {/* <div className="grid grid-cols-1 gap-4 py-2 text-center ">
             <div className="col-span-1 font-bold ">{t("TIME")}</div>
             <div className=" flex justify-center gap-4  xl:gap-20 xl:ml-[200px]  overflow-x-scroll xl:overflow-auto bg-[#e4e4e4] p-2 rounded-md">

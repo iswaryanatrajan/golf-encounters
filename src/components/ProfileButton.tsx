@@ -52,11 +52,11 @@ export default function ProfileButton() {
           {token && user ? (
             <>
              
-                <div className=" sm:gap-2">
+                <div className=" sm:gap-2 lg:mr-8">
                   <button
                     onClick={() => handleChangeLanguage("ja")}
                     className={
-                      i18n.resolvedLanguage === "ja" ? "actives  rounded-l-full p-1 cursor-pointer" : "rounded-l-full p-[3px] cursor-pointer bg-transparent border-[1px] border-solid border-white text-white"
+                      i18n.resolvedLanguage === "ja" ? "actives rounded-l-md p-1 h-[35px] w-[70px] cursor-pointer border-[1px] border-solid border-white" : "rounded-l-md p-[5px] h-[35px] w-[70px] cursor-pointer bg-transparent border-[1px] border-solid border-white text-white"
                     }
                   >
                     {languages.ja.displayName}
@@ -65,8 +65,8 @@ export default function ProfileButton() {
                     onClick={() => handleChangeLanguage("en")}
                     className={
                       i18n.resolvedLanguage === "en"
-                        ? "actives rounded-r-full  p-1 cursor-pointer"
-                        : "rounded-r-full cursor-pointer p-[3px] cursor-pointer bg-transparent border-[1px] border-solid border-white text-white"
+                        ? "actives rounded-r-md  p-[5px] py-[7px] cursor-pointer  border-solid border-white border-[1px] w-[70px] h-[35px]"
+                        : "rounded-r-md  cursor-pointer p-1 py-[7px] cursor-pointer bg-transparent border-[1px] border-solid border-white text-white w-[70px] h-[35px]"
                     }
                   >
                     {languages.en.displayName}
@@ -79,8 +79,8 @@ export default function ProfileButton() {
                   src={user?.imageUrl}
                   alt=""
                 />
-              </div>
-              <div className="sm:gap-2">
+              
+              <div className="sm:gap-2 mx-2">
                 <p className="my-1 text-base font-medium text-[#fff] group-hover:text-gray-900">
                 {user.nickName ? user.nickName : user.email}
                 </p>
@@ -106,12 +106,12 @@ export default function ProfileButton() {
             </button>*/}
             {/* Dropdown */}
             {dropdownOpen && (
-              <div className="fixed right-[130px] bottom-[20px] mt-2 bg-white rounded-md shadow-lg w-max-content z-[9999]">
-                <ul className="py-2 px-2 text-center">
+              <div className="fixed right-[130px] top-[80px]  bg-white rounded-md shadow-lg w-max-content z-[9999]">
+                <ul className="pl-1 pr-3 text-center">
                   {token ? (
                     <>
                     <Link to="/profile-page">
-                      <li className="flex items-center justify-start gap-2 px-2 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                      <li className="flex items-center justify-start gap-2 px-3 py-3 text-sm text-gray-700 hover:bg-gray-100">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
@@ -131,7 +131,7 @@ export default function ProfileButton() {
                       </li>
                     </Link>
                      <Link to="/edit-profile">
-                     <li className="flex items-center justify-start gap-2 px-2 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                     <li className="flex items-center justify-start gap-2 px-3 py-3 text-sm text-gray-700 hover:bg-gray-100">
                        <svg
                          xmlns="http://www.w3.org/2000/svg"
                          fill="none"
@@ -157,8 +157,9 @@ export default function ProfileButton() {
                   {token ? (
                     ""
                   ) : (
+                    
                     <Link to="/register-page">
-                      <li className="flex items-center justify-start gap-2 px-2 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                      <li className="flex items-center justify-start gap-2 px-3 py-3 text-sm text-gray-700 hover:bg-gray-100">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
@@ -180,7 +181,7 @@ export default function ProfileButton() {
                   )}
                   {token ? (
                     <Link to="/logout">
-                      <li className="flex items-center justify-start gap-2 px-2 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                      <li className="flex items-center justify-start gap-2 px-3 py-3 text-sm text-gray-700 hover:bg-gray-100">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
@@ -201,7 +202,7 @@ export default function ProfileButton() {
                     </Link>
                   ) : (
                     <Link to="/login-page">
-                      <li className="flex items-center justify-start gap-2 px-2 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                      <li className="flex items-center justify-start gap-2 px-3 py-3 text-sm text-gray-700 hover:bg-gray-100">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
@@ -225,19 +226,19 @@ export default function ProfileButton() {
               </div>
             )}
           </div>
+          </div>
                 </div>
 
             </>
           ) : (
             <>
              
-                <div className="ml-3">
+                <div className="ml-3 lg:w-[230px]">
                   <button
                     onClick={() => handleChangeLanguage("ja")}
                     className={
                       i18n.resolvedLanguage === "ja"
-                        ? "actives rounded-l-full p-1 cursor-pointer"
-                        : "rounded-l-full  cursor-pointer p-[3px] cursor-pointer bg-transparent border-[1px] border-solid border-white text-white"
+                        ? "actives rounded-l-md p-1 h-[35px] w-[70px] cursor-pointer border-[1px] border-solid border-white" : "rounded-l-md p-[5px] h-[35px] w-[70px] cursor-pointer bg-transparent border-[1px] border-solid border-white text-white"
                     }
                   >
                     {languages.ja.displayName}
@@ -246,16 +247,16 @@ export default function ProfileButton() {
                     onClick={() => handleChangeLanguage("en")}
                     className={
                       i18n.resolvedLanguage === "en"
-                        ? "actives rounded-r-full p-1 cursor-pointer"
-                        : "rounded-r-full  cursor-pointer p-[3px] cursor-pointer bg-transparent border-[1px] border-solid border-white text-white"
+                        ? "actives rounded-r-md  p-[5px] py-[7px] cursor-pointer  border-solid border-white border-[1px] w-[70px] h-[35px]"
+                        : "rounded-r-md  cursor-pointer p-1 py-[7px] cursor-pointer bg-transparent border-[1px] border-solid border-white text-white w-[70px] h-[35px]"
                     }
                   >
                     {languages.en.displayName}
                   </button>
                 </div>
-                <div className="ml-3">
+                <div className="ml-8 mr-8 ">
                 <p className="m-0 text-base font-medium text-white group-hover:text-gray-900">
-                  <Link to="/login-page" className="text-black">
+                  <Link to="/login-page" className="text-white font-bold">
                     Login
                   </Link>
                 </p>

@@ -38,15 +38,27 @@ export const EducatorCard = ({
   };
 
   const handleMatchedShifts = (matchedShifts: any) => {
-    if (!tap) {
+    console.log("tap",tap);
+    console.log("matchedShifts",matchedShifts);
+    /*if (!tap) {
       const s = schedules.flatMap(({ shifts }: any) => shifts);
       matchedShifts = s.slice(0, 5);
     }
-    setShiftsData(matchedShifts);
+    setShiftsData(matchedShifts);*/
+    if (tap) {
+      setShiftsData(matchedShifts);
+    } else {
+      // Clear shiftsData if `tap` is false
+      setShiftsData([]);
+    }
   };
 
   const handleOnClicked = (click: boolean) => {
-    setTaped(click);
+    console.log("Calendar clicked, tap set to:", click); // Debug log
+    setTaped(click); // Update the `tap` state
+    if (!click) {
+      setShiftsData([]);
+    }
   };
 
   useEffect(() => {
@@ -184,28 +196,28 @@ export const EducatorCard = ({
                   </button> */}
                 </div>
               </div>
-              <div className="flex flex-col md:flex-row gap-10 mt-4 md:mt-0" onClick={(e) => {
+              <div className="flex flex-col columns-3 md:flex-row gap-10 mt-4 md:mt-0" onClick={(e) => {
                 e.preventDefault();
                 navigate(`/teacher-details/${teacherId}`)
               }}>
-                <div className="flex items-center gap-2">
+                <div className="flex col-3 items-center gap-2">
                   <MapPinIcon
                     className="w-4 h-4 text-white bg-[#61cbc2] rounded-full p-1"
                     aria-hidden="true"
                   />
                   <div>
                     <h4 className="m-0 my-1 p-0">{t("LOCATION")}</h4>
-                    <p className="m-0 p-0">{location}</p>
+                    <p className="m-0 p-0 text-sm">{location}</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex col-3 items-center gap-2">
                   <StarIcon
                     className="w-4 h-4 text-white bg-[#61cbc2] rounded-full p-1"
                     aria-hidden="true"
                   />
                   <div>
                     <h4 className="m-0 my-1 p-0"> {t("RATING")} </h4>
-                    <p className="m-0 p-0">
+                    <p className="m-0 p-0 text-sm">
                       {rating
                         ? t("RATING_WITH_COUNT", {
                           count: rating,
@@ -215,7 +227,7 @@ export const EducatorCard = ({
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-2" onClick={(e) => {
+                <div className="flex col-3 items-center gap-2" onClick={(e) => {
                   e.preventDefault();
                   navigate(`/teacher-details/${teacherId}`)
                 }}>
@@ -225,7 +237,7 @@ export const EducatorCard = ({
                   />
                   <div>
                     <h4 className="m-0 my-1 p-0"> {t("LEVEL")} </h4>
-                    <p className="m-0 p-0">
+                    <p className="m-0 p-0 text-sm">
                       {level ? level : t("NO_LEVEL_ADDED")}
                     </p>
                   </div>
@@ -234,7 +246,7 @@ export const EducatorCard = ({
               <p className="leading-6 text-[#5b5b5b] mt-4">{aboutMyself}</p>
             </div>
           </div>
-          {tId != teacherId && (
+          {tap && (
             <div className="mt-4">
               <div className="grid grid-cols-2 lg:grid-cols-8 sm:grid-cols-3 gap-4">
                 {shiftsData.map((shift: any, index: any) => (
@@ -250,7 +262,7 @@ export const EducatorCard = ({
                     {shift.startTime} - {shift.endTime}
                   </button>
                 ))}
-                <div className="w-full xl:w-[200px]">
+                <div className="w-full xl:w-[170px]">
                   <button
                     className="cursor-pointer hover:bg-black hover:text-white w-full py-4 xl:w-full text-sm bg-[#2dd4bf] text-white border-2 border-solid border-[#d5d5d5] hover:bg-[#61cbc2] hover:text-white hover:border-none text-[#5d5d5d] font-bold py-2 rounded"
                     onClick={handleBookAppointment}
@@ -263,11 +275,12 @@ export const EducatorCard = ({
           )}
         </div>
         <div className="md:col-span-3">
+          
           <TeacherCalender
             startEndDates={schedules}
             shifts={schedules?.shifts}
-            onMatchedShifts={handleMatchedShifts}
             onClicked={handleOnClicked}
+            onMatchedShifts={handleMatchedShifts}
           />
         </div>
 
