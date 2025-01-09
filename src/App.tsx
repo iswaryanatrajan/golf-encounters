@@ -294,8 +294,9 @@ function App() {
   return (
     <ToastProvider iconColor="white" textColor="white">
       <div className="">
-        <Header />
+        <Header/>
         <SideIconMenu />
+        <div className="">
         <Routes>
           <Route path="/event-main-page" element={<EventMainPage />} index />
           <Route path="/event-main-page/:userId" element={<EventMainPage />} index />
@@ -729,6 +730,7 @@ function App() {
             }
           />
         </Routes>
+        </div>
       </div>
     </ToastProvider>
   );

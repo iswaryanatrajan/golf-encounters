@@ -51,19 +51,8 @@ export default function ProfileButton() {
         <div className="flex items-center">
           {token && user ? (
             <>
-              <div className="flex items-center justify-center mx-2">
-                <img
-                  onClick={handleDotClick}
-                  className="inline-block h-8 w-8 cursor-pointer border-solid border border-[#ffffff] rounded-full p-1"
-                  src={user?.imageUrl}
-                  alt=""
-                />
-              </div>
-              <div className=" sm:gap-2">
-                <p className="my-1 text-base font-medium text-[#fff] group-hover:text-gray-900">
-                {user.nickName ? user.nickName : user.email}
-                </p>
-                <div>
+             
+                <div className=" sm:gap-2">
                   <button
                     onClick={() => handleChangeLanguage("ja")}
                     className={
@@ -83,43 +72,20 @@ export default function ProfileButton() {
                     {languages.en.displayName}
                   </button>
                 </div>
+                <div className="flex items-center justify-center mx-2">
+                <img
+                  onClick={handleDotClick}
+                  className="inline-block h-8 w-8 cursor-pointer border-solid border border-[#ffffff] rounded-full p-1"
+                  src={user?.imageUrl}
+                  alt=""
+                />
               </div>
-            </>
-          ) : (
-            <>
-              <div className="ml-3">
-                <p className="m-0 text-base font-medium text-white group-hover:text-gray-900">
-                  <Link to="/login-page" className="text-black">
-                    Login
-                  </Link>
+              <div className="sm:gap-2">
+                <p className="my-1 text-base font-medium text-[#fff] group-hover:text-gray-900">
+                {user.nickName ? user.nickName : user.email}
                 </p>
-                <div>
-                  <button
-                    onClick={() => handleChangeLanguage("ja")}
-                    className={
-                      i18n.resolvedLanguage === "ja"
-                        ? "actives rounded-l-full p-1 cursor-pointer"
-                        : "rounded-l-full  cursor-pointer p-[3px] cursor-pointer bg-transparent border-[1px] border-solid border-white text-white"
-                    }
-                  >
-                    {languages.ja.displayName}
-                  </button>
-                  <button
-                    onClick={() => handleChangeLanguage("en")}
-                    className={
-                      i18n.resolvedLanguage === "en"
-                        ? "actives rounded-r-full p-1 cursor-pointer"
-                        : "rounded-r-full  cursor-pointer p-[3px] cursor-pointer bg-transparent border-[1px] border-solid border-white text-white"
-                    }
-                  >
-                    {languages.en.displayName}
-                  </button>
-                </div>
-              </div>
-            </>
-          )}
-          <div className="relative">
-            <button
+                <div className="relative">
+            {/*<button
               onClick={handleDotClick}
               className="relative px-1 bg-transparent focus:outline-none"
             >
@@ -137,11 +103,11 @@ export default function ProfileButton() {
                   d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-            </button>
+            </button>*/}
             {/* Dropdown */}
             {dropdownOpen && (
-              <div className="fixed right-[100px] mt-2 bg-white rounded-md shadow-lg w-[200px] z-[9999]">
-                <ul className="py-1 text-center">
+              <div className="fixed right-[130px] bottom-[20px] mt-2 bg-white rounded-md shadow-lg w-max-content z-[9999]">
+                <ul className="py-2 px-2 text-center">
                   {token ? (
                     <>
                     <Link to="/profile-page">
@@ -259,6 +225,44 @@ export default function ProfileButton() {
               </div>
             )}
           </div>
+                </div>
+
+            </>
+          ) : (
+            <>
+             
+                <div className="ml-3">
+                  <button
+                    onClick={() => handleChangeLanguage("ja")}
+                    className={
+                      i18n.resolvedLanguage === "ja"
+                        ? "actives rounded-l-full p-1 cursor-pointer"
+                        : "rounded-l-full  cursor-pointer p-[3px] cursor-pointer bg-transparent border-[1px] border-solid border-white text-white"
+                    }
+                  >
+                    {languages.ja.displayName}
+                  </button>
+                  <button
+                    onClick={() => handleChangeLanguage("en")}
+                    className={
+                      i18n.resolvedLanguage === "en"
+                        ? "actives rounded-r-full p-1 cursor-pointer"
+                        : "rounded-r-full  cursor-pointer p-[3px] cursor-pointer bg-transparent border-[1px] border-solid border-white text-white"
+                    }
+                  >
+                    {languages.en.displayName}
+                  </button>
+                </div>
+                <div className="ml-3">
+                <p className="m-0 text-base font-medium text-white group-hover:text-gray-900">
+                  <Link to="/login-page" className="text-black">
+                    Login
+                  </Link>
+                </p>
+              </div>
+            </>
+          )}
+         
           {
             token && user && (
 

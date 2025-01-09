@@ -227,3 +227,8 @@ a {
 .inline-style span {
   margin-left: 0;
 }
+
+.main-content{
+  margin-left: 50px; 
+  width: calc(100% - 50px); 
+}
