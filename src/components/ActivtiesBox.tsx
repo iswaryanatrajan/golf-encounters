@@ -68,17 +68,17 @@ const ActivtiesBox: React.FC<ActivtiesBoxProps> = ({ activity }) => {
             alt="Profile"
             className="h-10 w-10 rounded-full mr-4"
           />
-          <p className="text-gray-600 font-product-sans font-normal text-xl">
+          <p className="text-gray-600 font-product-sans font-normal pe-3">
             {activity.schedule?.Teacher?.firstName || activity?.bookedShifts?.nickName} {t("APPOINTMENT_WITH")}
           </p>
-          <p className="text-[blue] font-product-sans font-normal text-xl ">
-          {t("TIME")}: <span className='font-bold text-green'>{activity?.startTime}</span>
+          <p className="text-[blue] font-product-sans font-normal ">
+          {t("TIME")}: <span className='font-bold text-green text-md'>{activity?.startTime}</span>
           </p>
-          <p className="text-[blue] font-product-sans font-normal text-xl ">
-          {t("DAY")}: <span className='font-bold text-green'>{activity?.day}</span>
+          <p className="text-[blue] font-product-sans font-normal ">
+          {t("DAY")}: <span className='font-bold text-green text-md'>{activity?.day}</span>
 
           </p>
-          <p className="text-[blue] font-product-sans font-normal text-xl "> {t("DATE")}: <span className='font-bold text-green'>{activity?.date}</span></p>
+          <p className="text-[blue] font-product-sans font-normal"> {t("DATE")}: <span className='font-bold text-green text-md'>{activity?.date}</span></p>
         </div>
         <div className='flex justify-end col-span-3'>
           <p

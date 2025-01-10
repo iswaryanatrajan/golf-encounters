@@ -91,7 +91,7 @@ export default function Activeties({ selectedDate }: any) {
       <div className="w-full">
         <Tab.Group>
           <Tab.List className="flex  items-center justify-start">
-            <div className="flex-wrap xl:flex gap-6 py-2 lg:flex-nowrap">
+            <div className="flex-wrap xl:flex gap-1 py-2 lg:flex-nowrap">
               {status.map((category, index) => (
                 <Tab
                   key={category}
