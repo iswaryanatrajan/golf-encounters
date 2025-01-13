@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { NotificationPop } from "./NotificationPop";
 import { userAuthContext } from "../contexts/authContext";
 import { NotificationsContext, notificationsContextStore } from "../contexts/notificationContext";
+
 import socket from "../socket";
 
 export default function ProfileButton() {
@@ -74,16 +75,23 @@ export default function ProfileButton() {
                 </div>
                 <div className="flex items-center justify-center mx-2">
                 <img
-                  onClick={handleDotClick}
                   className="inline-block h-8 w-8 cursor-pointer border-solid border border-[#ffffff] rounded-full p-1"
                   src={user?.imageUrl}
                   alt=""
                 />
               
-              <div className="sm:gap-2 mx-2">
+              <div className="sm:gap-2 mx-2 flex">
                 <p className="my-1 text-base font-medium text-[#fff] group-hover:text-gray-900">
                 {user.nickName ? user.nickName : user.email}
+                <span
+          className="top-[5px] relative cursor-pointer material-icons"
+          onClick={handleDotClick}
+        >
+          {dropdownOpen ? "expand_less" : "expand_more"}
+        </span>
                 </p>
+               
+
                 <div className="relative">
             {/*<button
               onClick={handleDotClick}
