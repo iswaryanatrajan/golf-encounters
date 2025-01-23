@@ -134,6 +134,7 @@ export const TeacherCalender = ({ startEndDates, onMatchedShifts, onClicked, day
     const matchedShifts = startEndDates?.flatMap(({ shifts }:any) =>
       shifts.filter((shift:any) => shift.day.toLowerCase() === formattedMonth.toLowerCase())
     );
+    console.log('Matched Shifts:',matchedShifts);
     setMatchedShifts(matchedShifts);
     onClicked(click)
     onMatchedShifts(matchedShifts);

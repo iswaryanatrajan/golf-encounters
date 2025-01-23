@@ -61,9 +61,9 @@ export const EducatorCard = ({
     }
   };
 
-  useEffect(() => {
+ /* useEffect(() => {
     handleMatchedShift;
-  }, [tap]);
+  }, [tap]);*/
 
   const handleSelectedShifts = async (shift: any) => {
     if (shift.isBooked) {
