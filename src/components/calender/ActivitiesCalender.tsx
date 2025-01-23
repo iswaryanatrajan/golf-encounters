@@ -118,7 +118,7 @@ const isHighlighted = (day: any) => {
  
   return (
     <>
-      <div className=" w-full bg-white shadow-[0px_0px_13px_rgba(0,_0,_0,_0.25)] py-2 h-full ">
+      <div className=" w-full bg-white shadow-[0px_0px_13px_rgba(0,_0,_0,_0.25)] py-6">
         <div className="lg:grid lg:grid-cols-4 justify-center">
           <div className="lg:col-span-8 xl:col-span-9 px-4">
             <div className="flex items-center justify-between mx-2 my-2 text-gray-900 ">
@@ -164,16 +164,16 @@ const isHighlighted = (day: any) => {
       {!isStudentPage && 
        <div className="xl:flex gap-4 justify-center my-8">
        <Link to={`/update-schedules/${teacherId}`}  >
-       <button className="p-3 bg-[#17b3a6] rounded-md text-white cursor-pointer my-2 xl:my-0 mx-2 xl:mx-0" >{t("UPDATE_SCHEDULES")}</button>
+       <button className="p-2 bg-[#17b3a6] rounded-md text-white cursor-pointer my-2 xl:my-0 mx-2 xl:mx-0" >{t("UPDATE_SCHEDULES")}</button>
        </Link>
        <Link to={`teacher-page/${teacherId}`} >
-       <button className="p-3 bg-[#17b3a6] rounded-md text-white cursor-pointer my-2 xl:my-0 mx-2 xl:mx-0" >{t("UPDATE_PROFILE")}</button>
+       <button className="p-2 bg-[#17b3a6] rounded-md text-white cursor-pointer my-2 xl:my-0 mx-2 xl:mx-0" >{t("UPDATE_PROFILE")}</button>
        </Link>
        <Link to={`/create-catalogs/${teacherId}`} >
-       <button className="p-3 bg-[#17b3a6] rounded-md text-white cursor-pointer my-2 xl:my-0" >{t("CREATE_GIG")}</button>
+       <button className="p-2 bg-[#17b3a6] rounded-md text-white cursor-pointer my-2 xl:my-0" >{t("CREATE_GIG")}</button>
        </Link>
        <Link to={`/profile-page`} >
-       <button className="p-3 bg-[#17b3a6] rounded-md text-white cursor-pointer mx-2 xl:mx-0" >{t("UPDATE_GIG")}</button>
+       <button className="p-2 bg-[#17b3a6] rounded-md text-white cursor-pointer mx-2 xl:mx-0" >{t("UPDATE_GIG")}</button>
        </Link>
 
     </div>

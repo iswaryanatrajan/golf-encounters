@@ -44,6 +44,9 @@ module.exports = {
     extend: {
       opacity: ['disabled'],
       border: ['disabled'],
+      boxShadow: {
+        'light-all': '0 1px 4px rgba(0, 0, 0, 0.1)', // Custom light shadow
+      },
       colors: {
         white: "#fff",
         red:"#ff0000",

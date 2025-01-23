@@ -129,9 +129,10 @@ console.log(dayFilter,"hello")
         return (
         <button
           key={index}
-          className={`text-sm text-center px-1 py-4 rounded-lg shadow-sm ${
-            slot.isBooked ? "bg-[#f3f4f6] text-gray-600" : "bg-[#17b3a6] text-white"
-          } ${selectedTime === slot ? "bg-black" : ""}`}
+          className={`text-sm text-center px-1 py-4 rounded-lg shadow-sm ${selectedTime === slot && "!bg-teal-400 text-white"} ${!slot.isBooked
+            ? "bg-gray-400 text-white"
+            : "bg-gray-100 text-gray-600 cursor-not-allowed"
+          }`}
           onClick={() => handleSlotClick(slot)}
           disabled={slot.status === "BOOKED"}
           
@@ -154,7 +155,7 @@ console.log(dayFilter,"hello")
         tId != teacherId && <>
         
       <button
-        className="bg-[#4f46e5] text-white text-lg px-4 py-4 cursor-pointer rounded hover:bg-green-600 w-full my-6"
+        className="bg-blue-500 text-white text-lg px-4 py-4 cursor-pointer rounded hover:bg-blue-700 w-full my-6"
         onClick={handleBookAppointment}
       >
         {t("BOOK_APPOINTMENT")}

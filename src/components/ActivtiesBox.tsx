@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import ReviewsModal from './comments/ReviewsModal';
 import { useTranslation } from "react-i18next";
 import { userAuthContext } from '../contexts/authContext';
+import { EllipsisHorizontalIcon, ChatBubbleOvalLeftIcon, CheckIcon } from "@heroicons/react/20/solid";
 
 interface ActivtiesBoxProps {
   activity?: any;
@@ -19,17 +20,17 @@ const ActivtiesBox: React.FC<ActivtiesBoxProps> = ({ activity }) => {
   let textColor;
 
   if (activity?.status === "PENDING") {
-    bgClr = "#F2FAFF";
+    //bgClr = "#F2FAFF";
     borderClr = "#00A4FE";
   } else if (activity?.status === "CANCELLED") {
-    bgClr = "#FFE6E6";
+    //bgClr = "#FFE6E6";
     borderClr = "#00A4FE";
   } else if (activity?.status === "COMPLETED") {
-    bgClr = "#0ad5c4";
+    //bgClr = "#0ad5c4";
     borderClr = "none";
     textColor = "white";
   } else if (activity?.status === "BOOKED") {
-    bgClr = "#cffffb";
+    //bgClr = "#cffffb";
     borderClr = "none";
     textColor = "#ffff";
   }
@@ -53,16 +54,20 @@ const ActivtiesBox: React.FC<ActivtiesBoxProps> = ({ activity }) => {
 
   return (
     <div
-      className={`px-2 bg-${bgClr} border border-${borderClr} shadow-lg rounded-lg border-solid mt-3`}
+      className={`px-2 bg-${bgClr} border border-${borderClr} shadow-light-all rounded-lg border-solid mt-3`}
       style={{ backgroundColor: bgClr, border: borderClr }}
       // onClick={() => {
       //   activity?.schedule?.Teacher?.id
       //     ? router("/teacher-details/" + activity?.schedule?.Teacher?.id)
       //     : router("/appointments/");
       // }}
-    >
-      <div className="xl:grid grid-cols-12 items-center">
-        <div className='xl:flex justify-start items-center gap-2 col-span-9'>
+    > 
+
+      <div className="flex flex-column justify-between items-center">
+
+        <div className='xl:flex space-x-4 col-span-10 items-end gap-1 '>
+        <div className="xl:grid grid-cols-12 items-center">
+          <div className='flex w-full justify-start items-center col-span-5'>
           <img
             src={activity?.schedule?.Teacher?.teacher?.imageUrl || activity?.bookedShifts?.imageUrl}
             alt="Profile"
@@ -71,38 +76,47 @@ const ActivtiesBox: React.FC<ActivtiesBoxProps> = ({ activity }) => {
           <p className="text-gray-600 font-product-sans font-normal pe-3">
             {activity.schedule?.Teacher?.firstName || activity?.bookedShifts?.nickName} {t("APPOINTMENT_WITH")}
           </p>
-          <p className="text-[blue] font-product-sans font-normal ">
-          {t("TIME")}: <span className='font-bold text-green text-md'>{activity?.startTime}</span>
-          </p>
-          <p className="text-[blue] font-product-sans font-normal ">
-          {t("DAY")}: <span className='font-bold text-green text-md'>{activity?.day}</span>
+          </div>
 
+          <p className="text-[blue] font-product-sans  text-[12px] col-span-2">
+          {t("TIME")}: <span className='font-bold text-[13px] text-gray-600'>{activity?.startTime}</span>
           </p>
-          <p className="text-[blue] font-product-sans font-normal"> {t("DATE")}: <span className='font-bold text-green text-md'>{activity?.date}</span></p>
+          <p className="text-[blue] font-product-sans  text-[12px] col-span-2 ml-4">
+          {t("DAY")}: <span className='font-bold text-[13px] text-gray-600 '>{activity?.day}</span>
+          </p>
+          <p className="text-[blue] font-product-sans  text-[12px] col-span-3 ml-4"> 
+          {t("DATE")}: <span className='font-bold text-[13px] text-gray-600'>{activity?.date}</span></p>
+          </div>
         </div>
-        <div className='flex justify-end col-span-3'>
-          <p
-            className='bg-[#03bb3a] p-2 rounded text-white ml-2 cursor-pointer flex items-center'
-            onClick={handleSeeDetails} // Updated to use the new function
-          >
-            {t("SEE_DETAILS")}
-          </p>
-          <div onClick={(e)=>{
+        <div className='flex justify-end content-end col-span-2'>
+
+             <EllipsisHorizontalIcon
+                    className="w-4 h-4 text-white bg-blue-500 hover:bg-blue-700 rounded-full p-2"
+                    onClick={handleSeeDetails} // Updated to use the new function
+                    aria-hidden="true"
+                  />
+           
+           
+          <div className='flex justify-end col-span-3 px-3' onClick={(e)=>{
             e.preventDefault();
             router('/message-page/' + activity.bookedBy);
           }}>
-            <p className='bg-[#3b82f6] p-2 rounded text-white ml-2 cursor-pointer' >{t("CHAT")}</p>
+              <ChatBubbleOvalLeftIcon
+                    className="w-4 h-4 text-white bg-blue-500 hover:bg-blue-700 rounded-full p-2"
+                    aria-hidden="true"
+                  />
           </div>
           {isStudentPage && activity?.status === "BOOKED" && (
-            <p
-              className='bg-[#ff9800] p-2 rounded text-white ml-2 cursor-pointer flex items-center'
-              onClick={handleComplete}
-            >
-              {t("COMPLETE")}
-            </p>
+      <CheckIcon
+      className="w-4 h-4 text-white bg-blue-500 hover:bg-blue-700 rounded-full p-2"
+      onClick={handleComplete}
+      aria-hidden="true"
+      />
+
           )}
         </div>
       </div>
+
       <div>
         {showModal && <ReviewsModal closeModal={() => setShowModal(false)} teacherId={activity.schedule?.Teacher?.id} allinfo={activity} />}
       </div>

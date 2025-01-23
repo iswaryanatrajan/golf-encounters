@@ -219,7 +219,13 @@ export const fetchTeachersAppointments = async (
       }
     );
 console.log("fetchTeachersAppointments" , response.data);
-    setAppointments(response.data.bookedAppointments);
+const filteredAppointments = response.data.bookedAppointments.filter(
+  (appointment :any) => appointment.date !== null && appointment.date !== ''
+);
+
+setAppointments(filteredAppointments);
+
+   // setAppointments(response.data.bookedAppointments);
   } catch (error: any) {
     // toast.error("ログインされていません");
   } finally {

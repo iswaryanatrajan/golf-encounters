@@ -91,22 +91,22 @@ export default function Activeties({ selectedDate }: any) {
       <div className="w-full">
         <Tab.Group>
           <Tab.List className="flex  items-center justify-start">
-            <div className="flex-wrap xl:flex gap-1 py-2 lg:flex-nowrap">
+            <div className="flex-wrap xl:flex gap-6 py-2 mb-4 lg:flex-nowrap">
               {status.map((category, index) => (
                 <Tab
                   key={category}
                   className={({ selected }) =>
-                    `w-full rounded-md py-2  text-base font-normal leading-5 sm:font-bold md:text-lg cursor-pointer m-1 xl:m-0 xl:w-[200px]
-                    ring-white ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2
+                    `w-full rounded-md py-2  text-base font-normal leading-5 sm:font-bold md:text-lg cursor-pointer m-1 xl:m-0 xl:w-[145px]
+                    focus:outline-none hover:bg-[#2d7d76] hover:text-[#fff]
                     ${selected
-                      ? `bg-[#17b3a6] rounded-lg text-white `
+                      ? `bg-[#17b3a6] rounded-lg text-white border-[#fff]`
                       : `bg-[#ffff] shadow-lg border-solid border-2 border-[#0ad5c4] `
                     }`
                   }
                 >
                   <div className="items-center xl:justify-center text-start flex ">
                     <div
-                      className={`bg-[#E8FFEF] rounded-full font-regular  text-[12px] w-8 h-8 flex items-center justify-center  md:text-[20px] md:font-bold md:w-10  md:h-10 text-[#17b3a6]`}
+                      className={`bg-[#E8FFEF] rounded-full font-regular  text-[12px] w-8 h-8 flex items-center justify-center  md:text-[20px] md:font-bold md:w-7  md:h-7 text-[#17b3a6]`}
                     >
                       {filteredAppointments[category.toLowerCase()].length}
                     </div>

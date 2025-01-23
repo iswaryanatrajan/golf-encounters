@@ -130,9 +130,19 @@ export const TeacherCalender = ({ startEndDates, onMatchedShifts, onClicked, day
   };
 
   useEffect(() => {
+    console.log("selectedDate:",selectedDate, "&startEndDates",startEndDates);
+
+    
+    // Convert selectedDate to YYYY-MM-DD in local time
+    const year = selectedDate.getFullYear();
+    const month = String(selectedDate.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+    const day = String(selectedDate.getDate()).padStart(2, '0');
+    const formattedSelectedDate = `${year}-${month}-${day}`;
+
     const formattedMonth = format(selectedDate, "EEEE");
+    console.log(selectedDate,formattedSelectedDate);
     const matchedShifts = startEndDates?.flatMap(({ shifts }:any) =>
-      shifts.filter((shift:any) => shift.day.toLowerCase() === formattedMonth.toLowerCase())
+      shifts.filter((shift:any) => shift.date === formattedSelectedDate && shift.day.toLowerCase() === formattedMonth.toLowerCase())
     );
     console.log('Matched Shifts:',matchedShifts);
     setMatchedShifts(matchedShifts);
