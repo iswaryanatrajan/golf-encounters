@@ -99,6 +99,8 @@ function App() {
     document.documentElement.className = i18n.language;
   }, [i18n.language]);
 
+
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     const tokenTimestamp = localStorage.getItem("tokenTimestamp");

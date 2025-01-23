@@ -14,13 +14,13 @@
 }
 
 /* Custom font-family for Japanese */
-.jp {
+.ja {
   @apply font-jp;
 }
 
 body {
   @apply leading-[normal] m-0;
-  /*font-family: 'Noto Sans JP','Montserrat', 'sans-serif';*/
+ /* font-family: 'Noto Sans JP','Roboto', 'sans-serif';*/
 }
 *,
 ::before,
