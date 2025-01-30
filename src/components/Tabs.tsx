@@ -107,44 +107,38 @@ const Tabs: React.FC<TabsProps> = ({
   return (
     <div className="flex flex-wrap gap-4 ">
       <div className="w-full animate__animated animate__fadeInLeft">
+       
         <Tab.Group selectedIndex={Object.keys(categories).indexOf(currentTab)} onChange={(index) => handleTabChange(Object.keys(categories)[index])}>
-          <div className="flex justify-between ">
-            <div className="animate__animated animate__shakeY">
-              <button
+        <div className="border-2 border-blue-500">  
+
+
+          <Tab.List className="w-auto md:w-full xl:col-span-12 items-center border-2 border-blue-500  rounded-md ">
+            <div className="grid grid-cols-3 md:flex flex-wrap gap-4 xl:gap-4 py-2 lg:flex-nowrap">
+            <div className="md:flex flex-wrap gap-4 xl:gap-4 py-2 lg:flex-nowrap justify-between">
+            <button
                 type="button"
                 onClick={() => setLocationPopupOpen(true)}
-                className="h-12 xl:h-14 rounded-lg flex justify-center items-center text-[18px] w-full px-10 xl:px-14 bg-[#DDF4F2] text-[#17B3A6] cursor-pointer"
+                className=" rounded-lg flex justify-center items-center  w-full px-3 xl:px-3 py-3 bg-[#fff] text-blue-500 border-blue-500 border hover:border-2 focus:border-2 cursor-pointer"
               >
-                <MapPinIcon className="h-5 w-5" aria-hidden="true" />
+                <MapPinIcon className="w-5" aria-hidden="true" />
                 {filterLocation && filterLocation.length
                   ? filterLocation.length > 1
                     ? `${filterLocation[0]}...`
                     : filterLocation[0]
                   : t("LOCATION")}
               </button>
-            </div>
-            <div>
-              <button
-                className="bg-[#DDF4F2] text-[#17B3A6] font-bold h-12 xl:h-14 w-full px-10 xl:px-20 rounded cursor-pointer"
-                onClick={clearDates}
-              >
-                {t("CLEAR")}
-              </button>
-            </div>
-          </div>
 
-          <Tab.List className="w-auto md:w-full xl:col-span-12 items-center pt-4 rounded-md sdsdcsdc ">
-            <div className="grid grid-cols-3 md:flex flex-wrap gap-4 xl:gap-12 py-2 lg:flex-nowrap">
               {Object.keys(categories).map((category) => (
+               
                 <Tab
                   key={category}
                   className={({ selected }) =>
                     classNames(
-                      "sm:w-auto h-12 xl:h-auto md:w-full xl:w-[150px] rounded-md xl:px-6 text-base font-normal leading-5 cursor-pointer ",
-                      "ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
+                      "sm:w-auto md:w-full xl:w-[120px] rounded-md xl:px-3  font-normal  cursor-pointer",
+                      "ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2 ",
                       selected
-                        ? "bg-[#B1B1B1] text-white flex items-center justify-center"
-                        : "text-[#17B3A6] shadow-[0px_0px_10px_rgba(0,_0,_0,_0.25)] flex items-center justify-center hover:bg-[#B1B1B1] hover:border-none hover:text-white"
+                        ? "bg-blue-500 text-white flex items-center justify-center"
+                        : "text-blue-500  bg-[#ffff] shadow-lg border-solid border-2 border-blue-500 flex items-center justify-center hover:bg-blue-500 hover:text-[#fff]"
                     )
                   }
                 >
@@ -169,12 +163,23 @@ const Tabs: React.FC<TabsProps> = ({
                     <p className="w-[100px] xl:w-[100px]">{t(category)}</p>
                   )}
                 </Tab>
-              ))}
-              <div className="col-span-2 flex">
+               
+              ))} </div>
+              <div className="col-span-2 flex align-end">
                 <Calendar startDate={startDate} endDate={endDate} setEndDate={setEndDate} setStartDate={setStartDate} setEvents={setEvents} setFilterLocation={setFilterLocation} />
               </div>
+              <div className="col-span-1 flex  py-2">
+              <button
+                className="bg-[#fff] text-blue-500 border-blue-500 border font-bold px-3 py-3 w-full px-3 ml-5 rounded cursor-pointer
+                hover:bg-blue-500 hover:text-[#fff] "
+                onClick={clearDates}
+              >
+                {t("CLEAR")}
+              </button>
+            </div>
             </div>
           </Tab.List>
+          </div>
           {isLocationPopupOpen && (
             <LocationSelectionPopup
               isOpen={isLocationPopupOpen}

@@ -43,8 +43,8 @@ const SearchMainEventFilter: FunctionComponent = () => {
   // };
 
   return (
-    <form className="flex w-full py-2 mt-2 gap-2 bg-white shadow-md rounded-lg p-4">
-      <div className="flex-grow">
+    <form className="flex xl:w-full py-2 gap-2 bg-white rounded-lg">
+      <div className="flex-grow mr-2">
         {/* {selectedItems.map((item, index) => (
           <div key={index} className="bg-blue-100 rounded-full p-2 flex items-center">
             <span className="text-sm font-medium">{`${item.eventName} (${item.location})`}</span>
@@ -67,9 +67,9 @@ const SearchMainEventFilter: FunctionComponent = () => {
       <button
         type="button"
         // onClick={() => handleSearch(input)}
-        className="flex items-center bg-[#17b3a6] hover:bg-green-600 text-white rounded-md ml-3 px-4 py-2"
+        className="flex items-center border-blue-500 bg-white hover:border-2 focus:border-2 border-solid border  rounded-md ml-3 px-4 py-2"
       >
-        <FunnelIcon className="h-5 w-5" aria-hidden="true" />
+        <FunnelIcon className="h-5 w-5 pr-1" aria-hidden="true" />
         {t("Filter")}
       </button>
     </form>

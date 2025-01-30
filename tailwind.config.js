@@ -50,6 +50,9 @@ module.exports = {
       colors: {
         white: "#fff",
         red:"#ff0000",
+        red: {
+          500: "#f56565", // Ensure this is set correctly
+        },
         dodgerblue: "#008ffb",
         black: "#000",
         seagreen: {

@@ -171,8 +171,27 @@ const EventMainPage: FunctionComponent = () => {
 
   return (
     <ToastProvider iconColor="white" textColor="white">
-      <div className="flex flex-col gap-0 overflow-hidden px-10 py-0 mx-0 xl:px-20 bg-[white]  transition-colors duration-2000 animate-color-change">
-        <SearchEventContainer />
+      <div className="flex flex-col gap-0 overflow-hidden lg:px-10 py-0 mx-0  bg-[white]  transition-colors duration-2000 animate-color-change">
+        <div className="flex flex-col lg:flex-row gap-2 py-0 mx-0 columns-2 justify-between columns-1">
+        <div className="lg:columns-2xl columns-xl ">
+        <SearchEventContainer /></div>
+        <div className="p-2">
+            <div onClick={handleCheckout}>
+              <button
+                type="button"
+                className="flex items-center  rounded-md bg-blue-500 px-3 py-3 text-xs font-semibold text-white shadow-sm cursor-pointer animate__animated animate__jello animate__repeat-2 hover:bg-blue-600"
+                onClick={() => localStorage.removeItem('par')}
+              >
+                <PencilSquareIcon
+                  className="mr-0.5 h-5 w-5"
+                  aria-hidden="true"
+                />
+                {t('CREATE_EVENTS')}
+              </button>
+            </div>
+          </div>
+        </div>
+        
         <div className="flex items-center justify-between">
           <div className="flex flex-wrap items-end gap-3">
             <div className="hidden md:block md:animate__animated md:animate__rotateIn xl:animate__animated xl:animate__rotateIn">
@@ -184,7 +203,7 @@ const EventMainPage: FunctionComponent = () => {
             </div>
 
             <div className="flex flex-wrap items-center gap-4 my-2 xl:m-0">
-              <h1 className="text-[#193A8B] text-[xl] lg:text-[3xl] font-semibold animate__animated animate__rubberBand animate__repeat-3">
+              <h1 className="text-[#193A8B] text-xl lg:text-2xl font-semibold animate__animated animate__rubberBand animate__repeat-3">
                 {t('EVENTS_IN')}
               </h1>
               {selectedLocations.map((location, index) => (
@@ -212,24 +231,10 @@ const EventMainPage: FunctionComponent = () => {
               ))}
             </div>
           </div>
-          <div>
-            <div onClick={handleCheckout}>
-              <button
-                type="button"
-                className="flex items-center  rounded-md bg-[#17B3A6] px-3 py-3 text-xs font-semibold text-white shadow-sm cursor-pointer animate__animated animate__jello animate__repeat-2 hover:animate-bounce"
-                onClick={() => localStorage.removeItem('par')}
-              >
-                <PencilSquareIcon
-                  className="-mr-0.5 h-5 w-5"
-                  aria-hidden="true"
-                />
-                {t('CREATE_EVENTS')}
-              </button>
-            </div>
-          </div>
+
         </div>
 
-        <Tabs events={events} setEvents={setEvents} selectedCities={setSelectedLocations} setCurrentTabs={handleTabChange} />
+        <Tabs events={events} setEvents={setEvents} selectedCities={setSelectedLocations} setCurrentTabs={handleTabChange}  />
 
       </div>
     </ToastProvider>
