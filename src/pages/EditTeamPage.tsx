@@ -292,8 +292,7 @@ const EditTeamPage: FunctionComponent = () => {
     const headers = [];
     for (let i = 1; i <= teamCapacity; i++) {
       headers.push(
-        <th key={i} className=" py-3 leading-[10.25px] font-medium ">
-
+        <th key={i} className=" py-3 leading-[10.25px] font-medium text-[13px] xl:text-[15px]">
           {i}
         </th>
       );
@@ -337,7 +336,7 @@ const EditTeamPage: FunctionComponent = () => {
       {singleEvent?.id ?
         <div className="py-10 mx-4 ">
           <div className=" xl:max-w-[1200px] mx-auto  text-left text-lg font-poppins  ">
-            <div className="flex justify-around   mx-5  rounded-lg bg-white shadow-[0px_0px_13px_rgba(0,_0,_0,_0.25)] p-5  text-left text-3xl text-white font-body-b2">
+            <div className="flex justify-around   mx-5  rounded-lg bg-white shadow-[0px_0px_13px_rgba(0,_0,_0,_0.25)] p-5  text-left text-xl text-white font-body-b2">
               <div className="xl:flex justify-around w-full">
                 <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-[24px]">
                   <img
@@ -383,7 +382,7 @@ const EditTeamPage: FunctionComponent = () => {
               </div>
             </div>
 
-            <div id="my-slider-container" className="mx-auto my-6 max-w-7xl slider-container ">
+            <div id="my-slider-container" className="mx-auto my-3 max-w-7xl slider-container ">
               {singleEvent && singleEvent.imageUrl?.length > 1 && (
                 <Slider {...settings}>
                   {singleEvent.imageUrl.slice(0, 3).map((item: any, index: any) => {
@@ -392,7 +391,7 @@ const EditTeamPage: FunctionComponent = () => {
 
                     return <div key={index} className="w-full">
                       <img
-                        className={`w-full h-[220px] object-cover  rounded-lg ${index === centerIndex ? "slick-center" : ""}`}
+                        className={`w-full h-[180px] object-cover  rounded-lg ${index === centerIndex ? "slick-center" : ""}`}
                         src={item || ""}
                         alt={`Event Image ${index + 1}`}
                         style={{
@@ -413,7 +412,7 @@ const EditTeamPage: FunctionComponent = () => {
             {/* <EventDetails /> */}
 
 
-            <div className="max-w-5xl mx-auto mt-24">
+            <div className="max-w-5xl mx-auto mt-5">
               {/* {isCreated &&
                 <div className="mr-20 flex justify-end">
                   <button onClick={() => {
@@ -425,7 +424,7 @@ const EditTeamPage: FunctionComponent = () => {
               {
                 ceremonyModel && <CeremonyModal onClose={setCeremonyModel} eventId={singleEvent.id} />
               }
-              <div className="mt-40">
+              <div className="mt-5">
                 <AboutEvent totalJoinedMembers={totalJoinedMembers} />
               </div>
 
@@ -537,7 +536,7 @@ const EditTeamPage: FunctionComponent = () => {
                   <>
                     <div className="flex justify-start text-center w-full ">
                       <button
-                        className="py-4 text-xl  lg:py-6 w-full mx-10 xl:mx-0 mt-10 lg:w-[280px] font-medium  text-white uppercase bg-blue-500 rounded cursor-pointer hover:bg-blue-700"
+                        className="py-4 text-md  lg:py-4 w-full mx-5 px-4 xl:mx-0 mt-5  font-bold  text-white uppercase bg-blue-500 rounded cursor-pointer hover:bg-blue-700"
                         onClick={() => router(`/pay-now/${singleEvent?.id}`)}
                       >
                         {t('JOIN_NOW')}
@@ -552,7 +551,7 @@ const EditTeamPage: FunctionComponent = () => {
                       <>
                         <div className=" flex justify-start text-center w-full">
                           <button
-                            className="py-4 text-xl  lg:py-6 w-full mx-10 xl:mx-0 mt-10 lg:w-[280px] font-medium  text-white uppercase bg-blue-500 rounded cursor-pointer hover:bg-blue-700"
+                            className="py-4 text-md  lg:py-4 w-full mx-5 px-4 xl:mx-0 mt-5  font-bold  text-white uppercase bg-blue-500 rounded cursor-pointer hover:bg-blue-700"
                             onClick={(e) => {
                               e.preventDefault();
                               router('/message-page/' + singleEvent?.creatorId)
@@ -680,7 +679,7 @@ const EditTeamPage: FunctionComponent = () => {
                         <div className="flex items-center gap-4 pt-8">
                           <div>
 
-                            <b className="text-xl lg:text-17xl text-darkslateblue-300 leading-[18px] [text-shadow:0px_7px_4px_#ccf2fe]">
+                            <b className="text-xl lg:text-2xl text-darkslateblue-300 leading-[18px] [text-shadow:0px_7px_4px_#ccf2fe]">
                               {t("TEAM_MEMBERS")}
                             </b>
                           </div>
@@ -688,7 +687,7 @@ const EditTeamPage: FunctionComponent = () => {
                         <table className="w-full border-spacing-y-5 px-1 ">
                           <thead className="text-left text-whitesmoke-100">
                             <tr className="shadow-[0px_4px_10px_rgba(0,_0,_0,_0.25)] bg-lightseagreen-200 h-[55px] text-xl  ">
-                              <th className="pl-4 py-3 whitespace-nowrap rounded-s-[3px] leading-[10.25px] font-medium ">
+                              <th className="pl-4 py-3 whitespace-nowrap rounded-s-[3px] leading-[10.25px] font-bold text-[13px] xl:text-[15px]">
                                 {t('TEAM_NAME')}
                               </th>
                               {generateTableHeaders()}
@@ -698,7 +697,7 @@ const EditTeamPage: FunctionComponent = () => {
                             {teams?.map((team: any, index: any) => (
                               <tr className="shadow-[0px_0px_10px_rgba(0,_0,_0,_0.25)] h-[69px] font-medium  overflow-scroll xl:overflow-hidden">
                                 <td className="whitespace-nowrap pl-1 relative top-1 tracking-[1.45px] leading-[9.22px] flex items-center justify-between min-w-[182px] rounded-s-[3px] ">
-                                  <div className={`w-[156px] relative pl-1 rounded text-base h-[58px] flex items-center font-semibold leading-5 text-black bg-[#e0e0e0]`}>
+                                  <div className={`w-[156px] relative pl-3 rounded text-base h-[58px] flex items-center font-semibold leading-5 text-black bg-[#e0e0e0]`}>
                                     <h4>{team.name}</h4>
                                     <div className="absolute top-[50%] z-20 -right-[20px] -translate-y-2/4 h-[58px] w-[58px] overflow-hidden text-lg leading-5 font-semibold z-[0]">
                                       {team.imageUrl ? (
@@ -1083,7 +1082,7 @@ const EditTeamPage: FunctionComponent = () => {
                 </>
               )}
 
-              <table className="w-full mt-8 mb-4">
+              <table className="w-full mt-4 mb-4">
                 <CommentModel eventIsd={singleEvent?.id} closeModal={() => { }} />
 
               </table>

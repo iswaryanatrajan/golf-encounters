@@ -67,7 +67,7 @@ const ScoreBoard: FunctionComponent = () => {
         <EventDetails />
 
         {singleEvent?.scoringType !== "Normal" && (
-          <div className="grid  w-full p-0 xl: xl:w-[1200px] mx-auto mt-[200px]">
+          <div className="grid  w-full p-0 xl: xl:w-[1200px] mx-auto mt-[100px]">
             {scoreLoading ? (
               <div className="flex justify-center items-center ">
                 <div>
@@ -85,7 +85,7 @@ const ScoreBoard: FunctionComponent = () => {
                   {topThreeScoresWithPosition?.map((item: any) => {
                     return <ScoreSlider item={item} />;
                   })}
-                </FlexitySlider> : <div className="flex self-center w-full p-16 justify-around xl:w-[1200px] mx-auto">{topThreeScoresWithPosition?.map((item: any) => {
+                </FlexitySlider> : <div className="flex self-center w-full p-16 py-4 justify-around xl:w-[1200px] mx-auto">{topThreeScoresWithPosition?.map((item: any) => {
                   return <ScoreSlider item={item} />;
                 })}
                 </div>
@@ -136,13 +136,17 @@ const ScoreBoard: FunctionComponent = () => {
           </>
         )}
 
+
         {singleEvent?.id && (
-          <table className="lg:w-[1270px] mx-auto my-10">
+          <table className="lg:w-[1200px] max-w-5xl mx-auto my-3">
             <CommentModel eventIsd={singleEvent?.id} closeModal={() => { }} />
           </table>
         )}
-        <AllMembers />
-        <div className="w-full lg:w-[1200px] lg:mx-auto">
+         <div className="w-full lg:w-[1200px] max-w-5xl lg:mx-auto">
+         <AllMembers/>
+         </div>
+       
+        <div className="w-full lg:w-[1200px] max-w-5xl lg:mx-auto mb-7">
           <AboutEvent totalJoinedMembers={totalJoinedMembers} />
         </div>
       </div>

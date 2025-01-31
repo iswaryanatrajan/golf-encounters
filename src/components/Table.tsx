@@ -184,13 +184,13 @@ const Table: React.FunctionComponent<TableProps> = ({ events }) => {
               <div className="sm:rounded-lg">
                 {!isMobile ? (
                   <table
-                    className="relative min-w-full  divide-y divide-gray-300 z-9"
+                    className="relative min-w-full  divide-y divide-gray-300 z-9 text-[#626262]"
                     style={{
                       borderCollapse: "separate",
                       borderSpacing: "0 20px",
                     }}
                   >
-                    <thead className=" text-black  flex-col">
+                    <thead className="  flex-col">
                       <tr>
                         <th
                           scope="col"
@@ -254,7 +254,7 @@ const Table: React.FunctionComponent<TableProps> = ({ events }) => {
                       return (
                         <React.Fragment key={index}>
                           <tr
-                            className="mt-4 rounded-lg cursor-pointer text-black hover:rounded-lg hover:bg-[#f0faf9] hover:text-black shadow-light-all"
+                            className="mt-4 p-1 rounded-lg cursor-pointer  hover:rounded-lg hover:bg-[#f0faf9] hover:text-black shadow-md"
                             style={{
                               width: "100%",
                               borderRadius: "10px",
@@ -262,7 +262,7 @@ const Table: React.FunctionComponent<TableProps> = ({ events }) => {
                             }}
                           >
                             <td
-                              className=""
+                              className="py-2"
                               onClick={() => router(`/edit-team/${event.id}`)}
                             >
                               <div className="flex-wrap text-start items-center justify-start mx-4">
@@ -273,7 +273,7 @@ const Table: React.FunctionComponent<TableProps> = ({ events }) => {
                                       : "img/BG-GOLF.jpg"
                                   }
                                   alt=""
-                                  className="w-16 h-16 border border-indigo-600 border-solid rounded-full "
+                                  className="w-14 h-14 border border-blue-600 border-solid rounded-full "
                                 />
 
                                 <div
@@ -296,7 +296,7 @@ const Table: React.FunctionComponent<TableProps> = ({ events }) => {
                               </div>
                             </td>
                             <td
-                              className="flex items-center justify-between ml-2 text-sm  text-center whitespace-pre-wrap xl:text-left"
+                              className="flex py-2 items-center justify-between ml-2 text-sm  text-center whitespace-pre-wrap xl:text-left"
                               onClick={() => router(`/edit-team/${event.id}`)}
                             >
                               <div className="flex flex-col ">
@@ -323,7 +323,7 @@ const Table: React.FunctionComponent<TableProps> = ({ events }) => {
                               </div>
                             </td>
                             <td
-                              className="px-3 py-0 text-sm whitespace-nowrap"
+                              className="px-3 py-2 text-sm whitespace-nowrap"
                               onClick={() => router(`/edit-team/${event.id}`)}
                             >
                               <p>{event.eventStartDate}</p>
@@ -331,9 +331,9 @@ const Table: React.FunctionComponent<TableProps> = ({ events }) => {
                               {event.eventStartTime}
                             </td>
 
-                            <td className="px-3 pt-2 text-sm flex-wrap">
+                            <td className="px-3 py-2 text-sm flex-wrap">
                               <p className="my-1 p-0">
-                                <span className="font-bold m-0 p-0">
+                                <span className="font-medium m-0 p-0">
                                   {" "}
                                   {t("CONFIRMED")}:
                                 </span>{" "}
@@ -341,7 +341,7 @@ const Table: React.FunctionComponent<TableProps> = ({ events }) => {
                                 }                  /              {event?.capacity * event?.teamSize}
                               </p>
                               <p className="m-0 p-0">
-                                <span className="font-bold ">
+                                <span className="font-medium ">
                                   {t("WAITING")}:
                                 </span>{" "}
                                 {event.teamMemberCount} /{" "}
@@ -464,7 +464,7 @@ const Table: React.FunctionComponent<TableProps> = ({ events }) => {
                                   </>
                               }
                             </td>
-                            <td className="px-3 pt-1 text-sm flex-wrap">
+                            <td className="px-3 py-2 text-sm flex-wrap">
                             <div className="flex  flex-col">
                                 <div className="flex flex-row gap-1 justify-center items-center py-0 text-sm whitespace-nowrap ">
                                   <div className="flex items-center gap-1 ">
@@ -717,8 +717,7 @@ const Table: React.FunctionComponent<TableProps> = ({ events }) => {
                                 <td className="flex gap-3 justify-center items-center py-0 text-sm whitespace-nowrap ">
                                   <div className="flex flex-col items-center gap-1 ">
                                     <div
-                                      className={`flex shadow-lg border border-solid  border-[#17B3A6] hover:bg-black bg-${liked ? "white" : "[white]"
-                                        } cursor-pointer p-1 rounded-md`}
+                                      className={`flex shadow-lg cursor-pointer p-1 rounded-md`}
                                       onClick={() => handleLike(item)}
                                     >
                                       <HandThumbUpIcon

@@ -200,13 +200,13 @@ const CommentModel: React.FC<CommentModelProps> = ({ closeModal, eventIsd }) => 
         <div className="col-span-12 ">
           <div className="flex items-center justify-between mx-4 z-[-1]">
             {token ? (
-              <h2 className="mx-4">{t("ADD_COMMENTS")}</h2>
+              <h2 className="mx-4 text-[15px]">{t("ADD_COMMENTS")}</h2>
             ) : (
-              <h2 className="mx-4">Recent Comments</h2>
+              <h2 className="mx-4 text-[15px]">Recent Comments</h2>
             )}
             <button
               type="button"
-              className="flex items-center justify-center w-10 h-10 p-2 text-white bg-blue-500 rounded-full shadow-lg cursor-pointer hover:bg-gray-200 hover:text-gray-900 "
+              className="flex items-center justify-center w-7 h-7 p-2 text-white bg-blue-500 rounded-full shadow-lg cursor-pointer hover:bg-blue-600 hover:text-white-900 "
               data-modal-hide="popup-modal"
               onClick={closeModal}
             >
@@ -251,7 +251,7 @@ const CommentModel: React.FC<CommentModelProps> = ({ closeModal, eventIsd }) => 
                   <button
                     data-modal-hide="popup-modal"
                     type="submit"
-                    className="inline-flex items-center py-4 px-6 text-xs font-medium text-center text-white bg-blue-500 hover:bg-green-600 rounded-lg focus:ring-4 focus:ring-primary-200 hover:bg-primary-800"
+                    className="inline-flex items-center py-4 px-6 text-xs font-medium text-center text-white bg-blue-500  rounded-lg focus:ring-4 focus:ring-primary-200 hover:bg-blue-600"
                   >
                     {t("POST_COMMENTS")}
                   </button>
@@ -272,7 +272,7 @@ const CommentModel: React.FC<CommentModelProps> = ({ closeModal, eventIsd }) => 
                               src={comment.user?.imageUrl}
                               alt=""
                             />
-                            <div className="">
+                            <div className="w-full">
                               <div className="grid grid-row-2 grid-cols-1 p-4 rounded-xl bg-slate-100">
                                 {!isEdit[comment.id] && (
                                   <h3 className="inline-flex items-center m-0 font-semibold text-gray-900 text-[12px]">
