@@ -12,7 +12,7 @@ const EventDetails: React.FC = () => {
             >
                 <div className='pt-10'>
                 <div className='bg-white  px-4 py-2 rounded-lg shadow-lg mx-10 max-w-3xl xl:mx-auto  '>
-                    <h2 className='text-center leading-[20px] xl:leading-[32px] text-blue font-semibold   text-xl  xl:text-4xl'>{t('EVENT_BELOW')}</h2>
+                    <h2 className='text-center leading-[27px] xl:leading-[32px] text-blue font-semibold  md:text-sm text-lg  xl:text-3xl'>{t('EVENT_BELOW')}</h2>
                 </div>
                 </div>
                 

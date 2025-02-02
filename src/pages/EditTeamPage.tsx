@@ -391,13 +391,13 @@ const EditTeamPage: FunctionComponent = () => {
 
                     return <div key={index} className="w-full">
                       <img
-                        className={`w-full h-[180px] object-cover  rounded-lg ${index === centerIndex ? "slick-center" : ""}`}
+                        className={`w-full h-[200px] object-cover  rounded-lg ${index === centerIndex ? "slick-center" : ""}`}
                         src={item || ""}
                         alt={`Event Image ${index + 1}`}
                         style={{
                           boxShadow: index === centerIndex ? '0px 0px 10px rgba(0, 0, 0, 0.25)' : 'none',
                           backgroundColor: index === centerIndex ? 'white' : 'transparent',
-                          borderRadius: index === centerIndex + 1 ? '10px' : '0',
+                          borderRadius: index === centerIndex + 1 ? '10px' : '5px',
                           display: index === previousIndex || index === nextIndex ? 'none' : 'block',
 
                         }}
@@ -531,10 +531,10 @@ const EditTeamPage: FunctionComponent = () => {
                 </div>
               </div> */}
 
-              <div className="xl:flex items-start gap-40">
+              <div className="xl:flex justify-between ">
                 {(!isCreated && !isJoined && !isDeadlineOver) && (
                   <>
-                    <div className="flex justify-start text-center w-full ">
+                    <div className="flex justify-start text-center ">
                       <button
                         className="py-4 text-md  lg:py-4 w-full mx-5 px-4 xl:mx-0 mt-5  font-bold  text-white uppercase bg-blue-500 rounded cursor-pointer hover:bg-blue-700"
                         onClick={() => router(`/pay-now/${singleEvent?.id}`)}

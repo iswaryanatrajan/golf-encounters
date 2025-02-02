@@ -113,12 +113,12 @@ const Tabs: React.FC<TabsProps> = ({
 
 
           <Tab.List className="w-auto md:w-full xl:col-span-12 items-center border-2 border-blue-500  rounded-md ">
-            <div className="grid grid-cols-3 md:flex flex-wrap gap-4 xl:gap-4 py-2 lg:flex-nowrap">
-            <div className="md:flex flex-wrap gap-4 xl:gap-4 py-2 lg:flex-nowrap justify-between">
+            <div className="grid lg:grid-cols-3 md:flex flex-wrap gap-4 xl:gap-4 py-2 lg:flex-nowrap">
+            <div className="md:flex  gap-4 xl:gap-4 py-2 lg:flex-nowrap justify-between">
             <button
                 type="button"
                 onClick={() => setLocationPopupOpen(true)}
-                className=" rounded-lg flex justify-center items-center  w-full px-3 xl:px-3 py-3 bg-[#fff] text-blue-500 border-blue-500 border hover:border-2 focus:border-2 cursor-pointer"
+                className=" rounded-lg flex justify-center items-center my-2 w-full px-3 xl:px-3 py-3 bg-[#fff] text-blue-500 border-blue-500 border hover:border-2 focus:border-2 cursor-pointer"
               >
                 <MapPinIcon className="w-5" aria-hidden="true" />
                 {filterLocation && filterLocation.length
@@ -134,7 +134,7 @@ const Tabs: React.FC<TabsProps> = ({
                   key={category}
                   className={({ selected }) =>
                     classNames(
-                      "sm:w-auto md:w-full xl:w-[120px] rounded-md xl:px-3  font-normal  cursor-pointer",
+                      "sm:w-auto md:w-full xl:w-[120px] rounded-md xl:px-3  font-normal  cursor-pointer  my-2",
                       "ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2 ",
                       selected
                         ? "bg-blue-500 text-white flex items-center justify-center"
