@@ -49,7 +49,7 @@ const EventDetailsCeremony: React.FC = () => {
 
                     return (
                         <div key={item.eventId} className="relative">
-                            <p className="text-gray-700 mb-4 capitalize text-sm md:text-base leading-8">
+                            <p className="text-gray-700 mb-4 px-10 capitalize text-sm md:text-base leading-8">
                                 {item.eventInfo || "No event info available"}
                             </p>
                             {parsedArray.map((image: any, index: any) => (

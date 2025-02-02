@@ -466,7 +466,7 @@ const Table: React.FunctionComponent<TableProps> = ({ events }) => {
                             </td>
                             <td className="px-3 py-2 text-sm flex-wrap">
                             <div className="flex  flex-col">
-                                <div className="flex flex-row gap-1 justify-center items-center py-0 text-sm whitespace-nowrap ">
+                                <div className="flex flex-row gap-2 justify-center items-center py-0 text-sm whitespace-nowrap ">
                                   <div className="flex items-center gap-1 ">
                                     <div
                                       className={`flex shadow-light-all border border-solid  border-blue-500 hover:bg-blue-100 bg-${liked ? "white" : "[white]"
@@ -482,8 +482,8 @@ const Table: React.FunctionComponent<TableProps> = ({ events }) => {
                                       
                                      
                                     </div>
-                                    <div className="flex    text-center justify-center items-center h-4 w-4  ">
-                                      <div className="text-[12px]  text-blue-500  ">
+                                    <div className="flex    text-center justify-center items-center ">
+                                      <div className="text-[12px]  text-[#666]  ">
                                         {
                                           (event?.likes || []).filter(
                                             (like: any) => like.counter
@@ -503,8 +503,8 @@ const Table: React.FunctionComponent<TableProps> = ({ events }) => {
 </svg>
 
                                     </div>
-                                    <div className="flex  rounded-md   text-center justify-center items-center h-4 w-4  rounded-md ">
-                                      <div className="text-[12px] text-blue-500">
+                                    <div className="flex  rounded-md   text-center justify-center items-center  rounded-md ">
+                                      <div className="text-[12px] text-[#666]">
                                         {event.comments?.length}
                                       </div>
                                     </div>

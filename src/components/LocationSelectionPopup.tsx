@@ -62,7 +62,7 @@ const LocationSelectionPopup: React.FC<LocationSelectionPopupProps> = ({ isOpen,
         </div>
         <div className="w-full px-10 py-10 inline-block overflow-y-auto scrollbar h-[600px] text-left align-bottom transition-all transform bg-white bg-opacity-80 rounded-lg shadow-xl sm:my-8 sm:align-middle  sm:w-full xl:max-w-[50rem] xl:px-0 py-0" role="dialog" aria-modal="true">
           <div className="fixed top-0 right-0 flex justify-end p-4">
-            <span onClick={onClose} className="border-solid border-[2px] border-[#52FF86] rounded-full px-2 p-2 flex justify-center items-center">
+            <span onClick={onClose} className="border-solid border-[2px] border-blue-500 rounded-full px-2 p-2 flex justify-center items-center">
               <XMarkIcon className="w-6 h-6" aria-hidden="true" />
             </span>
           </div>

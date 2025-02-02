@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { singleEventContextStore } from "../../contexts/eventContext";
 import { useEffect, useState } from "react";
 import i18n from "../../locale";
+import { GoogleMap, Marker,LoadScript } from "@react-google-maps/api";
 
 export const AboutEvent = ({ totalJoinedMembers }: any) => {
   const { t } = useTranslation();
@@ -9,6 +10,38 @@ export const AboutEvent = ({ totalJoinedMembers }: any) => {
   const [selectedDays, setSelectedDays] = useState<number>(10);
   const [cancellationFeePercentage, setCancellationFeePercentage] = useState<string>("0%");
   const [calculatedCancellationFee, setCalculatedCancellationFee] = useState<string>("¥0");
+  const [mapCenter, setMapCenter] = useState({ lat: 35.6895, lng: 139.6917 }); // Default: Tokyo
+  const [markerPosition, setMarkerPosition] = useState(mapCenter);
+
+// Function to geocode address and get lat/lng
+const geocodeAddress = (address: string) => {
+  if (!address || !window.google) return;
+
+    const geocoder = new window.google.maps.Geocoder();
+  geocoder.geocode({ address }, (results, status) => {
+    if (status === "OK" && results && results[0].geometry) {
+      const location = results[0].geometry.location;
+      const latLng = { lat: location.lat(), lng: location.lng() };
+
+      console.log("Geocoded Location:", latLng);
+
+      // Update map and marker position
+      setMapCenter(latLng);
+      setMarkerPosition(latLng);
+    } else {
+      console.error("Geocode was not successful for the following reason:", status);
+    }
+  });
+};
+
+// Fetch location when the component mounts or when singleEvent.address changes
+useEffect(() => {
+  if (singleEvent?.address) {
+    console.log(singleEvent?.address,"address");
+    geocodeAddress(singleEvent.address);
+  }
+}, [singleEvent]); // Runs when `singleEvent.address` changes
+
   useEffect(() => {
     let percentage = 0;
     if (selectedDays === 5) {
@@ -34,6 +67,9 @@ export const AboutEvent = ({ totalJoinedMembers }: any) => {
 
   const embedUrl = getYoutubeEmbedUrl(singleEvent?.eventVideoUrl);
   const isEnglish = i18n.language === "en";
+
+
+
   return <div className="max-w-6xl mx-6 xl:mx-auto    mt-10 shadow-[0px_0px_10px_rgba(0,_0,_0,_0.25)] rounded-lg">
     <div className="xl:flex items-center gap-10 justify-center bg-[#17b3a6] rounded-t-lg py-4 px-8 xl:p-0">
 
@@ -59,7 +95,7 @@ export const AboutEvent = ({ totalJoinedMembers }: any) => {
 
       </div>
       <div className="xl:h-[400px] ">
-        <iframe
+       {/* <iframe
           className="col-span-4 sm:col-span-4 xl:h-full"
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8181116.269949623!2d130.64039243803072!3d36.56179855912495!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34674e0fd77f192f%3A0xf54275d47c665244!2sJapan!5e0!3m2!1sen!2s!4v1700468556527!5m2!1sen!2s"
           width="100%"
@@ -67,9 +103,12 @@ export const AboutEvent = ({ totalJoinedMembers }: any) => {
           allowFullScreen
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
-        ></iframe>
-
-
+        ></iframe> */}
+ <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_API_KEY || ""}>
+<GoogleMap center={mapCenter} zoom={15} mapContainerStyle={{ width: "100%", height: "100%" }}>
+        <Marker position={markerPosition} />
+      </GoogleMap>
+      </LoadScript>
       </div>
       <div className=" items-center   bg-[#D7FBF8] py-4 px-10">
         <div className="text-black text-xl font-bold basis-4 "> {t('EVENT_DETAILS')}</div>

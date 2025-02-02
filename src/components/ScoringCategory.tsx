@@ -351,7 +351,7 @@ const ScoringCategory: React.FC<ScoringTypeProps> = ({
                   type="button"
                   className={
                     activeTab === Tab.Regular
-                      ? "active-tab bg-[#51ff85] rounded-md cursor-pointer animate-bounce py-2 px-4"
+                      ? "active-tab bg-[#51ff85] rounded-md cursor-pointer  py-2 px-4"
                       : "bg-transparent py-2 px-4 cursor-pointer text-[#626262]"
                   }
                 >
@@ -371,7 +371,7 @@ const ScoringCategory: React.FC<ScoringTypeProps> = ({
                   type="button"
                   className={
                     activeTab === Tab.Single
-                      ? "active-tab bg-[#51ff85] rounded-md cursor-pointer animate-bounce py-2 px-4"
+                      ? "active-tab bg-[#51ff85] rounded-md cursor-pointer  py-2 px-4"
                       : "bg-transparent py-2 px-4 cursor-pointer text-[#626262]"
                   }
                 >
@@ -391,7 +391,7 @@ const ScoringCategory: React.FC<ScoringTypeProps> = ({
                   type="button"
                   className={
                     activeTab === Tab.Double
-                      ? "active-tab bg-[#51ff85] rounded-md animate-bounce cursor-pointer py-2 px-4"
+                      ? "active-tab bg-[#51ff85] rounded-md  cursor-pointer py-2 px-4"
                       : "bg-transparent py-2 px-4 cursor-pointer text-[#626262]"
                   }
                 >
@@ -411,7 +411,7 @@ const ScoringCategory: React.FC<ScoringTypeProps> = ({
                   type="button"
                   className={
                     activeTab === Tab.Triple
-                      ? "active-tab bg-[#51ff85] rounded-md animate-bounce cursor-pointer py-2 px-4"
+                      ? "active-tab bg-[#51ff85] rounded-md  cursor-pointer py-2 px-4"
                       : "bg-transparent py-2 px-4 cursor-pointer text-[#626262]"
                   }
                 >

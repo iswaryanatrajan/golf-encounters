@@ -109,10 +109,10 @@ document.body.dir = i18n.dir();
 
 
   return (
-    <div className="py-8 mx-auto lg:max-w-7xl ">
+    <div className="py-8 px-2 mx-auto lg:max-w-7xl ">
       <div className="p-4 mt-4 rounded-md "style={{
         boxShadow:
-          'rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px',
+          'rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.05) 0px 2px 6px 2px',
       }}>
       <h2 className="text-4xl text-[#626262]">{t('RECRUITMENT_DETAILS')}</h2>
       {
@@ -125,7 +125,7 @@ document.body.dir = i18n.dir();
             {t('NO_OF_PLAYERS')}
           </label>
           <input
-            className=" appearance-none block w-[50px] bg-gray-200 text-[#51ff85] border border-[#51ff85] bg-transparent rounded py-2 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+            className=" appearance-none block w-[50px] bg-white-200 text-[#51ff85] border border-[#51ff85]  rounded py-2 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
             id="grid-Event-Name"
             type="number"
             name="capacity"
@@ -154,7 +154,7 @@ document.body.dir = i18n.dir();
               onChange={handleInputChange}
               required
             />
-            <div className="w-11 h-5 border border-solid border-[#626262] peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-[#626262] after:border-gray-300 bg-white after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+            <div className="w-11 h-5 border border-solid border-[#626262] peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300  rounded-full peer  peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-[#626262] after:border-gray-300 bg-white after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-white-600"></div>
           </label>
 
         </div>
@@ -253,7 +253,7 @@ document.body.dir = i18n.dir();
                 <button
                   className={`${
                     activeTab === "個人(individual)"
-                      ? "bg-blue-500 text-white cursor-pointer animate-bounce border-none"
+                      ? "bg-blue-500 text-white cursor-pointer  border-none"
                       : "text-[#626262] border border-[#0038FF] bg-transparent cursor-pointer  hover:text-blue-800 hover:scale-105 transform transition duration-300 ease-in-out"
                   } px-4 py-2 border rounded-full`}
                   type="button"
@@ -265,7 +265,7 @@ document.body.dir = i18n.dir();
                 <button
                   className={`${
                     activeTab === "チーム(team)"
-                      ? "bg-blue-500 text-white cursor-pointer animate-bounce"
+                      ? "bg-blue-500 text-white cursor-pointer "
                       : "text-[#626262] border border-[#0038FF] bg-transparent cursor-pointer  hover:text-blue-800 over:scale-105 transform transition duration-300 ease-in-out"
                   } px-4 py-2   rounded-full`}
                   type="button"
@@ -287,7 +287,7 @@ document.body.dir = i18n.dir();
                     </label>
                   <div className="flex gap-2">
                   <input
-                      className="appearance-none block w-[80px] bg-gray-200 text-[#626262] border border-[#51ff85] bg-transparent hover:animate-bounce rounded py-2 px-2 mb-0 leading-tight focus:outline-none "
+                      className="appearance-none block w-[80px] bg-gray-200 text-[#626262] border border-[#51ff85] bg-transparent  rounded py-2 px-2 mb-0 leading-tight focus:outline-none "
                       id="teamSize"
                       type="number"
                       name="teamSize"

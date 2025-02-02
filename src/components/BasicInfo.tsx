@@ -10,6 +10,8 @@ import { toast } from "react-toastify";
 import { API_ENDPOINTS } from "../appConfig";
 import { useParams } from "react-router-dom";
 import { singleEventContextStore } from "../contexts/eventContext";
+import { GoogleMap, LoadScript, Marker, Autocomplete } from "@react-google-maps/api";
+
 
 interface BasicInfoProps {
   onChange: (
@@ -25,6 +27,11 @@ interface OptionType {
 }
 
 type GroupedOptionType = GroupBase<OptionType>;
+
+const mapContainerStyle = {
+  width: "100%",
+  height: "300px",
+};
 
 const BasicInfo: React.FC<BasicInfoProps> = ({
   onChange,
@@ -210,6 +217,74 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
       toast.error(t("FAILED_EVENT_UPDATE"));
     }
   };
+  const [mapCenter, setMapCenter] = useState({ lat: formData?.latitude || 35.6895, lng: formData?.longitude || 139.6917 }); // Default: Tokyo
+  const [markerPosition, setMarkerPosition] = useState(mapCenter);
+  const [autocomplete, setAutocomplete] = useState<google.maps.places.Autocomplete | null>(null);
+  const [inputValue, setInputValue] = useState(formData?.address || ""); // Controlled input
+  const [address, setAddress] = useState(""); // Store the selected address
+
+ // Function to convert address to lat/lng using Google Maps Geocoding API
+ const geocodeAddress = (address: string) => {
+  const geocoder = new google.maps.Geocoder();
+  geocoder.geocode({ address }, (results, status) => {
+    if (status === "OK" && results && results[0].geometry) {
+      const location = results[0].geometry.location;
+      const newLatLng = { lat: location.lat(), lng: location.lng() };
+
+      setMapCenter(newLatLng); // Update map center
+      setMarkerPosition(newLatLng); // Update marker position
+    } else {
+      console.error("Geocode failed:", status);
+    }
+  });
+};
+
+  // Run geocoding when the formData.address is available
+  useEffect(() => {
+    if (formData?.address) {
+      geocodeAddress(formData.address);
+      setInputValue(formData.address);
+    }
+  }, [formData.address]); // Run only when address changes
+
+
+
+  // Handle place change
+  const onPlaceChanged = () => {
+    if (autocomplete) {
+      const place = autocomplete.getPlace();
+
+      if (!place.geometry) {
+        console.error("Selected place has no geometry.");
+        return;
+      }
+
+      if (place.geometry && place.geometry.location) {
+        const location = {
+          address: place.formatted_address || place.name,
+          //latitude: place.geometry.location.lat(),
+          //longitude: place.geometry.location.lng(),
+        };
+
+        console.log("Selected Location:", location);
+
+        //setAddress(location.address || ""); // Set the address
+        setInputValue(location.address);
+
+        // Update formData state
+        setFormData((prev: any) => ({
+          ...prev,
+          ...location, // Add address, latitude, and longitude to formData
+        }));
+
+      }
+    }
+  };
+
+  // Initialize autocomplete
+  const onLoad = (auto: google.maps.places.Autocomplete) => {
+    setAutocomplete(auto);
+  };
 
   //test
   return (
@@ -221,7 +296,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
         className="p-4 mt-4 rounded-md bg-clip-padding "
         style={{
           boxShadow:
-            "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px",
+            "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.05) 0px 2px 6px 2px",
         }}
       >
         <h2 className="text-4xl text-[#626262] ">{t("BASIC_INFORMATION")}</h2>
@@ -234,10 +309,8 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
               {t("EVENT_NAME")}
             </label>
             <input
-              className="block w-full  py-4 mb-3 leading-tight text-gray-800 transition duration-300 ease-in-out transform bg-white border border-[#51ff85] rounded shadow-xl appearance-none focus:outline-none focus: "
-              style={{
-                boxShadow: "rgba(0, 0, 0, 0.15) 0px 5px 15px 0px",
-              }}
+              className="block w-full  py-4 mb-3 leading-tight text-gray-800 transition duration-300 ease-in-out transform bg-white border border-gray-300 hover:border-gray-400 rounded shadow appearance-none focus:outline-none focus: "
+
               id="grid-Event-Name"
               type="text"
               name="eventName"
@@ -255,10 +328,8 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
               {t("SHORT_VIDEO")}
             </label>
             <input
-              className="block w-full  py-4 mb-3 leading-tight text-gray-800 transition duration-300 ease-in-out transform bg-white border border-[#51ff85] rounded shadow-inner focus:outline-none focus:bg-white "
-              style={{
-                boxShadow: "rgba(0, 0, 0, 0.15) 0px 5px 15px 0px",
-              }}
+              className="block w-full  py-4 mb-3 leading-tight text-gray-800 transition duration-300 ease-in-out transform bg-white border border-gray-300 hover:border-gray-400 rounded shadow focus:outline-none focus:bg-white "
+
               id="grid-first-name"
               type="text"
               name="eventVideoUrl"
@@ -306,10 +377,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
               )}
             </label>
             <textarea
-              className="block w-full py-4 mb-3 leading-tight text-gray-800 transition duration-300 ease-in-out transform bg-white border border-[#51ff85] rounded appearance-none focus:outline-none focus:bg-white "
-              style={{
-                boxShadow: "rgba(0, 0, 0, 0.15) 0px 5px 15px 0px",
-              }}
+              className="block w-full py-4 mb-3 leading-tight text-gray-800 transition duration-300 ease-in-out transform bg-white border border-gray-300 hover:border-gray-400 shadow rounded appearance-none focus:outline-none focus:bg-white "
               id="grid-first-name"
               name="eventDetails"
               placeholder={t("EVENT_DETAILS")}
@@ -359,10 +427,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
 
               <div className="flex items-center ">
                 <input
-                  className="filehidden appearance-none block w-full bg-white text-gray-800 border border-[#51ff85] rounded py-12 px-2  mb-3 leading-tight focus:outline-none focus:bg-white transition duration-300 ease-in-out transform shadow-xl"
-                  style={{
-                    boxShadow: "rgba(0, 0, 0, 0.15) 0px 5px 15px 0px",
-                  }}
+                  className="filehidden appearance-none block w-full bg-white shadow text-gray-800 border border-gray-300 rounded  hover:border-gray-400 py-12 px-2  mb-3 leading-tight focus:outline-none focus:bg-white transition duration-300 ease-in-out transform"
                   type="file"
                   name="files"
                   onChange={handleImageChange}
@@ -407,7 +472,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
               </p>
             )}
           </div>
-          <div className="col-span-8 py-2 lg:col-span-6 md:col-span-5 md:mr-0 md:mb-3">
+         {/* <div className="col-span-8 py-2 lg:col-span-6 md:col-span-5 md:mr-0 md:mb-3">
             <label
               className="block mb-2 text-lg tracking-wide text-[#626262] captilize"
               htmlFor="grid-short-video"
@@ -427,10 +492,10 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
               required
               onChange={onChange}
             />
-          </div>
+          </div>*/}
         </div>
 
-        <div className="relative col-span-12 mx-4 sm:mx-16 md:col-span-8 lg:col-span-8 ">
+        {/*<div className="relative col-span-12 mx-4 sm:mx-16 md:col-span-8 lg:col-span-8 ">
           <iframe
             className="col-span-4 sm:col-span-4 rounded-2xl"
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8181116.269949623!2d130.64039243803072!3d36.56179855912495!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34674e0fd77f192f%3A0xf54275d47c665244!2sJapan!5e0!3m2!1sen!2s!4v1700468556527!5m2!1sen!2s"
@@ -462,13 +527,37 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
               1{t("SELECT")}
             </button>
           </div>
-        </div>
+        </div>*/}
+
+    <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_API_KEY || ""} libraries={["places"]}>
+      <div>
+        <label  className="block mb-2 text-lg tracking-wide text-[#626262] captilize"> {t("ADDRESS")}</label>
+      
+        <Autocomplete
+        onLoad={onLoad}
+        onPlaceChanged={onPlaceChanged}
+      >
+        <input
+          type="text"
+          value={inputValue} // Controlled input value
+          onChange={(e) => setInputValue(e.target.value)} // Allow manual input
+          placeholder={t("ADDRESS")}
+          className="w-max lg:w-[500px] my-3 py-3 text-[#626262] border border-gray-300 rounded shadow hover:border-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+        />
+      </Autocomplete>
+
+        <GoogleMap mapContainerStyle={mapContainerStyle} center={mapCenter} zoom={14}>
+          <Marker position={markerPosition} />
+        </GoogleMap>
+
+      </div>
+    </LoadScript>
       </div>
       <div
-        className="grid grid-cols-9 px-4 py-4 mx-auto lg:gap-x-16 my-10"
+        className="grid grid-cols-9 px-4 py-4 mx-auto lg:gap-x-16 my-6 rounded-md"
         style={{
           boxShadow:
-            "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px",
+            "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.05) 0px 2px 6px 2px",
         }}
       >
         <div className="col-span-8 py-2 lg:col-span-7  md:col-span-5 md:mr-0 md:mb-0 ">
@@ -479,7 +568,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
             {t("PARTICIPATION_FEE")}
           </label>
           <input
-            className="appearance-none block w-full bg-gray-200 text-[#626262] border border-[#51ff85] bg-transparent  rounded py-4 px-4 mb-0 leading-tight focus:outline-none "
+            className="appearance-none block w-full bg-gray-200 text-[#626262] border border-gray-300 rounded  hover:border-gray-400  bg-transparent  py-4 px-4 mb-0 leading-tight focus:outline-none "
             id="participationFee"
             type="number"
             pattern="[0-9]*"
@@ -493,10 +582,10 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
         </div>
       </div>
       <div
-        className="grid grid-cols-9 px-4 py-0 mx-auto lg:gap-x-16 my-10 py-6"
+        className="grid grid-cols-9 px-4 py-0 mx-auto lg:gap-x-16 my-6 py-6 rounded-md"
         style={{
           boxShadow:
-            "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px",
+            "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.05) 0px 2px 6px 2px",
         }}
       >
         <div className="col-span-8 py-2 lg:col-span-4 md:col-span-5 md:mr-0 md:mb-3">
@@ -537,10 +626,8 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
             )}
           </label>
           <textarea
-            className="comment-content block w-full py-4 mb-3 leading-tight text-gray-800 transition duration-300 ease-in-out transform bg-white border border-[#51ff85] rounded appearance-none focus:outline-none focus:bg-white "
-            style={{
-              boxShadow: "rgba(0, 0, 0, 0.15) 0px 5px 15px 0px",
-            }}
+            className="comment-content block w-full py-4 mb-3 leading-tight text-gray-800 transition duration-300 ease-in-out transform bg-white border border-gray-300   hover:border-gray-400  rounded appearance-none focus:outline-none focus:bg-white "
+
             id="grid-first-name"
             name="cancellationFee"
             placeholder={t("CANCELLATION_FEE")}

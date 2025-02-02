@@ -62,12 +62,12 @@ const ScoreBoard: FunctionComponent = () => {
   }, []);
   return (
     <div>
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl  mx-auto">
 
         <EventDetails />
 
         {singleEvent?.scoringType !== "Normal" && (
-          <div className="grid  w-full p-0 xl: xl:w-[1200px] mx-auto mt-[100px]">
+          <div className="grid  w-full p-0  mx-auto mt-[110px]">
             {scoreLoading ? (
               <div className="flex justify-center items-center ">
                 <div>
@@ -85,7 +85,7 @@ const ScoreBoard: FunctionComponent = () => {
                   {topThreeScoresWithPosition?.map((item: any) => {
                     return <ScoreSlider item={item} />;
                   })}
-                </FlexitySlider> : <div className="flex self-center w-full p-16 py-4 justify-around xl:w-[1200px] mx-auto">{topThreeScoresWithPosition?.map((item: any) => {
+                </FlexitySlider> : <div className="flex self-center w-full p-16 py-10 justify-around xl:w-[1200px] mx-auto">{topThreeScoresWithPosition?.map((item: any) => {
                   return <ScoreSlider item={item} />;
                 })}
                 </div>
@@ -127,7 +127,7 @@ const ScoreBoard: FunctionComponent = () => {
 
         {(singleEvent?.scoringType !== "Regular" && singleEvent?.scoringType !== "Normal" && (score?.length > 0)) && (
           <>
-            <div className="max-w-7xl mx-auto">
+            <div className="max-w-6xl mx-auto">
               <LeaderBoardTables />
               <LeaderBoardIndiviualPlayerScore />
 
@@ -138,15 +138,15 @@ const ScoreBoard: FunctionComponent = () => {
 
 
         {singleEvent?.id && (
-          <table className="lg:w-[1200px] max-w-5xl mx-auto my-3">
+          <table className="w-full max-w-5xl xl:max-w-6xl mx-auto my-6">
             <CommentModel eventIsd={singleEvent?.id} closeModal={() => { }} />
           </table>
         )}
-         <div className="w-full lg:w-[1200px] max-w-5xl lg:mx-auto">
+         <div className="w-full  max-w-5xl xl:max-w-6xl lg:mx-auto">
          <AllMembers/>
          </div>
        
-        <div className="w-full lg:w-[1200px] max-w-5xl lg:mx-auto mb-7">
+        <div className="w-full  max-w-5xl xl:max-w-6xl lg:mx-auto mb-7">
           <AboutEvent totalJoinedMembers={totalJoinedMembers} />
         </div>
       </div>

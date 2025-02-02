@@ -14,10 +14,10 @@ const LeaderBoardIndiviualPlayerScore: FunctionComponent = () => {
 
   return (
     shouldShowPlayerScore && (
-      <div className="my-10 mx-6 xl:mx-0 xl:my-[200px] relative">
+      <div className="my-5 mx-6 xl:mx-0 xl:my-[100px] relative">
         <div className="hidden xl:flex gap-2 items-center">
           <img src="/img/golfplyr.png" alt="" width="40px" />
-          <b className="text-xl lg:text-17xl text-darkslateblue-300 leading-[18px] [text-shadow:0px_7px_4px_#ccf2fe]">
+          <b className="text-xl lg:text-2xl text-darkslateblue-300 leading-[18px] ">
             {t("INDIVIUAL_SCORE")}
           </b>
         </div>
@@ -27,7 +27,7 @@ const LeaderBoardIndiviualPlayerScore: FunctionComponent = () => {
           {/* Driver Contest Section */}
           <div className="flex-1">
             <div className="flex items-center justify-center h-[80px] bg-[#0AA3BC]">
-              <div className="font-medium text-white text-13xl">
+              <div className="font-medium text-white text-2xl">
                 {t("DRIVE_CONTEXT")}{" "}
                 <span className="bg-white text-black rounded-full h-4 w-4 p-2">
                   {singleEvent?.driverContest ?? "0"}
@@ -53,7 +53,7 @@ const LeaderBoardIndiviualPlayerScore: FunctionComponent = () => {
           {/* Near Pin Contest Section */}
           <div className="flex-1">
             <div className="flex items-center justify-center h-[80px] bg-[#0AA3BC]">
-              <div className="font-medium text-white text-13xl">
+              <div className="font-medium text-white text-2xl">
                 {t("NEAR_CONTEXT")}{" "}
                 <span className="bg-white text-black rounded-full h-4 w-4 p-2">
                   {singleEvent?.nearPinContest ?? "0"}
