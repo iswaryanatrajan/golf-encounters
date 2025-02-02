@@ -123,12 +123,12 @@ export default function AllMembers() {
   };
 
   return (
-    <div className="px-4 max-w-6xl mx-auto sm:px-6 lg:px-8 py-4 rounded-lg my-10">
+    <div className="max-w-7xl mx-auto py-2 rounded-lg my-2">
       <div className="flex flex-col justify-center py-4 px-10 mt-10 shadow-[0px_0px_10px_rgba(0,_0,_0,_0.25)] rounded-lg">
         {/* Header Section */}
         <div className="hidden xl:flex gap-2 items-center">
-          <img src="/img/golfplyr.png" alt="Golf Player" width="40px" />
-          <b className="text-xl lg:text-17xl text-darkslateblue-300 leading-[18px] [text-shadow:0px_7px_4px_#ccf2fe]">
+          <img src="/img/golfplyr.png" alt="Golf Player" width="30px" />
+          <b className="text-xl lg:text-2xl text-darkslateblue-300 leading-[18px] [text-shadow:0px_7px_4px_#ccf2fe]">
             {t("ALL_MEMBERS")}
           </b>
         </div>
@@ -161,8 +161,8 @@ export default function AllMembers() {
         */}
 
         {/* Confirmed Members Section */}
-        <div className="mb-8">
-          <h2 className="px-4 py-2 xl:py-4 text-[18px] xl:text-[20px] xl:font-bold bg-[#17b3a6] text-white">
+        <div className="mb-4">
+          <h2 className="px-4 py-2 xl:py-3 text-[13px] xl:text-[15px] xl:font-bold bg-[#17b3a6] text-white">
             {t("Confirmed Members")}
           </h2>
           <table className="w-full mt-2">
@@ -189,7 +189,7 @@ export default function AllMembers() {
 
                       return (
                         <tr key={player.id} className="border-b">
-                          <td className="px-3 py-4 text-sm text-gray-500">
+                          <td className="px-3 py-2 text-sm text-gray-500">
                             <div className="flex items-center">
                               <img
                                 className="h-10 w-10 rounded-full"
@@ -203,7 +203,7 @@ export default function AllMembers() {
                               </div>
                             </div>
                           </td>
-                          <td className="px-3 py-4 text-right">
+                          <td className="px-3 py-2 text-right">
                             {isCreated && (
                               <button
                                 className="flex items-center gap-1 cursor-pointer bg-transparent border border-solid border-[#e74c3c] text-[#e74c3c] rounded-lg my-2 py-1 px-2"
@@ -228,14 +228,14 @@ export default function AllMembers() {
                   )
                 ) : (
                   <tr>
-                    <td className="px-3 py-4 text-lg text-gray-500 text-center" colSpan={2}>
+                    <td className="px-3 py-2 text-lg text-gray-500 text-center" colSpan={2}>
                       {t("No confirmed members")}
                     </td>
                   </tr>
                 )
               ) : (
                 <tr>
-                  <td className="px-3 py-4 text-lg text-gray-500 text-center" colSpan={2}>
+                  <td className="px-3 py-2 text-lg text-gray-500 text-center" colSpan={2}>
                     {t("No confirmed members")}
                   </td>
                 </tr>
@@ -246,7 +246,7 @@ export default function AllMembers() {
 
         {/* Waiting Members Section */}
         <div>
-          <h2 className="px-4 py-2 xl:py-4 text-[18px] xl:text-[20px] xl:font-bold bg-[#17b3a6] text-white">
+          <h2 className="px-4 py-2 xl:py-3 text-[13px] xl:text-[15px] xl:font-bold bg-[#17b3a6] text-white">
             {t("Waiting Members")}
           </h2>
           <table className="">
@@ -265,7 +265,7 @@ export default function AllMembers() {
 
                   return (
                     <tr key={player.id} className="border-b ">
-                      <td className="px-3 py-4 text-sm text-gray-500">
+                      <td className="px-3 py-2 text-sm text-gray-500">
                         <div className="flex items-center">
                           <img
                             className="h-10 w-10 rounded-full"
@@ -313,7 +313,7 @@ export default function AllMembers() {
                 })
               ) : (
                 <tr>
-                  <td className="px-3 py-4 text-lg font-medium text-gray-500 text-center" colSpan={2}>
+                  <td className="px-3 py-2 text-lg font-medium text-gray-500 text-center" colSpan={2}>
                     {t("NO_WAITING")}
                   </td>
                 </tr>

@@ -57,7 +57,7 @@ const PaymentDetails: React.FC<PaymentDetailsProps> = ({
         className="p-4 mt-4 rounded-md "
         style={{
           boxShadow:
-            "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px",
+            "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.05) 0px 2px 6px 2px",
         }}
       >
         <div className="mb-4">

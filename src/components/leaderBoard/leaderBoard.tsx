@@ -44,11 +44,11 @@ const LeaderBoardTables: FunctionComponent = () => {
       <div className="px-3 overflow-x-auto">
         <div className="hidden xl:flex gap-4">
           <img
-            className="w-[57px] h-[103px]"
+            className="w-[50px] h-[60px]"
             alt=""
             src="/img/leaderboard.png"
           />
-          <b className="relative left-[-24px] top-[35px] z-[-1] text-6xl xl:text-17xl text-darkslateblue-300 leading-[18px] [text-shadow:0px_7px_4px_#ccf2fe]">
+          <b className="relative left-[-24px] top-[35px] pl-3 z-[-1] text-xl lg:text-2xl text-darkslateblue-300 leading-[18px] ">
             {t("LEADER_BOARD")}
           </b>
         </div>
@@ -56,8 +56,8 @@ const LeaderBoardTables: FunctionComponent = () => {
           <button
             onClick={() => setShowRegularScores(true)}
             className={`xl:px-4 xl:py-2 ${showRegularScores
-              ? "bg-[#17b3a6] rounded-sm xl:p-4 cursor-pointer  border-none xl:py-4 xl:px-20 text-white text-lg"
-              : "bg-transparent border-solid border-[#17b3a6] border-2  rounded-sm p-4 cursor-pointer  py-4 px-20 text-[#17b3a6] text-lg font-bold"
+              ? "bg-[#17b3a6] rounded-md cursor-pointer  border-none py-4 px-20 xl:px-20 text-white text-sm"
+              : "bg-transparent border-solid border-[#17b3a6] border-2 py-4 px-20 rounded-md p-4 cursor-pointer  text-[#17b3a6] text-sm font-bold"
               }`}
 
           >
@@ -66,8 +66,8 @@ const LeaderBoardTables: FunctionComponent = () => {
           <button
             onClick={() => setShowRegularScores(false)}
             className={`px-4 py-2 ${!showRegularScores
-              ? "bg-[#17b3a6] rounded-sm p-4 cursor-pointer  border-none py-4 px-20 text-white text-lg"
-              : "bg-transparent border-solid border-[#17b3a6] border-2  rounded-sm p-4 cursor-pointer  py-4 px-20 text-[#17b3a6] text-lg font-bold"
+              ? "bg-[#17b3a6] rounded-md p-4 cursor-pointer  border-none py-4 px-20 text-white text-sm"
+              : "bg-transparent border-solid border-[#17b3a6] border-2  rounded-md p-4 cursor-pointer  py-4 px-20 text-[#17b3a6] text-sm font-bold"
               }`}
 
           >
@@ -81,7 +81,7 @@ const LeaderBoardTables: FunctionComponent = () => {
                 <tr className="bg-[#17B3A6] shadow-[0px_0px_13px_rgba(0,_0,_0,_0.25)] h-[63px] min-w-[182px]">
                   <LeaderBoard
                     title={t("HOLE")}
-                    className="rounded-s-[3px] font-bold text-[24px] text-start ml-4 border-[1px] border-solid border-white"
+                    className="rounded-s-[3px] font-bold text-[20px] text-start ml-4 border-[1px] border-solid border-white"
                   />
                   {Array.from({ length: 18 }, (_, index) => {
 
@@ -119,7 +119,7 @@ const LeaderBoardTables: FunctionComponent = () => {
                 <tr className="bg-[#17B3A6] shadow-[0px_0px_13px_rgba(0,_0,_0,_0.25)] h-[63px] min-w-[182px]">
                   <LeaderBoard
                     title={t("PAR")}
-                    className="rounded-s-[3px] font-bold text-[24px] text-start ml-4 border-[1px] border-solid border-white"
+                    className="rounded-s-[3px] font-bold text-[20px] text-start ml-4 border-[1px] border-solid border-white"
                   />
                   {shotsPerHoles?.map((shot: any, i: any) => (
                     <>

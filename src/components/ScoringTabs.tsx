@@ -95,11 +95,11 @@ const ScoringTabs = ({ singleEvent }: any) => {
       <div className=" mx-6 xl:mx-0 ">
       <div className="hidden xl:flex gap-4 mt-2 xl:mt-10">
           <img
-            className="w-[57px] h-[103px]"
+            className="w-[50px] h-[60px]"
             alt=""
             src="/img/leaderboard.png"
           />
-          <b className="relative left-[-24px] top-[35px] z-[-1] text-6xl xl:text-17xl text-darkslateblue-300 leading-[18px] [text-shadow:0px_7px_4px_#ccf2fe]">
+          <b className="relative left-[-24px] top-[35px] z-[-1] text-xl lg:text-2xl pl-3 text-darkslateblue-300 leading-[18px] [text-shadow:0px_7px_4px_#ccf2fe]">
             {t("TEAM_RESULT")}
           </b>
         </div>
@@ -107,8 +107,8 @@ const ScoringTabs = ({ singleEvent }: any) => {
           <div className="flex justify-end gap-2">
             <button
               className={` ${activeTab === "REGULAR"
-                  ? "bg-[#17b3a6] rounded-sm p-4 cursor-pointer  border-none py-4 px-20 text-white text-lg"
-                  : "bg-transparent border-solid border-[#17b3a6] border-2  rounded-sm p-4 cursor-pointer  py-4 px-20 text-[#17b3a6] text-lg font-bold"
+                  ? "bg-[#17b3a6] rounded-md p-4 cursor-pointer  border-none py-4 px-20 text-white text-sm"
+                  : "bg-transparent border-solid border-[#17b3a6] border-2  rounded-md p-4 cursor-pointer  py-4 px-20 text-[#17b3a6] text-sm font-bold"
                 } px-4 py-2 border rounded-full`}
               onClick={() => handleTabClick("REGULAR")}
             >
@@ -116,8 +116,8 @@ const ScoringTabs = ({ singleEvent }: any) => {
             </button>
             <button
               className={`${activeTab === "HANDICAP"
-                  ? "bg-[#17b3a6] rounded-sm p-4 cursor-pointer  border-none py-4  text-white text-lg"
-                  : "bg-transparent border-solid border-[#17b3a6] border-2  rounded-sm p-4 cursor-pointer  py-4 px-20 text-[#17b3a6] text-lg font-bold"
+                  ? "bg-[#17b3a6] rounded-md p-4 cursor-pointer  border-none py-4  text-white text-sm"
+                  : "bg-transparent border-solid border-[#17b3a6] border-2  rounded-md p-4 cursor-pointer  py-4 px-20 text-[#17b3a6] text-sm font-bold"
                 } px-4 py-2   rounded-full`}
               onClick={() => handleTabClick("HANDICAP")}
             >
@@ -136,7 +136,7 @@ const ScoringTabs = ({ singleEvent }: any) => {
                       <tr className=" bg-[#17B3A6] shadow-[0px_0px_13px_rgba(0,_0,_0,_0.25)] h-[63px] min-w-[182px]">
                         <ScoringTableColumn
                           title={t("HOLE")}
-                          className="rounded-s-[3px] font-bold text-[24px] text-center border-[1px] border-solid border-white"
+                          className="rounded-s-[3px] font-bold text-[20px] text-center border-[1px] border-solid border-white"
                         />
 
                         {Array.from({ length: 9 }, (_, index) => (
@@ -181,7 +181,7 @@ const ScoringTabs = ({ singleEvent }: any) => {
                       <tr className=" bg-[#17B3A6] shadow-[0px_0px_13px_rgba(0,_0,_0,_0.25)] h-[63px] min-w-[182px]">
                         <ScoringTableColumn
                           title={t("PAR")}
-                          className="rounded-s-[3px] font-bold text-[24px] text-center border-[1px] border-solid border-white"
+                          className="rounded-s-[3px] font-bold text-[20px] text-center border-[1px] border-solid border-white"
                         />
 
                         {firstNine?.map((index: any) => (

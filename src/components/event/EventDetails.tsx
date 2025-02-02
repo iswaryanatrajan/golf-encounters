@@ -7,12 +7,12 @@ const EventDetails: React.FC = () => {
     return (
         <div className="p-4 max-w-7xl mx-auto">
             <h2 className="text-2xl font-bold mb-4">{t('ABOUT_EVENT')}</h2>
-            <div className='relative h-[70vh] bg-cover object-contain relative'
+            <div className='relative h-[60vh] bg-cover object-contain relative'
                 style={{ backgroundImage: 'url(/img/golfer-hitting.webp)' }}
             >
                 <div className='pt-10'>
                 <div className='bg-white  px-4 py-2 rounded-lg shadow-lg mx-10 max-w-3xl xl:mx-auto  '>
-                    <h2 className='text-center leading-[20px] xl:leading-[32px] text-blue font-semibold  [text-shadow:0px_7px_4px_#17b3a6] text-xl  xl:text-4xl'>{t('EVENT_BELOW')}</h2>
+                    <h2 className='text-center leading-[27px] xl:leading-[32px] text-blue font-semibold  md:text-sm text-lg  xl:text-3xl'>{t('EVENT_BELOW')}</h2>
                 </div>
                 </div>
                 
@@ -20,19 +20,19 @@ const EventDetails: React.FC = () => {
             </div>
             <div className='relative w-full  flex justify-center xl:max-w-5xl mx-auto '>
                     <div className="bg-[#17B3A6] rounded-lg shadow-lg xl:absolute top-[-80px] w-full ">
-                        <div className='xl:flex justify-between gap-20'>
+                        <div className='xl:flex justify-around gap-20'>
                             <div className="xl:flex gap-10 items-center bg-primary-green p-4">
                                 <img
                                     src={singleEvent?.imageUrl?.map((item: any) => { item[0] }) ? singleEvent?.imageUrl[0] : "/img/BG-GOLF.jpg"}
                                     alt="Golfer"
-                                    className="w-24 h-24 rounded-full object-cover mx-10"
+                                    className="w-24 h-24 rounded-full object-cover mx-3"
                                 />
                                 <div className="text-white">
                                     <h3 className="text-xl font-semibold text-[#17B3A6] bg-white p-1 rounded-md px-4">{singleEvent?.eventType || t('EVENT_DETAILS')} </h3>
                                     <p className="text-base">{singleEvent?.eventName || t('ZOZO_CHAMPIONSHIP')}</p>
                                 </div>
                             </div>
-                            <div className="flex justify-between items-center p-4 bg-primary-teal text-white">
+                            <div className="flex  items-center p-4 bg-primary-teal text-white">
                                 <div>
                                     <span className='bg-white rounded-full text-center h-8 w-8 flex items-center justify-center mt-5 mx-2 p-2'>
                                         <svg width="16" height="24" viewBox="0 0 26 38" fill="none" xmlns="http://www.w3.org/2000/svg">
