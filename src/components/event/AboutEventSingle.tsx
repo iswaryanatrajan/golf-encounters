@@ -67,9 +67,6 @@ useEffect(() => {
 
   const embedUrl = getYoutubeEmbedUrl(singleEvent?.eventVideoUrl);
   const isEnglish = i18n.language === "en";
-
-
-
   return <div className="max-w-6xl mx-6 xl:mx-auto    mt-10 shadow-[0px_0px_10px_rgba(0,_0,_0,_0.25)] rounded-lg">
     <div className="xl:flex items-center gap-10 justify-center bg-[#17b3a6] rounded-t-lg py-4 px-8 xl:p-0">
 

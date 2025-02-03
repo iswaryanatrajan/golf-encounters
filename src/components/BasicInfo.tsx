@@ -223,10 +223,14 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
   const [inputValue, setInputValue] = useState(formData?.address || ""); // Controlled input
   const [address, setAddress] = useState(""); // Store the selected address
 
+
  // Function to convert address to lat/lng using Google Maps Geocoding API
  const geocodeAddress = (address: string) => {
   const geocoder = new google.maps.Geocoder();
   geocoder.geocode({ address }, (results, status) => {
+    console.log("Geocoding status:", status);
+    console.log("Geocoding results:", results);
+
     if (status === "OK" && results && results[0].geometry) {
       const location = results[0].geometry.location;
       const newLatLng = { lat: location.lat(), lng: location.lng() };
@@ -239,15 +243,18 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
   });
 };
 
-  // Run geocoding when the formData.address is available
-  useEffect(() => {
-    if (formData?.address) {
-      geocodeAddress(formData.address);
-      setInputValue(formData.address);
-    }
-  }, [formData.address]); // Run only when address changes
+useEffect(() => {
+  if (inputValue) {
+    geocodeAddress(inputValue);
+  }
+}, [inputValue]); // Runs when inputValue changes
 
 
+useEffect(() => {
+  if (mapCenter) {
+    console.log("Updating map with new center:", mapCenter);
+  }
+}, [mapCenter]);
 
   // Handle place change
   const onPlaceChanged = () => {
@@ -268,20 +275,31 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
 
         console.log("Selected Location:", location);
 
+
+        setFormData((prev: any) => {
+          console.log("Previous formData:", prev);
+        
+          const updatedFormData = { ...prev, address: location.address };
+        
+          console.log("Updated formData:", updatedFormData);
+        
+          return JSON.stringify(prev) !== JSON.stringify(updatedFormData) ? updatedFormData : prev;
+        });
+
+
         //setAddress(location.address || ""); // Set the address
         setInputValue(location.address);
 
-        // Update formData state
-        setFormData((prev: any) => ({
-          ...prev,
-          ...location, // Add address, latitude, and longitude to formData
-        }));
+        
 
       }
     }
   };
 
-  // Initialize autocomplete
+  useEffect(() => {
+    console.log("FormData updated:", formData);
+  }, [formData]);
+
   const onLoad = (auto: google.maps.places.Autocomplete) => {
     setAutocomplete(auto);
   };
