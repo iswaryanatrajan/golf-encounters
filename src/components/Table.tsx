@@ -451,7 +451,7 @@ const Table: React.FunctionComponent<TableProps> = ({ events }) => {
 
 
                               {/* new one */}
-                              {
+                               {!checkedJoined && (
                                 isUserIdInData ?
                                   <>
                                     {event.eventType !== "normal" && isEventOver ?
@@ -468,6 +468,7 @@ const Table: React.FunctionComponent<TableProps> = ({ events }) => {
                                           }}>{t("EVENT_END")}</div>}
                                   </> :
                                   <>
+                                  
                                     {
                                       isDeadlineOver ? <div onClick={(e) => {
                                         e.preventDefault();
@@ -480,8 +481,9 @@ const Table: React.FunctionComponent<TableProps> = ({ events }) => {
                                       }}>{t("JOIN_NOW")}</div>
                                     }
 
-
-                                  </>
+                                  )
+                                  </> 
+                      )
                               }
                             </td>
                             <td className="px-3 py-2 text-sm flex-wrap">
