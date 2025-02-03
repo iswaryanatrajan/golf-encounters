@@ -159,6 +159,7 @@ const Table: React.FunctionComponent<TableProps> = ({ events }) => {
   };
 
   const userId = localStorage.getItem("id");
+  console.log("userId:",userId)
 
   useEffect(() => {
     const handleResize = () => {
@@ -228,18 +229,35 @@ const Table: React.FunctionComponent<TableProps> = ({ events }) => {
                     </thead>
 
                     {filteredEvents?.map((event: any, index: number) => {
+                      console.log("events",filteredEvents)
                       const likes = event.likes || [];
                       const isFavorite = event.isFavorite || false;
+
+                      if (!event) {
+                        console.error(`Event at index ${index} is undefined`);
+                      }
+                    
+                      if (!event.teams) {
+                        console.log(`event.teams is undefined for event`, event);
+                      }
+                    
+                      event.teams?.forEach((team: any, teamIndex: number) => {
+                        if (!team.members) {
+                          console.error(`team.members is undefined for team at index ${teamIndex} in event`, event);
+                        }
+                      });
+
                       const liked = likes.find(
                         (like: any) =>
-                          parseInt(`${like.userId}`) === parseInt(`${userId}`)
+                          like?.userId && parseInt(`${like.userId}`) === parseInt(`${userId}`)
                       )?.counter;
-                      const isUserIdMatched = event?.teams?.some((team: any) =>
+                      const isUserIdMatched = event.teams 
+                      ?event?.teams?.some((team: any) =>
                         team?.members?.some(
-                          (member: any) => member.userId == userId
+                          (member: any) => member?.userId == userId
                         )
-                      );
-                      console.log(isUserIdMatched)
+                      ) : false;
+                      console.log("isUserIdMatched:",isUserIdMatched)
                       const currentDate = new Date();
                       const endDate = new Date(event?.eventEndDate);
                       const deadlineData = new Date(event?.eventDeadlineDate);
@@ -249,8 +267,10 @@ const Table: React.FunctionComponent<TableProps> = ({ events }) => {
                       const n = parseInt(userId || "");
 
                       const isUserIdInData = event?.teams?.some((team: any) =>
-                        team.members.some((member: any) => member.userId === n)
+                        team?.members?.some((member: any) => member?.userId === n)
                       );
+
+
                       return (
                         <React.Fragment key={index}>
                           <tr
@@ -348,7 +368,7 @@ const Table: React.FunctionComponent<TableProps> = ({ events }) => {
                                 {event.capacity * event.teamSize}
                               </p>
 
-                              {/* {checkedJoined &&
+                               {/* {checkedJoined &&
                                 event.eventType !== "normal" &&
                                 !isEventOver ? (
                                 <span
@@ -531,7 +551,7 @@ const Table: React.FunctionComponent<TableProps> = ({ events }) => {
                                     </div>
                                   </div>
                                 </div>
-                                <div className="flex w-100  gap-2 justify-center py-2 pt-4">
+                               <div className="flex w-100  gap-2 justify-center py-2 pt-4">
                                   <button
                                     className="border border-solid bg-white border-blue-500 shadow-light-all hover:bg-blue-500 hover:text-white text-blue-500 w-full font-bold py-2 px-2 rounded-md cursor-pointer"
                                     onClick={() =>
@@ -540,15 +560,15 @@ const Table: React.FunctionComponent<TableProps> = ({ events }) => {
                                   >
                                     {t("VIEW")}
                                   </button>
-                                  {event.creator.id == userId || (
+                                   {event.creatorId == userId || ( 
                                     <button
                                       className="border border-solid bg-white border-blue-500 shadow-light-all hover:bg-blue-500 hover:text-white text-blue-500 w-full font-bold py-2 px-2 rounded-md cursor-pointer whitespace-nowrap"
-                                      onClick={() => router(`/message-page/` + event.creator.id  )}
+                                      onClick={() => router(`/message-page/` + event.creatorId  )}
                                     >
                                       
                                       {t("CHAT")}
                                     </button>
-                                  )}
+                                    )}  
 
                                 </div>
                             </div>
