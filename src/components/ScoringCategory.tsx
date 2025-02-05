@@ -66,9 +66,39 @@ const ScoringCategory: React.FC<ScoringTypeProps> = ({
   const { t, i18n } = useTranslation();
   document.body.dir = i18n.dir();
   const numHoles = 18;
-  const [holeValues, setHoleValues] = useState(
+  /*const [holeValues, setHoleValues] = useState(
     Array.from({ length: numHoles }, () => 4)
-  );
+  );*/
+
+  const [holeValues, setHoleValues] = useState<number[]>([]);
+
+
+  
+
+  useEffect(() => {
+    console.log("formdataa updated:", formdataa);
+  
+    if (typeof formdataa.shotsPerHoles === "string") {
+      try {
+        const parsedHoles = JSON.parse(formdataa.shotsPerHoles);
+        console.log("Parsed holeValues:", parsedHoles);
+  
+        if (Array.isArray(parsedHoles)) {
+          setHoleValues(parsedHoles);
+        } else {
+          console.error("Invalid format: shotsPerHoles is not an array", parsedHoles);
+          setHoleValues(Array.from({ length: numHoles }, () => 4));
+        }
+      } catch (error) {
+        console.error("Error parsing shotsPerHoles:", error);
+      }
+    } else if (Array.isArray(formdataa.shotsPerHoles)) {
+      setHoleValues([...formdataa.shotsPerHoles]);
+    } else {
+      console.error("shotsPerHoles is neither a string nor an array:", formdataa.shotsPerHoles);
+      setHoleValues(Array.from({ length: numHoles }, () => 4));
+    }
+  }, [formdataa]);
 
   const handleParInputChange = (e: any, index: any) => {
     const newValue = parseInt(e.target.value);

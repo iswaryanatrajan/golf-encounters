@@ -343,7 +343,7 @@ const CreateEvent: React.FC = () => {
                   </button>
                   <button
                     onClick={handleSubmit}
-                    className=" transform transition duration-300 ease-in-out text-black bg-[#ffff] border border-[#52FF86] shadow-xl ring-blue-300  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-8 py-4 text-center me-2 mb-2 "
+                    className=" glow-on-hover text-black bg-[#ffff] border border-[#52FF86] shadow-xl ring-blue-300  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-8 py-4 text-center me-2 mb-2 "
                   >
                     {submitting ? t("CREATING_EVENT") : t("UPDATE")}
                   </button>

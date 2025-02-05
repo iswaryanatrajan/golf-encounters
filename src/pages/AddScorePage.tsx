@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { useScoreContext } from "../contexts/scoreContext";
 import { postScores } from "../utils/getAllScores";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
+import { API_ENDPOINTS } from "../appConfig";
+import axios from "axios";
 
 interface GolfScoreProps {
   onSaveScores?: (scores: number[]) => void;
@@ -338,8 +340,45 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
     const updatedPar = [...editablePar];
     updatedPar[index] = isNaN(numValue) ? updatedPar[index] : numValue;
     setEditablePar(updatedPar);
+    saveParToApi(updatedPar);
+  };
+
+  const saveParToApi = async (parArray: number[]) => {
+    const formdata = new FormData();
+    formdata.append("shotsPerHoles", JSON.stringify(parArray));
+  
+    // Include other necessary fields
+    const selectedScoringType = localStorage.getItem("score") ?? "";
+    const selectedHoles = localStorage.getItem("selected") || "[]";
+    const numberArray = JSON.parse(selectedHoles)?.map((str: string) => parseInt(str, 10));
+  
+   // formdata.append("selectedScoringType", selectedScoringType);
+   // formdata.append("selectedHoles", JSON.stringify(numberArray));
+  
+    try {
+      const response = await axios.put(API_ENDPOINTS.UPDATE_EVENT + singleEvent?.id, formdata, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
+        },
+      });
+  
+      if (response.status === 201) {
+        console.log("Par updated and event created!");
+      } else {
+        console.log("ERROR_OCCURED");
+      }
+    } catch (error) {
+     // toast.error(t("ERROR_OCCURED"));
+      console.error("Error saving par:", error);
+    }
   };
   
+  useEffect(() => {
+    localStorage.setItem("par", JSON.stringify(editablePar));
+    console.log("set-par in addscore:",localStorage.getItem("par"));
+  }, [editablePar]);
+
   const totalPar = editablePar.reduce((acc, curr) => acc + curr, 0);
 
 
@@ -399,16 +438,16 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
               </tr>
               <tr>
                 <th className="px-2 py-3">PAR
-{/*
+
                 {isCreator && (
           <PencilSquareIcon
             className="ml-2 cursor-pointer text-blue-500"
             onClick={handleEditClick}
           />
-        )}*/}
+        )}
                 </th>
 
-             {/*   {editablePar?.map((parValue: any, index: number) => (
+              {editablePar?.map((parValue: any, index: number) => (
         <th key={index} className="px-2 py-3 text-center">
           {isEditing ? ( 
             <input
@@ -421,10 +460,10 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
             parValue
           )}
         </th>
-      ))}*/}
-       {par?.map((parValue: any, index: number) => (
+      ))}
+       {/*  {par?.map((parValue: any, index: number) => (
         <th key={index} className="px-2 py-3 text-center">{parValue}</th>
-       ))}
+       ))}*/}
 
       <th className="px-2 py-3 text-center">{totalPar}</th>
 
