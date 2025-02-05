@@ -73,32 +73,35 @@ const ScoringCategory: React.FC<ScoringTypeProps> = ({
   const [holeValues, setHoleValues] = useState<number[]>([]);
 
 
-  
-
   useEffect(() => {
+    // Check if formdataa is defined and has shotsPerHoles
     console.log("formdataa updated:", formdataa);
   
-    if (typeof formdataa.shotsPerHoles === "string") {
-      try {
-        const parsedHoles = JSON.parse(formdataa.shotsPerHoles);
-        console.log("Parsed holeValues:", parsedHoles);
+    const shotsPerHoles = formdataa?.shotsPerHoles;
   
+    if (Array.isArray(shotsPerHoles)) {
+      // If shotsPerHoles is already an array, set it to holeValues
+      setHoleValues([...shotsPerHoles]);
+    } else if (typeof shotsPerHoles === "string") {
+      // If shotsPerHoles is a string, parse it into an array
+      try {
+        const parsedHoles = JSON.parse(shotsPerHoles);
         if (Array.isArray(parsedHoles)) {
           setHoleValues(parsedHoles);
         } else {
-          console.error("Invalid format: shotsPerHoles is not an array", parsedHoles);
-          setHoleValues(Array.from({ length: numHoles }, () => 4));
+          console.error("Invalid format for shotsPerHoles:", parsedHoles);
+          setHoleValues(Array.from({ length: numHoles }, () => 4)); // Default to 4
         }
       } catch (error) {
         console.error("Error parsing shotsPerHoles:", error);
+        setHoleValues(Array.from({ length: numHoles }, () => 4)); // Default to 4
       }
-    } else if (Array.isArray(formdataa.shotsPerHoles)) {
-      setHoleValues([...formdataa.shotsPerHoles]);
     } else {
-      console.error("shotsPerHoles is neither a string nor an array:", formdataa.shotsPerHoles);
+      // If no valid shotsPerHoles, default to an array of 4s
       setHoleValues(Array.from({ length: numHoles }, () => 4));
     }
-  }, [formdataa]);
+  }, [formdataa, numHoles]);
+  
 
   const handleParInputChange = (e: any, index: any) => {
     const newValue = parseInt(e.target.value);
