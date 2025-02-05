@@ -335,13 +335,24 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
     setIsEditing((prev) => !prev);
   };
   
+
+
   const handleParChange = (index: number, value: string) => {
     const numValue = Number(value);
-    const updatedPar = [...editablePar];
-    updatedPar[index] = isNaN(numValue) ? updatedPar[index] : numValue;
-    setEditablePar(updatedPar);
-    saveParToApi(updatedPar);
+  
+    // Ensure the value is a valid number (not NaN)
+    if (!isNaN(numValue)) {
+      setEditablePar((prevPar) => {
+        const updatedPar = [...prevPar];
+        updatedPar[index] = numValue; // Update the specific index
+        saveParToApi(updatedPar);
+        return updatedPar;
+      });
+  
+
+    }
   };
+  
 
   const saveParToApi = async (parArray: number[]) => {
     const formdata = new FormData();
@@ -452,7 +463,7 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
           {isEditing ? ( 
             <input
               type="number"
-              value={parValue}
+              value={parValue ?? ""}
               className="border rounded w-12 text-center"
               onChange={(e) => handleParChange(index, e.target.value)}
             />
