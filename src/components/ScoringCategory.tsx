@@ -423,11 +423,11 @@ const ScoringCategory: React.FC<ScoringTypeProps> = ({
               <div className="grid grid-cols-9 mx-auto lg:gap-x-16">
                 <div className="col-span-8  py-2 lg:col-span-12 md:col-span-5 md:mr-0 md:mb-3">
                   <h4 className="text-[#626262] hidden">{t("PLEASE_HOLE")} </h4>
-                  <div className="grid grid-cols-1 hidden gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-5">
+                  <div className="grid grid-cols-1  gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-5">
                     {Array.from({ length: 18 }, (_, index) => (
                       <div className="flex items-center my-2" key={index + 1}>
                         <div className="flex items-center gap-3">
-                          <input
+                          {/* <input
                             type="checkbox"
                             checked={formData[
                               selectedScoringType
@@ -435,7 +435,7 @@ const ScoringCategory: React.FC<ScoringTypeProps> = ({
                             onChange={(e) => handleHoleSelection(e,"regular", index)}
                             id={String(index + 1)}
                             className="p-3 shadow-lg border-solid border-2 border-[#51ff85] rounded-full"
-                          />
+                          />*/}
                           <label
                             htmlFor={String(index + 1)}
                             className="text-[#626262]"

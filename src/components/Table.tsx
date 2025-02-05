@@ -481,7 +481,7 @@ const Table: React.FunctionComponent<TableProps> = ({ events }) => {
                                       }}>{t("JOIN_NOW")}</div>
                                     }
 
-                                  )
+                                  
                                   </> 
                       )
                               }

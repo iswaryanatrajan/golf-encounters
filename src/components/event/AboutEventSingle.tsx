@@ -77,17 +77,17 @@ useEffect(() => {
     <div className="grid grid-cols-1 gap-0 ">
       <div className="text-start items-center gap-10  bg-[#D7FBF8] py-4 px-10">
         <div className="text-black text-xl font-bold basis-4"> {t('DATE')}</div>
-        <p className="py-2 ml-0  capitalize text-black xl:flex items-center gap-4"><h2 className="text-[#17B3A6] text-sm font-bold my-0 w-[180px]">{t('EVENT_DATE')}:</h2> <span className={`text-sm  text-[#000000]  `}>{t('START_FROM')} {singleEvent?.eventStartDate}  {singleEvent?.eventStartTime} <span className="ml-8">{t('TO')} </span>   <span className="text-black">{singleEvent?.
+        <p className="py-2 ml-0  capitalize text-black xl:flex items-center gap-4"><h2 className="text-[#17B3A6] text-[16px] font-bold my-0 w-[180px]">{t('EVENT_DATE')}:</h2> <span className={`text-[16px]  text-[#000000]  `}>{t('START_FROM')} {singleEvent?.eventStartDate}  {singleEvent?.eventStartTime} <span className="ml-8">{t('TO')} </span>   <span className="text-black">{singleEvent?.
           eventEndTime
         }  {singleEvent?.eventEndDate}</span></span> </p>
-        <p className="py-2 ml-0  text-lg capitalize text-black xl:flex items-center gap-4"><h2 className="text-[#17B3A6] text-sm  font-bold w-[180px]">{t('APPLICATION_DEADLINE')} :</h2> <span className={`text-sm text-[#000000]   `}>{singleEvent?.eventEndDate}</span> </p>
+        <p className="py-2 ml-0  text-lg capitalize text-black xl:flex items-center gap-4"><h2 className="text-[#17B3A6] text-[16px]  font-bold w-[180px]">{t('APPLICATION_DEADLINE')} :</h2> <span className={`text-[16px] text-[#000000]   `}>{singleEvent?.eventEndDate}</span> </p>
       </div>
       <div className=" items-center gap-10  py-4 px-10 ">
         <div className=" text-xl font-bold basis-4 text-black"> {t('EVENT_LOCATION')}</div>
-        <p className="py-2 ml-0  text-sm  capitalize text-black xl:flex items-center gap-4"><h2 className="text-[#17B3A6] text-sm font-bold my-0 w-[180px]">{t('LOCATION')} :</h2> <span className={`text-sm  text-[#000000]  `}>{singleEvent?.place}</span></p>
+        <p className="py-2 ml-0  text-[16px]  capitalize text-black xl:flex items-center gap-4"><h2 className="text-[#17B3A6] text-[16px] font-bold my-0 w-[180px]">{t('LOCATION')} :</h2> <span className={`text-[16px]  text-[#000000]  `}>{singleEvent?.place}</span></p>
         <div className="flex items-center gap-10  ">
 
-          <p className="py-2 ml-0 my-0  xl:text-[22px]  capitalize rounded-sm text-black xl:flex items-center gap-4 "><h2 className={`text-[#17B3A6] text-sm font-bold  w-[180px]`}>{t('EVENT_ADDRESS')} :</h2 ><span className={`text-sm  text-[#000000] `}>{singleEvent?.address}</span></p>
+          <p className="py-2 ml-0 my-0  xl:text-[22px]  capitalize rounded-sm text-black xl:flex items-center gap-4 "><h2 className={`text-[#17B3A6] text-[16px] font-bold  w-[180px]`}>{t('EVENT_ADDRESS')} :</h2 ><span className={`text-[16px]  text-[#000000] `}>{singleEvent?.address}</span></p>
         </div>
 
       </div>
@@ -109,15 +109,15 @@ useEffect(() => {
       </div>
       <div className=" items-center   bg-[#D7FBF8] py-4 px-10">
         <div className="text-black text-xl font-bold basis-4 "> {t('EVENT_DETAILS')}</div>
-        <p className="py-2 ml-0   capitalize text-black xl:flex items-center gap-4 text-sm "><span className={`text-[#17B3A6] text-sm font-bold  w-[180px]`}>{t('ABOUT_EVENT')} :</span><span className={`  text-[#000000]   `}>{singleEvent?.eventDetails}</span> </p>
+        <p className="py-2 ml-0   capitalize text-black xl:flex items-center gap-4 text-[16px] "><span className={`text-[#17B3A6] text-[16px] font-bold  w-[180px]`}>{t('ABOUT_EVENT')} :</span><span className={`  text-[#000000]   `}>{singleEvent?.eventDetails}</span> </p>
         <div className="flex items-center gap-10  ">
 
-          <p className="py-2 ml-0  my-0 text-sm capitalize rounded-sm text-black xl:flex items-center gap-4 "><h2 className={`text-[#17B3A6] text-sm font-bold w-[180px] `}>{t('EVENT_TYPE')}  :</h2> <span className={`  text-[#000000]   `}>{singleEvent?.
+          <p className="py-2 ml-0  my-0 text-[16px] capitalize rounded-sm text-black xl:flex items-center gap-4 "><h2 className={`text-[#17B3A6] text-[16px] font-bold w-[180px] `}>{t('EVENT_TYPE')}  :</h2> <span className={`  text-[#000000]   `}>{singleEvent?.
             eventType}</span> </p>
         </div>
         <div className="flex items-center gap-10 w-full overflow-x-scroll xl:overflow-x-auto">
-          <p className="py-2 ml-0 my-0  text-sm capitalize rounded-sm text-black xl:flex items-center gap-4">
-            <span className={`text-[#17B3A6] text-sm font-bold w-[180px]`}>
+          <p className="py-2 ml-0 my-0  text-[16px] capitalize rounded-sm text-black xl:flex items-center gap-4">
+            <span className={`text-[#17B3A6] text-[16px] font-bold w-[180px]`}>
               {t('SHORT_VIDEO')}
             </span>
             <p className={`xl:overflow-x-auto `}>
@@ -131,7 +131,7 @@ useEffect(() => {
         </div>
 
         <div className="flex items-center gap-10 w-full overflow-x-hidden xl:overflow-x-auto">
-          <p className="py-2 ml-0 my-0  text-sm capitalize rounded-sm text-black xl:flex items-center gap-4 w-full">
+          <p className="py-2 ml-0 my-0  text-[16px] capitalize rounded-sm text-black xl:flex items-center gap-4 w-full">
             {embedUrl ? (
               <div className="w-full max-w-full sm:max-w-full md:max-w-full lg:max-w-full xl:max-w-3xl">
                 <iframe
@@ -161,15 +161,15 @@ useEffect(() => {
 
     <div className="items-center gap-10 py-4 px-10">
       <div className="text-black text-xl font-bold basis-4">{t('PRICE')}</div>
-      <p className="py-2 ml-0 my-0 text-sm capitalize text-black xl:flex flex-col xl:flex-row items-center gap-4">
-        <h2 className="text-[#17B3A6] text-sm font-bold w-[180px]">{t('PARTICIPATION_FEE')} :</h2>
+      <p className="py-2 ml-0 my-0 text-[16px] capitalize text-black xl:flex flex-col xl:flex-row items-center gap-4">
+        <h2 className="text-[#17B3A6] text-[16px] font-bold w-[180px]">{t('PARTICIPATION_FEE')} :</h2>
         <span className={`text-[#000000]   `}>{singleEvent?.participationFee}</span>
       </p>
     </div>
     <div className="items-center bg-[#D7FBF8] gap-10 py-4 px-10">
       <div className="text-black text-xl font-bold basis-4 ">{t('PRICE')}</div>
-      <p className="py-2 ml-0 my-0 text-sm capitalize text-black xl:flex flex-col xl:flex-row items-center gap-4">
-        <h2 className={`text-[#17B3A6] text-sm font-bold  w-[180px]`}>{t('CANCELLATION')} :</h2>
+      <p className="py-2 ml-0 my-0 text-[16px] capitalize text-black xl:flex flex-col xl:flex-row items-center gap-4">
+        <h2 className={`text-[#17B3A6] text-[16px] font-bold  w-[180px]`}>{t('CANCELLATION')} :</h2>
         <span className={`text-[#000000]  `}>{singleEvent?.cancellationFee}</span>
       </p>
     </div>

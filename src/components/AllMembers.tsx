@@ -189,7 +189,7 @@ export default function AllMembers() {
 
                       return (
                         <tr key={player.id} className="border-b">
-                          <td className="px-3 py-2 text-sm text-gray-500">
+                          <td className="px-3 py-2 text-[16px] text-gray-500">
                             <div className="flex items-center">
                               <img
                                 className="h-10 w-10 rounded-full"
@@ -197,7 +197,7 @@ export default function AllMembers() {
                                 alt={player?.nickName || "User"}
                               />
                               <div className="ml-4">
-                                <div className="text-sm font-medium text-gray-900">
+                                <div className="text-[16px] font-medium text-gray-900">
                                   {player?.nickName}
                                 </div>
                               </div>
@@ -265,7 +265,7 @@ export default function AllMembers() {
 
                   return (
                     <tr key={player.id} className="border-b ">
-                      <td className="px-3 py-2 text-sm text-gray-500">
+                      <td className="px-3 py-2 text-[16px] text-gray-500">
                         <div className="flex items-center">
                           <img
                             className="h-10 w-10 rounded-full"
@@ -273,7 +273,7 @@ export default function AllMembers() {
                             alt={player?.nickName || "User"}
                           />
                           <div className="ml-4">
-                            <div className="text-sm font-medium text-gray-900">
+                            <div className="text-[16px] font-medium text-gray-900">
                               {player?.nickName}
                             </div>
                           </div>

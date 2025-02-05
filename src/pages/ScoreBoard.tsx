@@ -67,7 +67,7 @@ const ScoreBoard: FunctionComponent = () => {
         <EventDetails />
 
         {singleEvent?.scoringType !== "Normal" && (
-          <div className="grid  w-full p-0  mx-auto mt-[110px]">
+          <div className="grid  w-full p-0  mx-auto mt-[110px] mb-3">
             {scoreLoading ? (
               <div className="flex justify-center items-center ">
                 <div>
@@ -85,7 +85,7 @@ const ScoreBoard: FunctionComponent = () => {
                   {topThreeScoresWithPosition?.map((item: any) => {
                     return <ScoreSlider item={item} />;
                   })}
-                </FlexitySlider> : <div className="flex self-center w-full p-16 py-10 justify-around xl:w-[1200px] mx-auto">{topThreeScoresWithPosition?.map((item: any) => {
+                </FlexitySlider> : <div className="flex self-center w-full p-16 py-12 justify-around xl:w-[1200px] mx-auto">{topThreeScoresWithPosition?.map((item: any) => {
                   return <ScoreSlider item={item} />;
                 })}
                 </div>
@@ -96,7 +96,7 @@ const ScoreBoard: FunctionComponent = () => {
           className={
             singleEvent?.scoringType === "Normal"
               ? "mt-[220px]"
-              : "mt-[20px] xl:w-[1200px] mx-auto "
+              : "mt-[20px] xl:max-w-6xl mx-auto "
           }
         >
           <FinalEventGallery >

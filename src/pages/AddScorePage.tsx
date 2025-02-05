@@ -6,6 +6,7 @@ import { singleTeamsContextStore } from "../contexts/teamContext";
 import { useNavigate } from "react-router-dom";
 import { useScoreContext } from "../contexts/scoreContext";
 import { postScores } from "../utils/getAllScores";
+import { PencilSquareIcon } from "@heroicons/react/24/outline";
 
 interface GolfScoreProps {
   onSaveScores?: (scores: number[]) => void;
@@ -26,7 +27,10 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
   const newArrayHole = hole?.split(",").map(Number);
 
   const p = singleEvent ? singleEvent.shotsPerHoles : [];
+
   const par = p?.split(",").map(Number);
+  //const par = typeof p === "string" ? p.split(",").map(Number) : Array.isArray(p) ? p.map(Number) : [];
+
   const [contests, setContests] = useState<any[]>([]);
   const [pinContests, setPinContests] = useState<any[]>([]);
 
@@ -53,7 +57,8 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
     },
   ]);
 
-  const totalPar = par?.reduce((acc: number, curr: number) => acc + curr, 0);
+  //const totalPar = par?.reduce((acc: number, curr: number) => acc + curr, 0);
+ 
 
   const uId = localStorage.getItem("id");
   const isCreator = uId == singleEvent?.creatorId;
@@ -316,6 +321,28 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
     }
   };
 
+  const initialPar = typeof p === "string" ? p.split(",").map(Number) : [];
+  const [editablePar, setEditablePar] = useState<number[]>(p ? p.split(",").map(Number) : []);
+  const [isEditing, setIsEditing] = useState(false);
+  
+  useEffect(() => {
+    setEditablePar(typeof p === "string" ? p.split(",").map(Number) : []);
+  }, [p]);
+  
+  const handleEditClick = () => {
+    setIsEditing((prev) => !prev);
+  };
+  
+  const handleParChange = (index: number, value: string) => {
+    const numValue = Number(value);
+    const updatedPar = [...editablePar];
+    updatedPar[index] = isNaN(numValue) ? updatedPar[index] : numValue;
+    setEditablePar(updatedPar);
+  };
+  
+  const totalPar = editablePar.reduce((acc, curr) => acc + curr, 0);
+
+
   return (
     <div className="mx-4 xl:mx-32 ">
       <div className="flex items-center gap-10">
@@ -371,21 +398,43 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
                 )}
               </tr>
               <tr>
-                <th className="px-2 py-3">PAR</th>
-
-                {par?.map((parValue: any, index: any) => (
-                  <th key={index} className="px-2 py-3 text-center">
-                    {parValue}
-                  </th>
-                ))}
-                <th className="px-2 py-3 text-center">{totalPar}</th>
+                <th className="px-2 py-3">PAR
+{/*
                 {isCreator && (
-                  <>
-                    <th className="px-2 py-3 text-center">{totalPar}</th>
-                    <th className="px-2 py-3 text-center">{totalPar}</th>
-                  </>
-                )}
-              </tr>
+          <PencilSquareIcon
+            className="ml-2 cursor-pointer text-blue-500"
+            onClick={handleEditClick}
+          />
+        )}*/}
+                </th>
+
+             {/*   {editablePar?.map((parValue: any, index: number) => (
+        <th key={index} className="px-2 py-3 text-center">
+          {isEditing ? ( 
+            <input
+              type="number"
+              value={parValue}
+              className="border rounded w-12 text-center"
+              onChange={(e) => handleParChange(index, e.target.value)}
+            />
+          ) : (
+            parValue
+          )}
+        </th>
+      ))}*/}
+       {par?.map((parValue: any, index: number) => (
+        <th key={index} className="px-2 py-3 text-center">{parValue}</th>
+       ))}
+
+      <th className="px-2 py-3 text-center">{totalPar}</th>
+
+      {isCreator && (
+        <>
+          <th className="px-2 py-3 text-center">{totalPar}</th>
+          <th className="px-2 py-3 text-center">{totalPar}</th>
+        </>
+      )}
+    </tr>
               {isJoined && !isCreator
                 ? uniqueMembers
                   .filter((member: any) => member.userId == uId)

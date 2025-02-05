@@ -107,8 +107,8 @@ const ScoringTabs = ({ singleEvent }: any) => {
           <div className="flex justify-end gap-2">
             <button
               className={` ${activeTab === "REGULAR"
-                  ? "bg-[#17b3a6] rounded-md p-4 cursor-pointer  border-none py-4 px-20 text-white text-sm"
-                  : "bg-transparent border-solid border-[#17b3a6] border-2  rounded-md p-4 cursor-pointer  py-4 px-20 text-[#17b3a6] text-sm font-bold"
+                  ? "bg-[#17b3a6] rounded-md p-4 cursor-pointer  border-none py-4 px-20 text-white text-[16px]"
+                  : "bg-transparent border-solid border-[#17b3a6] border-2  rounded-md p-4 cursor-pointer  py-4 px-20 text-[#17b3a6] text-[16px] font-bold"
                 } px-4 py-2 border rounded-full`}
               onClick={() => handleTabClick("REGULAR")}
             >
@@ -116,8 +116,8 @@ const ScoringTabs = ({ singleEvent }: any) => {
             </button>
             <button
               className={`${activeTab === "HANDICAP"
-                  ? "bg-[#17b3a6] rounded-md p-4 cursor-pointer  border-none py-4  text-white text-sm"
-                  : "bg-transparent border-solid border-[#17b3a6] border-2  rounded-md p-4 cursor-pointer  py-4 px-20 text-[#17b3a6] text-sm font-bold"
+                  ? "bg-[#17b3a6] rounded-md p-4 cursor-pointer  border-none py-4  text-white text-[16px]"
+                  : "bg-transparent border-solid border-[#17b3a6] border-2  rounded-md p-4 cursor-pointer  py-4 px-20 text-[#17b3a6] text-[16px] font-bold"
                 } px-4 py-2   rounded-full`}
               onClick={() => handleTabClick("HANDICAP")}
             >

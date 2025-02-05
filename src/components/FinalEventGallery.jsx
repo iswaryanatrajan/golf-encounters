@@ -10,7 +10,7 @@ export const FinalEventGallery = ({ children }) => {
     const { singleEvent } = singleEventContextStore();
 
     return (
-        <div className="max-w-5xl mx-6 xl:mx-auto mt-10">
+        <div className="max-w-5xl mx-6 xl:mx-auto my-[50px]">
             <Flickity
                 className="carousel-nav"
                 options={{

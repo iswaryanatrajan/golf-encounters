@@ -248,6 +248,8 @@ export interface CreateEventType {
 }
 const SingleEventContext = React.createContext<any>({});
 
+
+
 export const SingleEventsContext = ({ children }: any) => {
   const params = useParams<{ id?: string }>();
   let eventId = params.id;
@@ -305,6 +307,13 @@ export const SingleEventsContext = ({ children }: any) => {
     },
     [message]
   );
+
+  const updatePar = (newPar: number[]) => {
+    setSingleEvent((prev: any) => ({
+      ...prev,
+      shotsPerHoles: newPar.join(","),
+    }));
+  };
 
   const value = {
     handleSingleEvent,
