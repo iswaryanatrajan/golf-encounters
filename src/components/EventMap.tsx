@@ -1,32 +1,159 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { eventContextStore } from "../contexts/eventContext"; // Ensure correct import
 
-export default function YourComponent() {
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+const API_KEY = process.env.REACT_APP_GOOGLE_API_KEY_MAPS; // ✅ Load from .env
+
+interface Event {
+  id: number;
+  creator: {
+    id: number;
+    nickName: string;
+    imageUrl: string;
+  };
+  isFavorite: boolean;
+  comments: any[];
+  eventStartDate: string;
+  eventEndDate: string;
+  eventName: string;
+  eventDetails: string;
+  eventType: string;
+  eventVideoUrl: string;
+  imageUrl: string[];
+  place: string;  // ✅ Ensure this property exists!
+}
+
+const loadGoogleMapsScript = (apiKey: string) => {
+  return new Promise((resolve, reject) => {
+    if (window.google && window.google.maps) {
+      resolve(true);
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`;
+    script.async = true;
+    script.onload = () => resolve(true);
+    script.onerror = () => reject("Google Maps API failed to load.");
+    document.body.appendChild(script);
+  });
+};
+
+const EventMap: React.FC = () => {
+  const navigate = useNavigate();
+  const { eventss }: { eventss: Event[] } = eventContextStore();
+  const [map, setMap] = useState<google.maps.Map | null>(null);
+  const [googleLoaded, setGoogleLoaded] = useState(false); 
+
 
   useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
+    const loadGoogleMapsScript = () => {
+      if (window.google && window.google.maps) {
+        setGoogleLoaded(true);
+        return;
+      }
+
+      const script = document.createElement("script");
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&libraries=places`;
+      script.async = true;
+      script.onload = () => setGoogleLoaded(true);
+      script.onerror = () => console.error("Google Maps API failed to load.");
+      document.body.appendChild(script);
     };
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
+
+    loadGoogleMapsScript();
   }, []);
 
-  const isMobile = windowWidth < 768;
+ 
 
-  return (
-    <div className="h-full col-span-4 mt-3 lg:col-span-1 animate__animated animate__fadeInLeft">
-      <iframe
-        className="col-span-4 rounded-sm sm:col-span-4"
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8181116.269949623!2d130.64039243803072!3d36.56179855912495!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34674e0fd77f192f%3A0xf54275d47c665244!2sJapan!5e0!3m2!1sen!2s!4v1700468556527!5m2!1sen!2s"
-        width="100%"
-        height={isMobile ? 400 : 885}
-        style={{ border: "0", maxWidth: "850px", margin: "auto" }}
-        allowFullScreen
-        loading="lazy"
-        referrerPolicy="no-referrer-when-downgrade"
-      ></iframe>
-    </div>
-  );
-}
+  useEffect(() => {
+    if (googleLoaded) {
+      const mapElement = document.getElementById("map");
+      if (mapElement && window.google) {
+        const newMap = new google.maps.Map(mapElement as HTMLElement, {
+          center: { lat: 35.6895, lng: 139.6917 }, // Default to Tokyo
+          zoom: 5.5,
+        });
+
+        setMap(newMap);
+      }
+    }
+  }, [googleLoaded]);
+
+  useEffect(() => {
+    if (!map || !googleLoaded) return;
+    if (map) {
+      const geocoder = new google.maps.Geocoder();
+      const locationEventsMap = new Map<string, Event[]>(); // Group events by location
+
+
+      eventss.forEach((event: Event) => {
+        if (event?.place) {
+          if (!locationEventsMap.has(event.place)) {
+            locationEventsMap.set(event.place, []);
+          }
+          locationEventsMap.get(event.place)?.push(event);
+        }
+      });
+
+      locationEventsMap.forEach((events, place) => {
+        geocodeAddress(place, geocoder, map, events);
+      });
+    }
+  }, [map, googleLoaded, eventss]);
+
+  const geocodeAddress = (address: string, geocoder: google.maps.Geocoder, map: google.maps.Map, events: Event[]) => {
+    geocoder.geocode({ address }, (results, status) => {
+      if (status === "OK" && results && results[0].geometry.location) {
+        const location = results[0].geometry.location;
+
+        const marker = new google.maps.Marker({
+          map,
+          position: location,
+        });
+
+        const infoWindow = new google.maps.InfoWindow({
+          /*content: 
+          <div>
+          <h3>📍 ${address}</h3> 
+          <hr/>
+          ${events
+            .map(
+              (e) => `<h4 class="event-link" data-id="${e.id}" style="cursor:pointer;color:blue;">
+                        ${e.eventName}
+                      </h4>`
+            )
+            .join("<hr/>")}
+        </div>
+        ,*/
+          content: events
+            .map(
+              (e) => `<h4 class="event-link" data-id="${e.id}" style="cursor:pointer;color:blue;">${e.eventName}</h4>`
+            )
+            .join("<hr/>"),
+        });
+
+        marker.addListener("click", () => {
+          infoWindow.open(map, marker);
+
+          setTimeout(() => {
+            document.querySelectorAll(".event-link").forEach((el) => {
+              el.addEventListener("click", (event) => {
+                const eventId = (event.target as HTMLElement).getAttribute("data-id");
+                if (eventId) {
+                  navigate(`/edit-team/${eventId}`); // ✅ Navigate to event details page
+                }
+              });
+            });
+          }, 100);
+        });
+      } else {
+        console.error(`Geocode failed for ${address}: ${status}`);
+      }
+    });
+  };
+
+  return <div id="map" style={{ width: "100%", height: "80%" }} />;
+};
+
+export default EventMap;

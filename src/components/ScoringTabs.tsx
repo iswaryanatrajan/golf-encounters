@@ -92,7 +92,7 @@ const ScoringTabs = ({ singleEvent }: any) => {
   // console.log(shotsPar);
   return (
     <div className=" ">
-      <div className=" mx-6 xl:mx-0 ">
+      <div className=" mx-auto xl:mx-0 ">
       <div className="hidden xl:flex gap-4 mt-2 xl:mt-10">
           <img
             className="w-[50px] h-[60px]"

@@ -45,12 +45,12 @@ const AllEvents: React.FC<AllEventsProps> = ({
     setLocalEvents(events);
   }, [events, currentPage]);
 
+ 
   // Pagination logic
   const indexOfLastEvent = currentPage * itemsPerPage;
   const indexOfFirstEvent = indexOfLastEvent - itemsPerPage;
   const currentEvents = localEvents.slice(indexOfFirstEvent, indexOfLastEvent);
   const router = useNavigate();
-
   const { eventsCount, handlePageChange,pageSize, handlePageSize,handleStartDate,handleEndDate, handleEventStatus, handleUserId } = eventContextStore();
   const totalPages = Math.ceil(eventsCount / pageSize); 
   let onPageChange = (pageNumber: any) => {
@@ -76,7 +76,7 @@ const AllEvents: React.FC<AllEventsProps> = ({
  
   return (
     <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-4">
-      <div className="col-span-1 lg:col-span-3">
+      <div className="col-span-1 lg:col-span-4">
         <Table events={currentEvents} {...status} />
         <Pagination
           currentPage={currentPage}
@@ -87,9 +87,7 @@ const AllEvents: React.FC<AllEventsProps> = ({
           isNextDisabled={currentPage === totalPages}
         />
       </div>
-      <div className="col-span-1">
-        <EventMap />
-      </div>
+
     </div>
   );
 };

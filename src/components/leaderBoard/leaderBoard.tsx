@@ -52,13 +52,14 @@ const LeaderBoardTables: FunctionComponent = () => {
             {t("LEADER_BOARD")}
           </b>
         </div>
-        <div className="flex xl:justify-end justify-center gap-4 mb-4">
+        <div className="flex xl:justify-end justify-end gap-4 mb-4">
+        <div className="flex justify-end gap-2">
           <button
             onClick={() => setShowRegularScores(true)}
             className={`xl:px-4 xl:py-2 ${showRegularScores
               ? "bg-[#17b3a6] rounded-md cursor-pointer  border-none py-4 px-20 xl:px-20 text-white text-[16px]"
               : "bg-transparent border-solid border-[#17b3a6] border-2 py-4 px-20 rounded-md p-4 cursor-pointer  text-[#17b3a6] text-[16px] font-bold"
-              }`}
+              }px-4 py-2 border rounded-full`}
 
           >
             {t("REGULAR")}
@@ -68,11 +69,12 @@ const LeaderBoardTables: FunctionComponent = () => {
             className={`px-4 py-2 ${!showRegularScores
               ? "bg-[#17b3a6] rounded-md p-4 cursor-pointer  border-none py-4 px-20 text-white text-[16px]"
               : "bg-transparent border-solid border-[#17b3a6] border-2  rounded-md p-4 cursor-pointer  py-4 px-20 text-[#17b3a6] text-[16px] font-bold"
-              }`}
+              }px-4 py-2 border rounded-full`}
 
           >
             {t("HANDICAP_SCORE")}
           </button>
+          </div>
         </div>
         {showRegularScores && (
           <div className="hidden md:block">

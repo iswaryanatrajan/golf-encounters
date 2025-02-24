@@ -336,7 +336,7 @@ const EditTeamPage: FunctionComponent = () => {
       {singleEvent?.id ?
         <div className="py-10 mx-4 ">
           <div className=" xl:max-w-[1200px] mx-auto  text-left text-lg font-poppins  ">
-            <div className="flex justify-around   mx-5  rounded-lg bg-white shadow-[0px_0px_13px_rgba(0,_0,_0,_0.25)] p-5  text-left text-xl text-white font-body-b2">
+            <div className="flex justify-around   mx-auto  rounded-lg bg-white shadow-[0px_0px_13px_rgba(0,_0,_0,_0.25)] p-5  text-left text-xl text-white font-body-b2">
               <div className="xl:flex justify-around w-full">
                 <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-[24px]">
                   <img
@@ -382,7 +382,7 @@ const EditTeamPage: FunctionComponent = () => {
               </div>
             </div>
 
-            <div id="my-slider-container" className="mx-auto my-3 max-w-7xl slider-container ">
+            <div id="my-slider-container" className="mx-auto my-10 max-w-7xl slider-container ">
               {singleEvent && singleEvent.imageUrl?.length > 1 && (
                 <Slider {...settings}>
                   {singleEvent.imageUrl.slice(0, 3).map((item: any, index: any) => {
@@ -536,7 +536,7 @@ const EditTeamPage: FunctionComponent = () => {
                   <>
                     <div className="flex justify-start text-center ">
                       <button
-                        className="py-4 text-md  lg:py-4 w-full mx-5 px-4 xl:mx-0 mt-5  font-bold  text-white uppercase bg-blue-500 rounded cursor-pointer hover:bg-blue-700"
+                        className="py-4 text-md  lg:py-4 w-full mx-auto px-4 xl:mx-auto mt-5  font-bold  text-white uppercase bg-blue-500 rounded cursor-pointer hover:bg-blue-700"
                         onClick={() => router(`/pay-now/${singleEvent?.id}`)}
                       >
                         {t('JOIN_NOW')}
@@ -568,7 +568,7 @@ const EditTeamPage: FunctionComponent = () => {
               </div>
               {singleEvent?.eventType === "チーム(team)" && (
                 <>
-                  <div className="max-w-5xl mx-6 xl:mx-auto ">
+                  <div className="max-w-5xl mx-auto xl:mx-auto ">
                     <div className="xl:flex items-center justify-between   gap-40 py-8">
                       {isCreated ? (
                         <>
@@ -580,7 +580,7 @@ const EditTeamPage: FunctionComponent = () => {
                               </b>
                             </div>
                           </div>
-                          <div className="xl:flex gap-2 place-self-end">
+                          <div className="xl:flex flex flex-wrap gap-2 items-center xl:place-self-end">
                             <div className="flex-wrap  xl:flex items-center gap-2 m-4 xl:m-0">
                               <label
                                 className="block mb-2 text-xs font-normal tracking-wide text-black capitalize"
@@ -589,7 +589,7 @@ const EditTeamPage: FunctionComponent = () => {
                                 {t('CAPACITY')}
                               </label>
                               <input
-                                className="appearance-none block w-[80px] bg-gray-200 text-green border border-[#51ff85] bg-transparent hover:animate-bounce rounded py-2 px-2 mb-0 leading-tight focus:outline-none "
+                                className="appearance-none block w-[80px] bg-gray-200 text-green border border-[#51ff85] bg-transparent rounded py-2 px-2 mb-0 leading-tight focus:outline-none "
                                 id="teamSize"
                                 type="number"
                                 name="teamSize"
@@ -621,7 +621,7 @@ const EditTeamPage: FunctionComponent = () => {
                             </div>
 
                             {isCreated && (
-                              <div className="flex justify-center ">
+                              <div className="flex">
 
                                 <button
                                   className="px-2 py-1 xl:py-2 font-normal text-white bg-blue-500 rounded hover:bg-blue-700"

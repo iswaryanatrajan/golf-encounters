@@ -246,3 +246,12 @@ a {
   margin-left: 50px; 
   width: calc(100% - 50px); 
 }
+
+/*header{
+  top: 0px;
+  z-index: 1006;
+  transform: translateY(0%);
+  position: fixed;
+  left: 50px;
+  width: calc(100% - 50px); 
+}*/

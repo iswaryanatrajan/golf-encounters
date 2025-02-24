@@ -9,6 +9,7 @@ import UpcomingEvents from "../pages/UpcomingEvents";
 import { useTranslation } from "react-i18next";
 import AllEvents from "../pages/AllEvents";
 import { eventContextStore } from "../contexts/eventContext";
+import EventMap from "../components/EventMap";
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
@@ -104,8 +105,10 @@ const Tabs: React.FC<TabsProps> = ({
     setCurrentTabs("ALL");
   };
 
+
+
   return (
-    <div className="flex flex-wrap gap-4 ">
+    <div className="flex flex-wrap flex-col gap-4 ">
       <div className="w-full animate__animated animate__fadeInLeft">
        
         <Tab.Group selectedIndex={Object.keys(categories).indexOf(currentTab)} onChange={(index) => handleTabChange(Object.keys(categories)[index])}>
@@ -113,8 +116,8 @@ const Tabs: React.FC<TabsProps> = ({
 
 
           <Tab.List className="w-auto md:w-full xl:col-span-12 items-center border-2 border-blue-500  rounded-md ">
-            <div className="grid lg:grid-cols-3 md:flex flex-wrap gap-4 xl:gap-4 py-2 lg:flex-nowrap">
-            <div className="md:flex  gap-4 xl:gap-4 py-2 lg:flex-nowrap justify-between">
+            <div className="grid lg:grid-cols-3 md:flex flex-wrap gap-4 lg:items-center xl:gap-4 py-2 lg:flex-nowrap">
+            <div className="md:flex  gap-4 xl:gap-4 py-2 lg:flex-nowrap  justify-between">
             <button
                 type="button"
                 onClick={() => setLocationPopupOpen(true)}
@@ -150,17 +153,17 @@ const Tabs: React.FC<TabsProps> = ({
                         viewBox="0 0 24 24"
                         strokeWidth="1.5"
                         stroke="red"
-                        className="w-6 h-6 ml-14 xl:ml-0"
+                        className="w-6 h-6 mx-2 xl:ml-0"
                       >
                         <path
                           strokeLinecap="round"
                           d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z"
                         />
                       </svg>
-                      <p className="w-[100px] xl:w-[50px] text-start xl:text-center px-2 xl:px-0">{t(category)}</p>
+                      <p className="w-auto xl:w-[50px] text-start xl:text-center px-2 xl:px-0">{t(category)}</p>
                     </div>
                   ) : (
-                    <p className="w-[100px] xl:w-[100px]">{t(category)}</p>
+                    <p className="w-auto xl:w-[100px]">{t(category)}</p>
                   )}
                 </Tab>
                
@@ -177,7 +180,9 @@ const Tabs: React.FC<TabsProps> = ({
                 {t("CLEAR")}
               </button>
             </div>
+         
             </div>
+
           </Tab.List>
           </div>
           {isLocationPopupOpen && (
@@ -189,7 +194,8 @@ const Tabs: React.FC<TabsProps> = ({
               sendDataToParent={handleFilterLocation}
             />
           )}
-          <div>
+          <div className="grid gap-4 mt-4 sm:grid-cols-1 lg:grid-cols-4 ">
+          <div className="col-span-1 lg:col-span-3">
             <Tab.Panels>
               <Tab.Panel key="ALL">
                 <AllEvents events={events} setEvents={setEvents} />
@@ -205,8 +211,17 @@ const Tabs: React.FC<TabsProps> = ({
               </Tab.Panel>
             </Tab.Panels>
           </div>
+          <div className="col-span-1">
+
+<EventMap />
+</div>
+</div>
         </Tab.Group>
       </div>
+
+     
+
+    
     </div>
   );
 };

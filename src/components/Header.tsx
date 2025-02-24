@@ -47,7 +47,7 @@ const Header: React.FC = () => {
 
   return (
     <div>
-      <header className="mx-4 sm:mx-20 my-4 overflow-hidden text-[#fff] bg-[#17b3a6] shadow-[0px_0px_13px_rgba(0,_0,_0,_0.25)]">
+      <header className="px-20 h-[100px]  overflow-hidden text-[#fff] bg-[#1fc3b5] shadow-[0px_0px_13px_rgba(0,_0,_0,_0.25)]">
         <nav
           className="flex justify-between  gap-x-12  px-2 py-2  lg:items-center xl:px-2 sm:justify-start"
           aria-label="Global"

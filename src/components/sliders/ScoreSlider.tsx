@@ -8,9 +8,9 @@ export const ScoreSlider = ({ item }: any) => {
     nickName && nickName?.length > 6 ? `${nickName?.substring(0, 6)}` : nickName;
   return (
     <div className="relative sajid px-4 z-[1]">
-      <div className="absolute h-[230px] transform scale-150 skew-x-[-4deg] p-2 w-[430px] left-[104px] rounded-lg bg-white shadow-[0px_0px_13px_rgba(0,_0,_0,_0.25)] z-0" />
+      <div className="xl:absolute xl:h-[230px] transform scale-150 skew-x-[-4deg] p-2 w-[430px] left-[104px] rounded-lg bg-white shadow-[0px_0px_13px_rgba(0,_0,_0,_0.25)] z-0" />
       <div className="relative z-1 bg-blue">
-        <div className="flex gap-[60px]">
+        <div className="lg:flex gap-[60px]">
           <div className="p-1">
             <h4 className="m-0 mb-3 font-base"><label className="w-[100px] inline-block">Handicap: </label>{item?.handiCapValue}</h4>
             <h4 className="m-0 mb-3"><label className="w-[100px] inline-block">Total: </label>{item?.totalScore}</h4>
@@ -32,7 +32,7 @@ export const ScoreSlider = ({ item }: any) => {
             }}
           >
             <div className="h-full">
-              <img className="object-fit border-solid border border-[#17b3a6] bg-contain " width="150px"  height="99%" src={item?.userScoreCard?.imageUrl} alt="" />
+              <img className="object-fit border-solid border border-[#17b3a6] bg-contain lg:w-[150px] w-20"   height="99%" src={item?.userScoreCard?.imageUrl} alt="" />
             </div>
             <div className="px-2">
               <h4 className="m-0 text-[#00E7FA] my-1">

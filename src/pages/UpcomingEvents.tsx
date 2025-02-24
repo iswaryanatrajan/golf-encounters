@@ -66,7 +66,7 @@ useEffect(() => {
       </div>
 
       <div>
-        <EventMap />
+         {/* <EventMap /> */ }
       </div>
     </div>
   );

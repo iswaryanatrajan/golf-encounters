@@ -141,7 +141,7 @@ const onPageChange = (pageNumber:any) => {
         />
       </div>
       <div>
-        <EventMap />
+        {/* <EventMap /> */ }
       </div>
     </div>
   );

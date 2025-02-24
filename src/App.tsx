@@ -306,7 +306,7 @@ function App() {
       <div className="">
         <Header/>
         <SideIconMenu />
-        <div className="container  xl:max-w-7xl lg:max-w-4xl md:max-w-2xl max-w-sm mx-auto px-2 md:px-0">
+        <div className="container mt-[20px] xl:max-w-7xl lg:max-w-4xl md:max-w-2xl max-w-sm mx-auto px-2 md:px-0">
         <Routes>
           <Route path="/event-main-page" element={<EventMainPage />} index />
           <Route path="/event-main-page/:userId" element={<EventMainPage />} index />

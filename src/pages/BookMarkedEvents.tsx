@@ -68,7 +68,7 @@ const BookMarkedEvents: React.FC = () => {
         />
       </div>
       <div className="col-span-3 xl:col-span-1 ">
-        <EventMap />
+      {/* <EventMap /> */ }
       </div>
     </div>
   );
