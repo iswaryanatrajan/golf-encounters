@@ -124,7 +124,7 @@ export default function AllMembers() {
 
   return (
     <div className="max-w-7xl mx-auto py-2 rounded-lg my-2">
-      <div className="flex flex-col justify-center py-4 px-10 mt-10 shadow-[0px_0px_10px_rgba(0,_0,_0,_0.25)] rounded-lg">
+      <div className="flex flex-col justify-center py-4 px-10 mt-10 shadow-[0_0_8px_rgba(0,0,0,0.12)] rounded-lg">
         {/* Header Section */}
         <div className="hidden xl:flex gap-2 items-center">
           <img src="/img/golfplyr.png" alt="Golf Player" width="30px" />

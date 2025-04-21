@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import MapComponent from "../utils/mapComponent";
 import { eventContextStore } from "../contexts/eventContext"; // Ensure correct import
 
 const API_KEY = process.env.REACT_APP_GOOGLE_API_KEY_MAPS; // ✅ Load from .env
@@ -20,7 +21,8 @@ interface Event {
   eventType: string;
   eventVideoUrl: string;
   imageUrl: string[];
-  place: string;  // ✅ Ensure this property exists!
+  place: string;  
+  address: string;
 }
 
 const loadGoogleMapsScript = (apiKey: string) => {
@@ -88,16 +90,16 @@ const EventMap: React.FC = () => {
 
 
       eventss.forEach((event: Event) => {
-        if (event?.place) {
-          if (!locationEventsMap.has(event.place)) {
-            locationEventsMap.set(event.place, []);
+        if (event?.address) {
+          if (!locationEventsMap.has(event.address)) {
+            locationEventsMap.set(event.address, []);
           }
-          locationEventsMap.get(event.place)?.push(event);
+          locationEventsMap.get(event.address)?.push(event);
         }
       });
 
-      locationEventsMap.forEach((events, place) => {
-        geocodeAddress(place, geocoder, map, events);
+      locationEventsMap.forEach((events, address) => {
+        geocodeAddress(address, geocoder, map, events);
       });
     }
   }, [map, googleLoaded, eventss]);

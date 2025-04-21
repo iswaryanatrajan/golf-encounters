@@ -336,7 +336,7 @@ const EditTeamPage: FunctionComponent = () => {
       {singleEvent?.id ?
         <div className="py-10 mx-4 ">
           <div className=" xl:max-w-[1200px] mx-auto  text-left text-lg font-poppins  ">
-            <div className="flex justify-around   mx-auto  rounded-lg bg-white shadow-[0px_0px_13px_rgba(0,_0,_0,_0.25)] p-5  text-left text-xl text-white font-body-b2">
+            <div className="flex justify-around   mx-auto  rounded-lg bg-white shadow-[0_0_8px_rgba(0,0,0,0.12)] p-5  text-left text-xl text-white font-body-b2">
               <div className="xl:flex justify-around w-full">
                 <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-[24px]">
                   <img

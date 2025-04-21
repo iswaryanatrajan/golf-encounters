@@ -12,6 +12,11 @@
   resolved "https://registry.npmjs.org/@adobe/css-tools/-/css-tools-4.3.1.tgz"
   integrity sha512-/62yikz7NLScCGAAST5SHdnjaDJQBDq0M2muyRTpf2VQhw6StBg2ALiu73zSJQ4fMVLA+0uBhBHAle7Wg+2kSg==
 
+"@aldabil/react-scheduler@^3.0.5":
+  version "3.0.5"
+  resolved "https://registry.npmjs.org/@aldabil/react-scheduler/-/react-scheduler-3.0.5.tgz"
+  integrity sha512-f/ddSMkfQ6dJXL7ywKF32lJHlIXGzqNvDfwNFCCgvgBnumKSy+52b/mjqec1iY5Rgxz6pKIs0tFKSBXp7GN0Ng==
+
 "@alloc/quick-lru@^5.2.0":
   version "5.2.0"
   resolved "https://registry.npmjs.org/@alloc/quick-lru/-/quick-lru-5.2.0.tgz"

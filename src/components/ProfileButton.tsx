@@ -53,35 +53,35 @@ export default function ProfileButton() {
           {token && user ? (
             <>
              
-                <div className=" sm:gap-2 lg:mr-8">
+                <div className=" sm:gap-2 lg:mr-2">
                   <button
                     onClick={() => handleChangeLanguage("ja")}
                     className={
-                      i18n.resolvedLanguage === "ja" ? "actives rounded-l-md p-1 h-[35px] w-[70px] cursor-pointer border-[1px] border-solid border-white" : "rounded-l-md p-[5px] h-[35px] w-[70px] cursor-pointer bg-transparent border-[1px] border-solid border-white text-white"
+                      i18n.resolvedLanguage === "ja" ? "actives rounded-l-md p-1 h-[30px] w-[60px] cursor-pointer border-[1px] border-solid border-white" : "rounded-l-md p-[5px] h-[30px] w-[60px] cursor-pointer bg-transparent border-[1px] border-solid border-white text-white"
                     }
                   >
-                    {languages.ja.displayName}
+                   {languages.ja.displayName}  
                   </button>
                   <button
                     onClick={() => handleChangeLanguage("en")}
                     className={
                       i18n.resolvedLanguage === "en"
-                        ? "actives rounded-r-md  p-[5px] py-[7px] cursor-pointer  border-solid border-white border-[1px] w-[70px] h-[35px]"
-                        : "rounded-r-md  cursor-pointer p-1 py-[7px] cursor-pointer bg-transparent border-[1px] border-solid border-white text-white w-[70px] h-[35px]"
+                        ? "actives rounded-r-md  p-[5px] py-[7px] cursor-pointer  border-solid border-white border-[1px] w-[60px] h-[30px]"
+                        : "rounded-r-md  cursor-pointer p-1 py-[7px] cursor-pointer bg-transparent border-[1px] border-solid border-white text-white w-[60px] h-[30px]"
                     }
                   >
-                    {languages.en.displayName}
+                    {languages.en.displayName} 
                   </button>
                 </div>
                 <div className="flex items-center justify-center mx-2">
                 <img
-                  className="inline-block h-8 w-8 cursor-pointer border-solid border border-[#ffffff] rounded-full p-1"
+                  className="inline-block h-6 w-6 cursor-pointer border-solid border border-[#ffffff] rounded-full p-1"
                   src={user?.imageUrl}
                   alt=""
                 />
               
-              <div className="sm:gap-2 mx-2 flex">
-                <p className="my-1 text-base font-medium text-[#fff] group-hover:text-gray-900">
+              <div className="mx-2 flex">
+                {/*<p className="my-1 text-base font-medium text-[#fff] group-hover:text-gray-900">
                 {user.nickName ? user.nickName : user.email}
                 <span
           className="top-[5px] relative cursor-pointer material-icons"
@@ -89,7 +89,19 @@ export default function ProfileButton() {
         >
           {dropdownOpen ? "expand_less" : "expand_more"}
         </span>
-                </p>
+                </p>*/}
+                <div className="flex items-center my-1 text-base font-medium text-[#fff] group-hover:text-gray-900">
+                <span className="max-w-[120px] truncate" title={user.nickName || user.email}>
+    {user.nickName ? user.nickName : user.email}
+  </span>
+  <span
+    className="relative cursor-pointer material-icons ml-1"
+    onClick={handleDotClick}
+    style={{ fontSize: "24px", lineHeight: "1" }} // Ensure line height doesn't affect alignment
+  >
+    {dropdownOpen ? "expand_less" : "expand_more"}
+  </span>
+</div>
                
 
                 <div className="relative">
@@ -280,7 +292,7 @@ export default function ProfileButton() {
             onClick={() => {
               setNotification(!notification);
             }}
-            className="hidden md:block px-6"
+            className="hidden md:block px-1"
           >
             <span>
               

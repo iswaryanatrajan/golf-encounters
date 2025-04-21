@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   format,
   startOfMonth,
@@ -38,12 +38,15 @@ export const SlotsCalendar = ({
   const endDay = endOfWeek(endOfMonth(currentMonth));
   const days = eachDayOfInterval({ start: startDay, end: endDay });
 
+  const [isDragging, setIsDragging] = useState(false);
+  const [selectedIndexes, setSelectedIndexes] = useState<number[]>([]);
+
   useEffect(() => {
     const formattedMonth = format(selectedDate, "EEEE");
     const matchedShifts = startEndDates?.flatMap(({ shifts }: any) =>
       shifts.filter(
         (shift: any) =>
-          shift.day.toLowerCase() === formattedMonth.toLowerCase()
+          shift?.day?.toLowerCase() === formattedMonth.toLowerCase()
       )
     );
     onWeekSelected(selectedDate);
@@ -83,12 +86,14 @@ export const SlotsCalendar = ({
 
     const dayOfWeek = format(day, "EEEE");
 
-    return !startEndDates.some(({ shifts }: any) =>
-      shifts.some((shift: any) => shift.day === dayOfWeek)
+    return !startEndDates.some(({ shifts = [] }: any) =>
+      Array.isArray(shifts) && shifts.some((shift: any) => shift?.day === dayOfWeek)
     );
   };
 
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+
 
   function formatDatee(inputDateString: any) {
     const date = new Date(inputDateString);
@@ -135,9 +140,12 @@ export const SlotsCalendar = ({
  const [activeStates, setActiveStates] =
     useState<boolean[][]>(initialActiveStates);
 
-  const renderTimeSlots = (date: Date) => {
 
-      const formattedDate = formatDatee(date);
+  
+
+  /*const renderTimeSlots = (date: Date) => {
+
+     const formattedDate = formatDatee(date);
     
       // Define ranges for each group
       const ranges = {
@@ -188,8 +196,11 @@ export const SlotsCalendar = ({
           );
         });
       };
+
+ 
+
     
-      const renderRange = (start: number, end: number) => {
+     const renderRange = (start: number, end: number) => {
         return Array.from({ length: end - start }, (_, i) => {
           const hourIndex = start + i;
           const hourLabel = getTimeSlotLabel(hourIndex);
@@ -214,13 +225,13 @@ export const SlotsCalendar = ({
             >
               {hourLabel}
             </button>
+
           );
         });
       };
     
       return (
         <>
-          {/* Render specific ranges */}
           <h4>8 am to 6 pm</h4>
           <div className="time-slots-8am-to-6pm mt-3 p-3 grid grid-cols-8 gap-4 overflow-auto text-center">
             
@@ -232,7 +243,140 @@ export const SlotsCalendar = ({
           <div className="time-slots-0am-to-8am mt-3 p-3 grid grid-cols-8 gap-4 overflow-auto text-center">{renderRange(ranges.midnightToMorning.start, ranges.midnightToMorning.end)}</div>
         </>
       );
+
+    };*/
+  
+    
+    const renderTimeSlots = (date: Date) => {
+      const formattedDate = formatDatee(date);
+    
+      const getTimeSlotLabel = (hourIndex: number) => {
+        const startHour = hourIndex.toString().padStart(2, "0");
+        const endHour = ((hourIndex + 1) % 24).toString().padStart(2, "0");
+        return `${startHour}:00 to ${endHour}:00`;
+      };
+    
+      const checkIsActive = (hour: string) => {
+        return startEndDates?.some(({ shifts, startDate }: any) => {
+          const dateInRange = isWithinInterval(date, {
+            start: parseISO(startDate),
+            end: parseISO(startDate),
+          });
+    
+          return (
+            dateInRange &&
+            Array.isArray(shifts) && shifts.some(
+              (shift: any) =>
+                shift.day.toLowerCase() === format(date, "EEEE").toLowerCase() &&
+                shift.startTime.includes(hour)
+            )
+          );
+        });
+      };
+    
+      const checkIsBooked = (hour: string) => {
+        return startEndDates?.some(({ shifts, startDate }: any) => {
+          const dateInRange = isWithinInterval(date, {
+            start: parseISO(startDate),
+            end: parseISO(startDate),
+          });
+    
+          return (
+            dateInRange &&
+            Array.isArray(shifts) && shifts.some(
+              (shift: any) =>
+                shift?.day?.toLowerCase() === format(date, "EEEE").toLowerCase() &&
+                shift?.startTime.includes(hour) &&
+                shift?.status === "BOOKED"
+            )
+          );
+        });
+      };
+    
+      return (
+        <div className="calendar-table max-h-[50vh] overflow-y-auto border border-gray-300 rounded">
+           {Array.from({ length: 24 }, (_, hourIndex) => {
+            const hourLabel = getTimeSlotLabel(hourIndex);
+            const isActive = checkIsActive(hourLabel);
+            const isBooked = checkIsBooked(hourLabel);
+            const isActived = activeStates[hourIndex]?.[0];
+    
+            let slotClass = "p-3 w-full text-left border-b border-[#dde3eb]";
+            if (isActive && isBooked) slotClass += " bg-red-400 text-white shadow";
+            else if (isActive && !isBooked) slotClass += " bg-blue-700 text-white shadow";
+            else if (isActived) slotClass += " bg-blue-400 text-white shadow";
+            else slotClass += " bg-white hover:bg-gray-100";
+    
+            return (
+              <div key={hourLabel} className="grid grid-cols-[80px_1fr] border-t border-gray-200">
+                <div className="p-2 text-sm text-gray-500 border-r border-b border-gray-200">{hourLabel.split(" ")[0]}</div>
+                <button
+                  className={slotClass}
+                  type="button"
+                  onClick={() => handleTimeSlotClicks(date, hourLabel, hourIndex)}
+                >
+                   <span className={`${ isActived || (isActive && !isBooked) ? "block" : "hidden group-hover:block"} transition duration-200`}>
+            {hourLabel}
+          </span>
+                </button>
+              </div>
+            );
+          })} 
+
+{/* {Array.from({ length: 24 }, (_, hourIndex) => {
+  const hourLabel = getTimeSlotLabel(hourIndex);
+  const isActive = checkIsActive(hourLabel);
+  const isBooked = checkIsBooked(hourLabel);
+  const isActived = activeStates[hourIndex]?.[0];
+  const isSelected = selectedIndexes.includes(hourIndex);
+
+  let slotClass = "group p-3 w-full text-left border-b border-[#dde3eb] select-none";
+  if (isSelected) slotClass += " bg-green-400 text-white shadow";
+  else if (isActive && isBooked) slotClass += " bg-red-400 text-white shadow";
+  else if (isActive && !isBooked) slotClass += " bg-blue-700 text-white shadow";
+  else if (isActived) slotClass += "bg-blue-400 text-white shadow";
+  else slotClass += " bg-white hover:bg-gray-100";
+
+  return (
+    <div
+      key={hourLabel}
+      className="grid grid-cols-[80px_1fr] border-t border-gray-200"
+      onMouseDown={() => {
+        setIsDragging(true);
+        setSelectedIndexes([hourIndex]);
+      }}
+      onMouseEnter={() => {
+        if (isDragging) {
+          setSelectedIndexes((prev) =>
+            prev.includes(hourIndex) ? prev : [...prev, hourIndex]
+          );
+        }
+      }}
+      onMouseUp={() => setIsDragging(false)}
+    >
+      <div className="p-2 text-sm text-gray-500 border-r border-b border-gray-200" />
+      <button
+        type="button"
+        className={slotClass}
+        onClick={() => handleTimeSlotClicks(date, hourLabel, hourIndex)}
+      >
+        <span className={`${ isActived || (isActive && !isBooked)  ? "block" : "hidden group-hover:block"} transition duration-200`}>
+          {hourLabel}
+        </span>
+      </button>
+    </div>
+  );
+})} */}
+
+        </div>
+      );
     };
+    
+    useEffect(() => {
+      const handleMouseUp = () => setIsDragging(false);
+      window.addEventListener("mouseup", handleMouseUp);
+      return () => window.removeEventListener("mouseup", handleMouseUp);
+    }, []);
     
   const handleTimeSlotClicks = (date: Date, hour: string, hourIndex: number) => {
     handleTimeSlotClick(date, hour, hourIndex)
@@ -249,8 +393,8 @@ export const SlotsCalendar = ({
 
   return (
     <>
-      <div className="w-full bg-white shadow-[0px_0px_13px_rgba(0,_0,_0,_0.25)] py-8">
-        <div className="lg:grid lg:grid-cols-4 justify-center">
+      <div className="w-full lg:flex bg-white shadow-[0px_0px_13px_rgba(0,_0,_0,_0.25)] py-8">
+        <div className="lg:grid justify-center px-4">
           <div className="lg:col-span-8 xl:col-span-9 px-4">
             <div className="flex items-center justify-between mx-2 my-2 text-gray-900">
               <div className="font-inter font-semibold text-[#009C2F]">
@@ -281,6 +425,7 @@ export const SlotsCalendar = ({
                 </div>
               ))}
               {days.map((day) => (
+               
                 <button
                   key={day.toISOString()}
                   onClick={() => handleDateClick(day)}
@@ -301,18 +446,21 @@ export const SlotsCalendar = ({
                   )}
                 >
                   <time dateTime={format(day, "yyyy-MM-dd")}>
-                    {format(day, "d MMM")}
+                    {format(day, "d")}
                   </time>
                 </button>
               ))}
             </div>
-            {click && (
+          </div>
+
+        </div>
+        <div className="lg:grid  w-[75%]">
+           {click && ( 
               <div className="mt-6">
                 {renderTimeSlots(selectedDate)}
               </div>
-            )}
+            )} 
           </div>
-        </div>
       </div>
     </>
   );

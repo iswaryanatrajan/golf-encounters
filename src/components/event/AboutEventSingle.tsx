@@ -67,7 +67,7 @@ useEffect(() => {
 
   const embedUrl = getYoutubeEmbedUrl(singleEvent?.eventVideoUrl);
   const isEnglish = i18n.language === "en";
-  return <div className="max-w-6xl mx-auto xl:mx-auto    mt-10 shadow-[0px_0px_10px_rgba(0,_0,_0,_0.25)] rounded-lg">
+  return <div className="max-w-6xl mx-auto xl:mx-auto    mt-10 shadow-[0_0_8px_rgba(0,0,0,0.12)] rounded-lg">
     <div className="xl:flex items-center gap-10 justify-center bg-[#17b3a6] rounded-t-lg py-4 px-8 xl:p-0">
 
       <h2 className="leading-[15px] xl:leading-[20px] font-semibold text-white text-3xl  "> {t('ABOUT_EVENT')}</h2>
@@ -102,6 +102,7 @@ useEffect(() => {
           referrerPolicy="no-referrer-when-downgrade"
         ></iframe> */}
  <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_API_KEY || ""}>
+ 
 <GoogleMap center={mapCenter} zoom={15} mapContainerStyle={{ width: "100%", height: "100%" }}>
         <Marker position={markerPosition} />
       </GoogleMap>

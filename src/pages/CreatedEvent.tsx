@@ -151,60 +151,71 @@ const CreatedEvents: React.FC = () => {
                         </tr>
                     </thead>
                     <tbody className="mt-2">
-                        {createdEvents?.length === 0 ? (
-                            <tr className='flex justify-center'>
-                                <td className="text-center py-4">
-                                    {t("NO_EVENT")}
-                                </td>
-                            </tr>
-                        ) : (
-                            createdEvents?.map((event: any) => (
-                                <tr key={event.id} className="bg-white" style={{
-                                    boxShadow: "rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset"
-                                }}>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-solid border-l border-r border-t border-b  border-[#e4e4e4]">{event.eventName}</td>
-                                    <td
-                                        className="px-6 py-4 whitespace-nowrap cursor-pointer text-sm text-gray-500 border-solid border-l border-r border-t border-b border-[#e4e4e4]"
-                                        onClick={() => {
-                                            navigate(`/edit-team/${event.id}/#all-members`);
-                                        }}
-                                    >
-                                        {/* Display confirmed and waiting users */}
-                                        {joinedUsers.joinedCount || 0} {t("confirmed")}, {waitingUsers.length || 0} {t("waiting")}
-                                    </td>
+  {createdEvents?.length === 0 ? (
+    <tr className='flex justify-center'>
+      <td className="text-center py-4">
+        {t("NO_EVENT")}
+      </td>
+    </tr>
+  ) : (
+    [...createdEvents]
+      .sort((a, b) => new Date(b.eventStartDate).getTime() - new Date(a.eventStartDate).getTime())
+      .map((event: any) => (
+        <tr
+          key={event.id}
+          className="bg-white"
+          style={{
+            boxShadow: "rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset"
+          }}
+        >
+          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border border-[#e4e4e4]">
+            {event.eventName}
+          </td>
+          <td
+            className="px-6 py-4 whitespace-nowrap cursor-pointer text-sm text-gray-500 border border-[#e4e4e4]"
+            onClick={() => navigate(`/edit-team/${event.id}/#all-members`)}
+          >
+            {joinedUsers.joinedCount || 0} {t("confirmed")}, {waitingUsers.length || 0} {t("waiting")}
+          </td>
+          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border border-[#e4e4e4]">
+            {event.eventStartTime}
+          </td>
+          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border border-[#e4e4e4]">
+            {event.eventStartDate}
+          </td>
+          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border border-[#e4e4e4]">
+            {event.eventEndTime}
+          </td>
+          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border border-[#e4e4e4]">
+            {event.eventEndDate}
+          </td>
+          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border border-[#e4e4e4] text-start xl:flex gap-4 ">
+            <Link className='flex items-center gap-1 hover:text-[#054a51]' to={`/edit-team/${event.id}`}>
+              <EyeIcon className="w-6 h-6 text-[#17b3a6] hover:text-[#054a51]" onClick={() => handleCogIconClick(event)} /> {t("VIEW")}
+            </Link>
+            <button
+              className='bg-transparent flex items-center cursor-pointer gap-1 hover:text-green'
+              type="button"
+              onClick={() => handleEditScore(event.id)}
+            >
+              <PencilSquareIcon className='w-6 h-6 text-[green]' /> {t("EDITSCORE")}
+            </button>
+            <button
+              className='bg-transparent flex items-center cursor-pointer gap-1 hover:text-red'
+              type="button"
+              onClick={() => handleDeleteClick(event)}
+            >
+              <TrashIcon className='w-6 h-6 text-[red]' /> {t("DELETE")}
+            </button>
+            <Link className='cursor-pointer flex items-center gap-1 hover:text-green' to={`/edit-event/${event.id}`}>
+              <PencilSquareIcon className='w-6 h-6 cursor-pointer' />{t("EDIT")}
+            </Link>
+          </td>
+        </tr>
+      ))
+  )}
+</tbody>
 
-
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-solid border-l border-r border-t border-b  border-[#e4e4e4]">{event.eventStartTime}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-solid border-l border-r border-t border-b  border-[#e4e4e4]">{event.eventStartDate}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-solid border-l border-r border-t border-b  border-[#e4e4e4]">{event.eventEndTime}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-solid border-l border-r border-t border-b  border-[#e4e4e4]">{event.eventEndDate}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-solid border-l border-r border-t border-b  border-[#e4e4e4] text-start xl:flex gap-4 ">
-                                        <Link className='flex items-center gap-1 hover:text-[#054a51]' to={`/edit-team/${event.id}`}>
-                                            <EyeIcon className="w-6 h-6 text-[#17b3a6] hover:text-[#054a51]" onClick={() => handleCogIconClick(event)} /> {t("VIEW")}
-                                        </Link>
-                                        <button
-                                            className='bg-transparent flex items-center cursor-pointer gap-1 hover:text-green'
-                                            type="button"
-                                            onClick={() => handleEditScore(event.id)}
-                                        >
-                                            <PencilSquareIcon className='w-6 h-6 text-[green]' /> {t("EDITSCORE")}
-                                        </button>
-
-
-                                        <button
-                                            className='bg-transparent flex items-center cursor-pointer gap-1 hover:text-red'
-                                            type="button"
-                                            onClick={() => handleDeleteClick(event)}>
-                                            <TrashIcon className='w-6 h-6 text-[red]' /> {t("DELETE")}
-                                        </button>
-
-                                        <Link className='cursor-pointer flex items-center gap-1  hover:text-green' to={`/edit-event/${event.id}`}><PencilSquareIcon className='w-6 h-6 cursor-pointer' />{t("EDIT")}</Link>
-
-                                    </td>
-                                </tr>
-                            ))
-                        )}
-                    </tbody>
                 </table>
                 <CreatedEventPagination
                     currentPage={currentPage}

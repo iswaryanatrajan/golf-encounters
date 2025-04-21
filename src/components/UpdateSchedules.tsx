@@ -624,7 +624,7 @@ const updateSchedules: React.FC = () => {
               <>
                 <div key={index} className="snap-start bg-white shadow-[0px_0px_13px_rgba(0,_0,_0,_0.25)] p-5 md:p-[23px] rounded-lg p-4 w-[200px] ">
                   <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-sm font-bold">{schedule.startDate} {t(`${schedule.shifts[0].day.toUpperCase()}`)} </h2>
+                    <h2 className="text-sm font-bold">{schedule.startDate} {t(`${schedule.shifts[0]?.day?.toUpperCase()}`)} </h2>
                     {!schedule.shifts.length && <button
                       onClick={() => handleScheduleDelete(schedule?.id)}
                       className="bg-transparent hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
@@ -656,7 +656,7 @@ const updateSchedules: React.FC = () => {
                           </button> : <button
 
 
-                            className="bg-red hover:bg-red-700 text-white font-bold py-1 cursor-pointer rounded "
+                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 cursor-pointer rounded "
                             onClick={() => handleShiftDelete(shift.id)}
 
                           >

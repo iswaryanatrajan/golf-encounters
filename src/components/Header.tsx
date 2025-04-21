@@ -47,34 +47,31 @@ const Header: React.FC = () => {
 
   return (
     <div>
-      <header className="px-20 h-[100px]  overflow-hidden text-[#fff] bg-[#1fc3b5] shadow-[0px_0px_13px_rgba(0,_0,_0,_0.25)]">
+      <header className="xl:px-20 px-5 py-2 h-[55px] text-[0.9rem] overflow-hidden text-[#fff] bg-[#1fc3b5] shadow-[0px_0px_13px_rgba(0,_0,_0,_0.25)]">
         <nav
-          className="flex justify-between  gap-x-12  px-2 py-2  lg:items-center xl:px-2 sm:justify-start"
+          className="flex justify-between flex-wrap gap-x-6  px-2 py-2  lg:items-center xl:px-2 sm:justify-start"
           aria-label="Global"
         >
           <button onClick={toggleMenu} className="mr-4 lg:hidden">
             {mobileMenuOpen ? <XMarkIcon className="w-6 h-6" /> : <Bars3Icon className="w-6 h-6" />}
           </button>
 
-          <div className="hidden gap-x-8 w-max lg:flex items-center">
+          <div className="hidden gap-x-5 w-max lg:flex items-center">
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 to={item.to}
-                className={`flex items-center text-2xl w-full xl:w-auto list-none no-underline font-normal leading-6 text-[#fff] hover:text-[black] ${isActive(item.to) ? "active" : ""}`}
+                className={`flex items-center text-2xl w-full xl:w-auto list-none no-underline font-normal leading-6 p-2 text-[#fff] hover:bg-[#00897b] rounded-lg hover:text-[#fff] ${isActive(item.to) ? "active" : ""}`}
                 style={isActive(item.to) ? {
-                  background: "black",
+                  background: "#00796b",
                   color: "#ffffff",
                   fontWeight: "400",
-                  borderRadius: "5px",
-                  padding: "2px 6px",
                 } : {}}
               >
               {isSmallScreen ? (
                   <>
-                    <div className="inline text-center w-[100px]">
-                      <item.icon className="w-6 h-6 mr-2" />
-                      <br />
+                    <div className="flex items-center w-max">
+                      <item.icon className="w-4 h-4 mr-2" />
                       <span>{t(item.name.toLocaleUpperCase())}</span>
                     </div>
                   </>

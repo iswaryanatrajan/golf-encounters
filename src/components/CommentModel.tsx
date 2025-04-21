@@ -189,13 +189,18 @@ const CommentModel: React.FC<CommentModelProps> = ({ closeModal, eventIsd }) => 
       toast.error(t("ERROR_UPDATE_LIKES"));
     }
   };
+
+  const showCloseIcon = closeModal && closeModal.toString() !== "() => {}";
+
+console.log(showCloseIcon);
+console.log(closeModal);
   return (
     <>
       <td
         colSpan={8}
         id="popup-modal"
         tabIndex={-1}
-        className="p-2 max-w-7xl mx-auto  bg-white rounded-lg shadow-lg mt-[-10px] "
+        className="p-2 max-w-7xl mx-auto  bg-white rounded-lg shadow-[0_0_8px_rgba(0,0,0,0.12)] mt-[-10px] "
       >
         <div className="col-span-12 ">
           <div className="flex items-center justify-between mx-4 z-[-1]">
@@ -204,6 +209,7 @@ const CommentModel: React.FC<CommentModelProps> = ({ closeModal, eventIsd }) => 
             ) : (
               <h2 className="mx-4 text-[15px]">Recent Comments</h2>
             )}
+             {showCloseIcon && (
             <button
               type="button"
               className="flex items-center justify-center w-7 h-7 p-2 text-white bg-blue-500 rounded-full shadow-lg cursor-pointer hover:bg-blue-600 hover:text-white-900 "
@@ -227,6 +233,7 @@ const CommentModel: React.FC<CommentModelProps> = ({ closeModal, eventIsd }) => 
               </svg>
               <span className="sr-only">Close modal</span>
             </button>
+             )}
           </div>
 
           <div className="relative max-h-full p-4 ">

@@ -33,10 +33,11 @@ const AllTeacherFilters: React.FC = () => {
     setReset(true);
   }
   return (
-    <div className="text-center p-4  bg-white shadow-lg">
+    <div className="text-center p-4  bg-white shadow-[0_0_8px_rgba(0,0,0,0.12)]">
       <div className='flex justify-between items-center '>
-      <h2 className='text-start'>{t("FILTER_BY")}</h2>
-      <button className='py-2 bg-[#17b3a6] text-white rounded-sm cursor-pointer' onClick={handleClear}>{t("CLEAR_FILTER")}</button>
+      <h2 className='text-start text-xl'>{t("FILTER_BY")}</h2>
+      <button className='
+      bg-[#fff] text-blue-500 border-blue-500 border font-bold px-3 py-2 rounded cursor-pointer hover:bg-blue-500 hover:text-[#fff]' onClick={handleClear}>{t("CLEAR_FILTER")}</button>
       </div>
      
       <div>

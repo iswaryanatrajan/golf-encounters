@@ -7,7 +7,7 @@ const ChampionShipName: FunctionComponent = () => {
   const {singleEvent} =  singleEventContextStore();
 
   return (
-    <div className="flex justify-center mt-5 md:mt-20 mx-5 md:mx-[130px] rounded-lg bg-white shadow-[0px_0px_13px_rgba(0,_0,_0,_0.25)] p-5 md:p-[23px] text-left text-3xl text-white font-body-b2  animate__animated animate__backInLeft">
+    <div className="flex justify-center mt-5 md:mt-20 mx-5 rounded-lg bg-white shadow-[0px_0px_13px_rgba(0,_0,_0,_0.25)] p-5 md:p-[23px] text-left text-3xl text-white font-body-b2  animate__animated animate__backInLeft">
       <div className="w-full md:w-[1038px]  xl:flex flex-wrap md:flex-row items-center justify-center md:justify-center gap-4 md:gap-[20px] lg:gap-[182px]">
         <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-[24px]">
           <img
@@ -47,7 +47,7 @@ const ChampionShipName: FunctionComponent = () => {
             <div className="relative text-base md:text-xl  leading-[18px] text-black">
               {singleEvent?.place || t('HIROSHIMA_JAPAN')}
             </div>
-            <div className="relative text-base md:text-xl  leading-[18px] text-lightseagreen-200">
+            <div className="relative text-base md:text-md  leading-[18px] text-lightseagreen-200">
             {singleEvent?.address || t("NO_ADDRESS")}
             </div>
           </div>

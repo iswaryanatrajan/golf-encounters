@@ -18,7 +18,7 @@ const TeachersListPage: React.FC = () => {
         </div>
       ) : (
         <div className="grid grid-cols-12 gap-4">
-          <div className="col-span-12 xl:col-span-3 bg-gray-200 p-4 h-full order-last xl:order-first">
+          <div className="col-span-12 xl:col-span-3 p-4 h-full order-last xl:order-first">
             <AllTeacherFilters />
           </div>
           <div className="col-span-12 xl:col-span-9 rounded py-4 xl:px-8">
