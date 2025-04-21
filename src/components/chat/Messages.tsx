@@ -29,6 +29,7 @@ const Messages: React.FC = () => {
   const [showmessageDropdown, setShowMessageDropdown] = useState<any>(false);
   const sender = localStorage.getItem("id");
   const [editMessage, setEditMessage] = useState<any>(null);
+    const [isSending, setIsSending] = useState(false);
 
   const {
     receiver,
@@ -111,15 +112,23 @@ const Messages: React.FC = () => {
   // Function to send a new message
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newMessage.trim()) return;
-
+    if (!newMessage.trim() || isSending) return;
+    setIsSending(true); 
+    console.log("isSending:",isSending);
     const formData = {
       newMessage: newMessage.trim(),
       sender: sender,
       receiver: receiver,
     };
-    await postChat(formData, setMessages, handleLoading);
-    setNewMessage("");
+    try {
+      await postChat(formData, setMessages, handleLoading);
+      setNewMessage("");
+    } catch (error) {
+      console.error("Error sending message:", error);
+    } finally {
+      setIsSending(false); // enable the button again
+    }
+   
   };
 
   // Function to setup push notifications
@@ -468,6 +477,7 @@ const Messages: React.FC = () => {
           />
           <button
             type="submit"
+            disabled={isSending || !newMessage}
             className="w-[15%] md:w-auto mx-2 md:px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200"
           >
             <PaperAirplaneIcon className="w-5 h-5 md:w-6 md:h-6 text-white" />
