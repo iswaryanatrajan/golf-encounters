@@ -247,6 +247,20 @@ a {
   width: calc(100% - 50px); 
 }
 
+table.leaderboard_tbl tr td {
+  position: relative;
+}
+
+table.leaderboard_tbl tr td::after {
+  content: "";
+  width: 1px;
+  height: 1.8em;
+  position: absolute;
+  top: calc(50% - 0.9em);
+  background-color: rgba(200, 200, 200, .5);
+  right: 0;
+}
+
 /*header{
   top: 0px;
   z-index: 1006;

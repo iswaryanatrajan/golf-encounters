@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import MapComponent from "../utils/mapComponent";
+//import MapComponent from "../utils/mapComponent";
 import { eventContextStore } from "../contexts/eventContext"; // Ensure correct import
 
 const API_KEY = process.env.REACT_APP_GOOGLE_API_KEY_MAPS; // ✅ Load from .env

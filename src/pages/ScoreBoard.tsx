@@ -66,7 +66,7 @@ const ScoreBoard: FunctionComponent = () => {
 
         <EventDetails />
 
-        {singleEvent?.scoringType !== "Normal" && (
+      {/**  {singleEvent?.scoringType !== "Normal" && (
           <div className="grid  w-full p-0  mx-auto mt-[110px] mb-3">
             {scoreLoading ? (
               <div className="flex justify-center items-center ">
@@ -91,12 +91,12 @@ const ScoreBoard: FunctionComponent = () => {
                 </div>
             )}
           </div>
-        )}
+        )}*/}
         <div
           className={
             singleEvent?.scoringType === "Normal"
               ? "mt-[220px]"
-              : "mt-[20px] xl:max-w-6xl mx-auto "
+              : "mt-[200px] xl:max-w-7xl mx-auto "
           }
         >
           <FinalEventGallery >

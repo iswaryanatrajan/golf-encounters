@@ -1,4 +1,4 @@
-import { GoogleMap, Marker, LoadScript } from "@react-google-maps/api";
+/*import { GoogleMap, Marker, LoadScript } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 
 const GOOGLE_API_KEY = process.env.REACT_APP_GOOGLE_API_KEY || "";
@@ -23,4 +23,4 @@ const MapComponent = ({ locations = [], zoom = 10 }) => {
   );
 };
 
-export default MapComponent;
+export default MapComponent;*/

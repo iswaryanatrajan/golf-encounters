@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+/*import React, { useState } from "react";
 import { GoogleMap, LoadScript, Marker, Autocomplete } from "@react-google-maps/api";
 
 const mapContainerStyle = {
@@ -73,4 +73,4 @@ const GoogleMapComponent = () => {
   );
 };
 
-export default GoogleMapComponent;
+export default GoogleMapComponent;*/

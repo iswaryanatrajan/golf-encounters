@@ -78,12 +78,12 @@ const LeaderBoardTables: FunctionComponent = () => {
         </div>
         {showRegularScores && (
           <div className="hidden md:block">
-            <table className="w-full border-spacing-y-[1px] ">
+            <table className="w-full border-spacing-y-[1px] leaderboard_tbl ">
               <thead className="text-left text-white">
-                <tr className="bg-[#17B3A6] shadow-[0px_0px_13px_rgba(0,_0,_0,_0.25)] h-[63px] min-w-[182px]">
+                <tr className="h-[52px] text-[#00822d]">
                   <LeaderBoard
                     title={t("HOLE")}
-                    className="rounded-s-[3px] font-bold text-[20px] text-center ml-4 border-[1px] border-solid border-white"
+                    className="rounded-s-[3px]  text-[18px] text-center ml-4 uppercase border-b-[2px] border-solid border-b-[#33333340]"
                   />
                   {Array.from({ length: 18 }, (_, index) => {
 
@@ -91,7 +91,7 @@ const LeaderBoardTables: FunctionComponent = () => {
                       <LeaderBoard
                         key={index}
                         title={`${index + 1}`}
-                        className="text-[18px] font-medium text-center border-[1px] border-solid border-white"
+                        className="text-[18px]  uppercase text-center border-b-[2px] border-solid border-b-[#33333340]"
                       />
                       {/* {
                         singleEvent.driverContest == index &&
@@ -110,22 +110,22 @@ const LeaderBoardTables: FunctionComponent = () => {
 
                   <LeaderBoard
                     title={t("TOTAL")}
-                    className="text-[18px] font-medium text-center border-[1px] border-solid border-white"
+                    className="text-[18px]  text-center uppercase border-b-[2px] border-solid border-b-[#33333340]"
                   />
                   <LeaderBoard
                     title={"Net Value"}
-                    className="text-[18px] font-medium text-center border-[1px] border-solid border-white"
+                    className="text-[18px]  text-center uppercase border-b-[2px] border-solid border-b-[#33333340]"
                   />
 
                 </tr>
-                <tr className="bg-[#17B3A6] shadow-[0px_0px_13px_rgba(0,_0,_0,_0.25)] h-[63px] min-w-[182px]">
+                <tr className=" h-[52px] text-[#00822d] ">
                   <LeaderBoard
                     title={t("PAR")}
-                    className="rounded-s-[3px] font-bold text-[20px] text-center ml-4 border-[1px] border-solid border-white"
+                    className="rounded-s-[3px] text-[18px] text-center ml-4 border-b-[2px] border-solid border-b-[#33333340]"
                   />
                   {shotsPerHoles?.map((shot: any, i: any) => (
                     <>
-                      <td key={i} className="p-2 leading-[20px] text-center border-[1px] border-solid border-white">{shot}</td>
+                      <td key={i} className="p-2 leading-[20px] text-center border-b-[2px] border-solid border-b-[#33333340]">{shot}</td>
                       {/* {
                         singleEvent.nearPinContest == i && <td key={i} className="p-2 leading-[20px] text-center border-[1px] border-solid border-white bg-[#054a51]">0</td>
                       } */}
@@ -135,27 +135,28 @@ const LeaderBoardTables: FunctionComponent = () => {
 
                     </>
                   ))}
-                  <td className="p-2 leading-[20px] text-center border-[1px] border-solid border-white ">{sum}</td>
-                  <td className="p-2 leading-[20px] text-center border-[1px] border-solid border-white">0</td>
+                  <td className="p-2 leading-[20px] text-center border-b-[2px] border-solid border-b-[#33333340]">{sum}</td>
+                  <td className="p-2 leading-[20px] text-center border-b-[2px] border-solid border-b-[#33333340]">0</td>
                 </tr>
               </thead>
-              {filteredScores?.map((scored: any, index: any) => {
+             
+                  <tbody >
+                  {filteredScores?.map((scored: any, index: any) => {
                 let arr = scored.scorePerShot;
                 arr = JSON.parse(arr);
                 return (
-                  <tbody key={index}>
-                    <tr className="bg-white shadow-[0px_0px_13px_rgba(0,_0,_0,_0.25)] h-[69px] font-medium text-black">
-                      <td className="whitespace-nowrap tracking-[1.45px] leading-[9.22px] flex items-center justify-between min-w-[182px] rounded-s-[13px]">
+                    <tr key={index} className=" h-[52px] font-medium text-black even:bg-white odd:bg-[#f6f6f6]">
+                      <td className="whitespace-nowrap flex items-center text-center justify-center rounded-s-[13px]">
                         <div
-                          className="w-[135px] text-[24px] h-[69px] px-4 flex items-center font-normal leading-5 text-black bg-[#E8F7F6] overflow-hidden"
+                          className="text-[24px] h-[52px] px-4 flex items-center text-black  overflow-hidden"
 
                         >
-                          <img
+                        {/*  <img
                             className="h-11 w-11 rounded-full mr-2"
                             src={scored?.userScoreCard?.imageUrl}
                             alt="user"
-                          />
-                          <p className="text-[14px]">
+                          /> */}
+                          <p className="text-[16px] font-medium">
                             {scored.userScoreCard?.nickName}
                           </p>
                         </div>
@@ -203,9 +204,10 @@ const LeaderBoardTables: FunctionComponent = () => {
                         className="text-[18px] font-medium text-center"
                       />
                     </tr>
-                  </tbody>
+                 
                 );
               })}
+               </tbody>
             </table>
           </div>
         )}
