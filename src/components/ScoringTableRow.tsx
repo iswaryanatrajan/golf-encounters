@@ -55,10 +55,10 @@ const ScoringTableRow: FunctionComponent<ScoringTableRowProps> = ({
 
     return (
         <tr
-            className={`h-[69px] font-medium text-black bg-[#e8f7f6] shadow-[0px_0px_13px_rgba(0,_0,_0,_0.25)] z-[-1]`}
+            className={`h-[69px] font-medium text-black z-[-1]`}
 
         >
-            <td className='cursor-pointer whitespace-nowrap pl-1 relative top-1 tracking-[1.45px] leading-[9.22px] flex items-center justify-between min-w-[182px] rounded-s-[3px] '>
+            <td className='cursor-pointer whitespace-nowrap pl-1 relative top-1 tracking-[1.45px] leading-[9.22px] flex items-center justify-between min-w-[182px] rounded-s-[3px]  h-[52px] font-medium text-black even:bg-white odd:bg-[#f6f6f6]'>
                 <div
                     className={`w-[156px] relative pl-1  rounded text-base h-[58px] flex items-center font-semibold leading-5 text-black`}
                     style={{ backgroundColor: teamBG }}
@@ -114,7 +114,7 @@ const ScoringTableRow: FunctionComponent<ScoringTableRowProps> = ({
             <td
                 className={`text-white leading-[20px] text-[18px] text-center font-medium  box-border`}
             >
-                <div className='bg-white shadow-[0px_0px_13px_rgba(0,_0,_0,_0.25)]  text-[18px] font-medium text-center text-black h-[60px] flex items-center justify-center'>
+                <div className='bg-[white] shadow-[0px_0px_13px_rgba(0,_0,_0,_0.25)]  text-[18px] font-medium text-center text-black h-[60px] flex items-center justify-center'>
                     {score1?.reduce((acc: any, val: any) => acc + val, 0)}
                 </div>
             </td>

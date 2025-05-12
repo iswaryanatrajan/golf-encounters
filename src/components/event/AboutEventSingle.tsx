@@ -4,13 +4,9 @@ import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import i18n from "../../locale";
 import { singleEventContextStore } from "../../contexts/eventContext";
 
-export const AboutEvent = ({ totalJoinedMembers }: any) => {
-  const { t } = useTranslation();
-  const { singleEvent } = singleEventContextStore();
 
-  const [selectedDays, setSelectedDays] = useState<number>(10);
-  const [cancellationFeePercentage, setCancellationFeePercentage] = useState<string>("0%");
-  const [calculatedCancellationFee, setCalculatedCancellationFee] = useState<string>("¥0");
+export const EventMap = () => {
+  const { singleEvent } = singleEventContextStore();
   const [mapCenter, setMapCenter] = useState({ lat: 35.6895, lng: 139.6917 }); // Default: Tokyo
   const [markerPosition, setMarkerPosition] = useState(mapCenter);
 
@@ -40,6 +36,54 @@ export const AboutEvent = ({ totalJoinedMembers }: any) => {
     }
   }, [isLoaded, singleEvent?.address]);
 
+  if (!isLoaded) return <div>Loading Map...</div>;
+  return(
+  <div className="xl:h-[250px]">
+        <GoogleMap center={mapCenter} zoom={15} mapContainerStyle={{ width: "100%", height: "100%" }}>
+          <Marker position={markerPosition} />
+        </GoogleMap>
+      </div>
+      );
+};
+
+export const AboutEvent = ({ totalJoinedMembers }: any) => {
+  const { t } = useTranslation();
+  const { singleEvent } = singleEventContextStore();
+
+  const [selectedDays, setSelectedDays] = useState<number>(10);
+  const [cancellationFeePercentage, setCancellationFeePercentage] = useState<string>("0%");
+  const [calculatedCancellationFee, setCalculatedCancellationFee] = useState<string>("¥0");
+  /*const [mapCenter, setMapCenter] = useState({ lat: 35.6895, lng: 139.6917 }); // Default: Tokyo
+  const [markerPosition, setMarkerPosition] = useState(mapCenter);
+
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_API_KEY || "",
+  });
+
+  const geocodeAddress = (address: string) => {
+    if (!address || !window.google) return;
+
+    const geocoder = new window.google.maps.Geocoder();
+    geocoder.geocode({ address }, (results, status) => {
+      if (status === "OK" && results && results[0].geometry) {
+        const location = results[0].geometry.location;
+        const latLng = { lat: location.lat(), lng: location.lng() };
+        setMapCenter(latLng);
+        setMarkerPosition(latLng);
+      } else {
+        console.error("Geocode was not successful:", status);
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (isLoaded && singleEvent?.address) {
+      geocodeAddress(singleEvent.address);
+    }
+  }, [isLoaded, singleEvent?.address]);*/
+
+
+
   useEffect(() => {
     const percentage = selectedDays === 5 ? 30 : selectedDays === 1 ? 50 : 0;
     setCancellationFeePercentage(`${percentage}%`);
@@ -58,13 +102,13 @@ export const AboutEvent = ({ totalJoinedMembers }: any) => {
 
   const embedUrl = getYoutubeEmbedUrl(singleEvent?.eventVideoUrl);
 
-  if (!isLoaded) return <div>Loading Map...</div>;
+  
 
   return (
     <div className="max-w-6xl mx-auto mt-10 shadow-[0_0_8px_rgba(0,0,0,0.12)] rounded-lg">
       {/* Header */}
-      <div className="xl:flex items-center gap-10 justify-center bg-[#17b3a6] rounded-t-lg py-4 px-8">
-        <h2 className="leading-[15px] xl:leading-[20px] font-semibold text-white text-3xl">{t('ABOUT_EVENT')}</h2>
+      <div className="xl:flex items-center gap-10 justify-center bg-[#17b3a6] rounded-t-lg py-2 px-8">
+        <h2 className="leading-[15px] font-semibold text-white text-2xl">{t('ABOUT_EVENT')}</h2>
         <h2 className="text-white text-xl m-0">{singleEvent?.eventName}</h2>
       </div>
 
@@ -72,54 +116,56 @@ export const AboutEvent = ({ totalJoinedMembers }: any) => {
       <div className="grid grid-cols-1">
         {/* Event Date Section */}
         <div className="text-start bg-[#D7FBF8] py-4 px-10">
-          <div className="text-black text-xl font-bold">{t('DATE')}</div>
+          <div className="text-black text-xl font-bold mb-2">{t('DATE')}</div>
           <div className="py-2 flex flex-wrap items-center gap-4 text-black">
-            <h2 className="text-[#17B3A6] text-[16px] font-bold w-[180px]">{t('EVENT_DATE')}:</h2>
+            <div className="text-[#17B3A6] text-[16px] font-bold w-[160px]">{t('EVENT_DATE')}:</div>
             <span className="text-[16px]">{t('START_FROM')} {singleEvent?.eventStartDate} {singleEvent?.eventStartTime} {t('TO')} {singleEvent?.eventEndTime} {singleEvent?.eventEndDate}</span>
           </div>
           <div className="py-2 flex flex-wrap items-center gap-4 text-black">
-            <h2 className="text-[#17B3A6] text-[16px] font-bold w-[180px]">{t('APPLICATION_DEADLINE')}:</h2>
+            <div className="text-[#17B3A6] text-[16px] font-bold w-[160px]">{t('APPLICATION_DEADLINE')}:</div>
             <span className="text-[16px]">{singleEvent?.eventEndDate}</span>
           </div>
         </div>
 
         {/* Location Section */}
         <div className="py-4 px-10">
-          <div className="text-black text-xl font-bold">{t('EVENT_LOCATION')}</div>
+          <div className="text-black text-xl font-bold mb-2">{t('EVENT_LOCATION')}</div>
           <div className="py-2 flex flex-wrap items-center gap-4 text-black">
-            <h2 className="text-[#17B3A6] text-[16px] font-bold w-[180px]">{t('LOCATION')}:</h2>
+            <div className="text-[#17B3A6] text-[16px] font-bold w-[160px]">{t('LOCATION')}:</div>
             <span className="text-[16px]">{singleEvent?.place}</span>
           </div>
           <div className="py-2 flex flex-wrap items-center gap-4 text-black">
-            <h2 className="text-[#17B3A6] text-[16px] font-bold w-[180px]">{t('EVENT_ADDRESS')}:</h2>
+            <div className="text-[#17B3A6] text-[16px] font-bold w-[160px]">{t('EVENT_ADDRESS')}:</div>
             <span className="text-[16px]">{singleEvent?.address}</span>
           </div>
         </div>
 
         {/* Google Map */}
-        <div className="xl:h-[400px]">
+       {/*  <EventMap />*/}
+       {/* <div className="xl:h-[400px]">
           <GoogleMap center={mapCenter} zoom={15} mapContainerStyle={{ width: "100%", height: "100%" }}>
             <Marker position={markerPosition} />
           </GoogleMap>
-        </div>
+
+        </div>*/}
 
         {/* Event Details Section */}
         <div className="bg-[#D7FBF8] py-4 px-10">
-          <div className="text-black text-xl font-bold">{t('EVENT_DETAILS')}</div>
+          <div className="text-black text-xl font-bold mb-2">{t('EVENT_DETAILS')}</div>
 
           <div className="py-2 flex flex-wrap items-center gap-4 text-black">
-            <h2 className="text-[#17B3A6] text-[16px] font-bold w-[180px]">{t('ABOUT_EVENT')}:</h2>
+            <div className="text-[#17B3A6] text-[16px] font-bold w-[160px]">{t('ABOUT_EVENT')}:</div>
             <span className="text-[16px]">{singleEvent?.eventDetails}</span>
           </div>
 
           <div className="py-2 flex flex-wrap items-center gap-4 text-black">
-            <h2 className="text-[#17B3A6] text-[16px] font-bold w-[180px]">{t('EVENT_TYPE')}:</h2>
+            <div className="text-[#17B3A6] text-[16px] font-bold w-[160px]">{t('EVENT_TYPE')}:</div>
             <span className="text-[16px]">{singleEvent?.eventType}</span>
           </div>
 
           {/* Short Video URL */}
           <div className="py-2 flex flex-wrap items-center gap-4 text-black overflow-x-auto">
-            <h2 className="text-[#17B3A6] text-[16px] font-bold w-[180px]">{t('SHORT_VIDEO')}:</h2>
+            <div className="text-[#17B3A6] text-[16px] font-bold w-[160px]">{t('SHORT_VIDEO')}:</div>
             <span className="text-[16px]">
               {singleEvent?.eventVideoUrl || <span className="text-gray-500">{t('NO_MOVIE_OR_VIDEO_ADDED')}</span>}
             </span>

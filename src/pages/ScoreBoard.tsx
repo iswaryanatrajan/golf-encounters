@@ -18,6 +18,7 @@ import { FlexitySlider } from "../components/sliders/FlickitySlider";
 
 import CommentModel from "../components/CommentModel";
 import { AboutEvent } from "../components/event/AboutEventSingle";
+import { EventMap } from "../components/event/AboutEventSingle";
 import { singleTeamsContextStore } from "../contexts/teamContext";
 import ScoringTabs from "../components/ScoringTabs";
 import { FinalEventGallery } from "../components/FinalEventGallery";
@@ -92,6 +93,7 @@ const ScoreBoard: FunctionComponent = () => {
             )}
           </div>
         )}*/}
+       
         <div
           className={
             singleEvent?.scoringType === "Normal"
@@ -119,6 +121,7 @@ const ScoreBoard: FunctionComponent = () => {
             }} className="cursor-pointer p-2 bg-[#17b3a6] rounded-md text-white">{t("ADD_EVENT_DETEIALS")}</button>
           </div>
         }
+     
         {
           ceremonyModel && <CeremonyModal onClose={onClose} eventId={singleEvent.id} />
         }
@@ -148,6 +151,7 @@ const ScoreBoard: FunctionComponent = () => {
        
         <div className="w-full  max-w-5xl xl:max-w-6xl lg:mx-auto mb-7">
           <AboutEvent totalJoinedMembers={totalJoinedMembers} />
+          <EventMap />
         </div>
       </div>
     </div>

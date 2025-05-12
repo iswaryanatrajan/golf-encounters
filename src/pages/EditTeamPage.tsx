@@ -19,6 +19,7 @@ import CommentModel from "../components/CommentModel";
 import { ResponsiveSliderStyles, SliderStyles } from "../components/sliderStyles";
 import NotFound from "./404";
 import { AboutEvent } from "../components/event/AboutEventSingle";
+import { EventMap } from "../components/event/AboutEventSingle";
 import { CheckBadgeIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import EventDetails from "../components/event/EventDetails";
 import AllMembers from "../components/AllMembers";
@@ -102,7 +103,7 @@ const EditTeamPage: FunctionComponent = () => {
     return (
       <div
         className={className}
-        style={{ ...style, position: 'absolute', right: '300px', zIndex: '1' }}
+        style={{ ...style, position: 'absolute', right: '125px', zIndex: '1' }}
         onClick={onClick}
       />
     );
@@ -113,7 +114,7 @@ const EditTeamPage: FunctionComponent = () => {
     return (
       <div
         className={className}
-        style={{ ...style, position: 'absolute', left: '340px', zIndex: '1' }}
+        style={{ ...style, position: 'absolute', left: '180px', zIndex: '1' }}
         onClick={onClick}
       />
     );
@@ -382,7 +383,9 @@ const EditTeamPage: FunctionComponent = () => {
               </div>
             </div>
 
-            <div id="my-slider-container" className="mx-auto my-10 max-w-7xl slider-container ">
+          <div className="grid lg:grid-cols-2 gap-4 items-center">
+            <div>
+            <div id="my-slider-container" className="mx-auto max-w-2xl slider-container h-[450px]">
               {singleEvent && singleEvent.imageUrl?.length > 1 && (
                 <Slider {...settings}>
                   {singleEvent.imageUrl.slice(0, 3).map((item: any, index: any) => {
@@ -409,6 +412,47 @@ const EditTeamPage: FunctionComponent = () => {
                 </Slider>
               )}
             </div>
+            <EventMap />
+            <div className="xl:flex justify-between ">
+                {(!isCreated && !isJoined && !isDeadlineOver) && (
+                  <>
+                    <div className="flex justify-start text-center ">
+                      <button
+                        className="py-3 text-md  lg:py-3 w-full mx-auto px-3 xl:mx-auto mt-5  font-bold  text-white uppercase bg-blue-500 rounded-md cursor-pointer hover:bg-blue-700"
+                        onClick={() => router(`/pay-now/${singleEvent?.id}`)}
+                      >
+                        {t('JOIN_NOW')}
+                      </button>
+                    </div>
+
+                  </>
+                )}
+                <Link to="/message-page">
+                  <div className="flex items-end gap-40">
+                    {(!isCreated) &&  (
+                      <>
+                        <div className=" flex justify-start text-center w-full">
+                          <button
+                            className="py-3 text-md  lg:py-3 w-full mx-5 px-3 xl:mx-0 mt-5  font-bold  text-white uppercase bg-blue-500 rounded-md cursor-pointer hover:bg-blue-700"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              router('/message-page/' + singleEvent?.creatorId)
+                            }}
+                          >
+                            {t('CHAT_ORGANIZER')}
+                          </button>
+                        </div>
+
+                      </>
+                    )}
+                  </div>
+                </Link>
+              </div>
+            </div>
+            <div className="mt-5">
+                <AboutEvent totalJoinedMembers={totalJoinedMembers} />
+              </div>
+          </div>
             {/* <EventDetails /> */}
 
 
@@ -424,9 +468,7 @@ const EditTeamPage: FunctionComponent = () => {
               {
                 ceremonyModel && <CeremonyModal onClose={setCeremonyModel} eventId={singleEvent.id} />
               }
-              <div className="mt-5">
-                <AboutEvent totalJoinedMembers={totalJoinedMembers} />
-              </div>
+              
 
               <div className="" id="all-members">
                 <AllMembers />
@@ -531,41 +573,7 @@ const EditTeamPage: FunctionComponent = () => {
                 </div>
               </div> */}
 
-              <div className="xl:flex justify-between ">
-                {(!isCreated && !isJoined && !isDeadlineOver) && (
-                  <>
-                    <div className="flex justify-start text-center ">
-                      <button
-                        className="py-4 text-md  lg:py-4 w-full mx-auto px-4 xl:mx-auto mt-5  font-bold  text-white uppercase bg-blue-500 rounded cursor-pointer hover:bg-blue-700"
-                        onClick={() => router(`/pay-now/${singleEvent?.id}`)}
-                      >
-                        {t('JOIN_NOW')}
-                      </button>
-                    </div>
-
-                  </>
-                )}
-                <Link to="/message-page">
-                  <div className="flex items-end gap-40">
-                    {(!isCreated) &&  (
-                      <>
-                        <div className=" flex justify-start text-center w-full">
-                          <button
-                            className="py-4 text-md  lg:py-4 w-full mx-5 px-4 xl:mx-0 mt-5  font-bold  text-white uppercase bg-blue-500 rounded cursor-pointer hover:bg-blue-700"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              router('/message-page/' + singleEvent?.creatorId)
-                            }}
-                          >
-                            {t('CHAT_ORGANIZER')}
-                          </button>
-                        </div>
-
-                      </>
-                    )}
-                  </div>
-                </Link>
-              </div>
+             
               {singleEvent?.eventType === "チーム(team)" && (
                 <>
                   <div className="max-w-5xl mx-auto xl:mx-auto ">
