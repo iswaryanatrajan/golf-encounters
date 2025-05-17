@@ -149,9 +149,9 @@ const ScoreBoard: FunctionComponent = () => {
          <AllMembers/>
          </div>
        
-        <div className="w-full  max-w-5xl xl:max-w-6xl lg:mx-auto mb-7">
+        <div className="w-full grid lg:grid-cols-2 gap-2 max-w-5xl xl:max-w-6xl lg:mx-auto mb-7">
+          <div className="mt-10"><EventMap/></div>
           <AboutEvent totalJoinedMembers={totalJoinedMembers} />
-          <EventMap />
         </div>
       </div>
     </div>

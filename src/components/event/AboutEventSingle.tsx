@@ -38,7 +38,7 @@ export const EventMap = () => {
 
   if (!isLoaded) return <div>Loading Map...</div>;
   return(
-  <div className="xl:h-[250px]">
+  <div className="xl:h-[100%]">
         <GoogleMap center={mapCenter} zoom={15} mapContainerStyle={{ width: "100%", height: "100%" }}>
           <Marker position={markerPosition} />
         </GoogleMap>
@@ -115,7 +115,7 @@ export const AboutEvent = ({ totalJoinedMembers }: any) => {
       {/* Content */}
       <div className="grid grid-cols-1">
         {/* Event Date Section */}
-        <div className="text-start bg-[#D7FBF8] py-4 px-10">
+        <div className="text-start  py-4 px-10">
           <div className="text-black text-xl font-bold mb-2">{t('DATE')}</div>
           <div className="py-2 flex flex-wrap items-center gap-4 text-black">
             <div className="text-[#17B3A6] text-[16px] font-bold w-[160px]">{t('EVENT_DATE')}:</div>
@@ -150,7 +150,7 @@ export const AboutEvent = ({ totalJoinedMembers }: any) => {
         </div>*/}
 
         {/* Event Details Section */}
-        <div className="bg-[#D7FBF8] py-4 px-10">
+        <div className=" py-4 px-10">
           <div className="text-black text-xl font-bold mb-2">{t('EVENT_DETAILS')}</div>
 
           <div className="py-2 flex flex-wrap items-center gap-4 text-black">
@@ -175,7 +175,7 @@ export const AboutEvent = ({ totalJoinedMembers }: any) => {
           {embedUrl && (
             <div className="w-full max-w-full xl:max-w-3xl mx-auto py-4">
               <iframe
-                className="w-full h-[45vw] md:h-[30vw] lg:h-[25vw] xl:h-[450px] max-h-[450px]"
+                className="w-full h-[45vw] md:h-[30vw] lg:h-[25vw] xl:h-[450px] "
                 src={embedUrl}
                 title="YouTube video player"
                 frameBorder="0"

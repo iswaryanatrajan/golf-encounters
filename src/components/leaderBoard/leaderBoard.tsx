@@ -59,7 +59,7 @@ const LeaderBoardTables: FunctionComponent = () => {
             className={`xl:px-4 xl:py-2 ${showRegularScores
               ? "bg-[#17b3a6] rounded-md cursor-pointer  border-none py-4 px-20 xl:px-20 text-white text-[16px]"
               : "bg-transparent border-solid border-[#17b3a6] border-2 py-4 px-20 rounded-md p-4 cursor-pointer  text-[#17b3a6] text-[16px] font-bold"
-              }px-4 py-2 border rounded-full`}
+              } px-4 py-2 border rounded-full`}
 
           >
             {t("REGULAR")}
@@ -69,7 +69,7 @@ const LeaderBoardTables: FunctionComponent = () => {
             className={`px-4 py-2 ${!showRegularScores
               ? "bg-[#17b3a6] rounded-md p-4 cursor-pointer  border-none py-4 px-20 text-white text-[16px]"
               : "bg-transparent border-solid border-[#17b3a6] border-2  rounded-md p-4 cursor-pointer  py-4 px-20 text-[#17b3a6] text-[16px] font-bold"
-              }px-4 py-2 border rounded-full`}
+              } px-4 py-2 border rounded-full`}
 
           >
             {t("HANDICAP_SCORE")}
@@ -77,7 +77,7 @@ const LeaderBoardTables: FunctionComponent = () => {
           </div>
         </div>
         {showRegularScores && (
-          <div className="hidden md:block">
+          <div className="w-full overflow-x-auto">
             <table className="w-full border-spacing-y-[1px] leaderboard_tbl ">
               <thead className="text-left text-white">
                 <tr className="h-[52px] text-[#00822d]">
@@ -212,7 +212,7 @@ const LeaderBoardTables: FunctionComponent = () => {
           </div>
         )}
         {!showRegularScores && (
-          <div className="hidden md:block">
+          <div className="w-full overflow-x-auto">
            <h4 className="flex items-center gap-2">{t("SCORING_TYPE")} : <span className="text-[#17b3a6]">{singleEvent?.scoringType}</span> </h4> 
             <table className="w-full border-spacing-y-[1px] leaderboard_tbl">
               <thead className="text-left text-white">
@@ -307,7 +307,7 @@ const LeaderBoardTables: FunctionComponent = () => {
             </table>
           </div>
         )}
-        {/* Mobile View */}
+        {/* Mobile View 
         {showRegularScores && (
           <div className="block mx-4 md:hidden">
          
@@ -315,6 +315,7 @@ const LeaderBoardTables: FunctionComponent = () => {
               <div className="text-[10px]"><p>{t("PLAYER_NO")}</p></div>
               <div className="text-[10px]"><p>{t("PLAYER_NAME")}</p></div>
               <div className="text-[10px]"><p>{t("TOTAL_SCORE")}</p></div>
+            
               <div className="text-[10px]"><p>{t("PAR_SCORE")}</p></div>
               <div className="text-[10px]"><p>{t("TOTAL_PAR")}</p></div>
             </div>
@@ -327,6 +328,7 @@ const LeaderBoardTables: FunctionComponent = () => {
                   <p className="text-[14px] text-center text-[#17B3A6] font-bold">{index + 1}</p>
                 </div>
                 <div className="text-center text-[16px] font-medium flex "><p>{scored?.userScoreCard?.nickName}</p></div>
+              
                 <div className="text-center text-[14px] flex "><p>{scored.totalScore}</p></div>
                 <div className="text-center text-[14px] flex "><p >{sum}</p></div>
                 <div className="text-center text-white font-medium text-[14px] flex justify-center items-center bg-[#17B3A6] p-1 rounded-md h-6 w-6"><p>{scored?.totalScore}</p></div>
@@ -361,7 +363,7 @@ const LeaderBoardTables: FunctionComponent = () => {
               </div>
             ))}
           </div>
-        )}
+        )} */}
       </div>
 
     </div>

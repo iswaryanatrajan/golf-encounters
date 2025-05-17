@@ -12,6 +12,8 @@ import { approveEvent, fetchSingleEvent } from "../utils/fetchEvents";
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { FinalEventGallery } from "../components/FinalEventGallery";
+import { FinalSlider } from "../components/sliders/FinalEventSlider";
 import EditTeamScore from "../components/EditTeamScore";
 import { singleEventContextStore } from "../contexts/eventContext";
 import { singleTeamsContextStore } from "../contexts/teamContext";
@@ -385,8 +387,8 @@ const EditTeamPage: FunctionComponent = () => {
 
           <div className="grid lg:grid-cols-2 gap-4 items-center">
             <div>
-            <div id="my-slider-container" className="mx-auto max-w-2xl slider-container h-[450px]">
-              {singleEvent && singleEvent.imageUrl?.length > 1 && (
+            <div id="my-slider-container" className="mx-auto max-w-2xl slider-container">
+             {/* {singleEvent && singleEvent.imageUrl?.length > 1 && (
                 <Slider {...settings}>
                   {singleEvent.imageUrl.slice(0, 3).map((item: any, index: any) => {
 
@@ -409,10 +411,19 @@ const EditTeamPage: FunctionComponent = () => {
                   }
 
                   )}
-                </Slider>
-              )}
+                </Slider> 
+              )} */}
+                 <FinalEventGallery >
+                          {singleEvent.imageUrl?.map((item: any) => {
+                            return <FinalSlider item={item} type="top" />;
+                          })}
+                          {singleEvent.imageUrl?.map((item: any) => {
+                            return <FinalSlider item={item} />;
+                          })}
+              
+                        </FinalEventGallery>
             </div>
-            <EventMap />
+            <div className="xl:h-[250px]"><EventMap /></div>
             <div className="xl:flex justify-between ">
                 {(!isCreated && !isJoined && !isDeadlineOver) && (
                   <>
@@ -432,15 +443,19 @@ const EditTeamPage: FunctionComponent = () => {
                     {(!isCreated) &&  (
                       <>
                         <div className=" flex justify-start text-center w-full">
-                          <button
-                            className="py-3 text-md  lg:py-3 w-full mx-5 px-3 xl:mx-0 mt-5  font-bold  text-white uppercase bg-blue-500 rounded-md cursor-pointer hover:bg-blue-700"
+                          <a href="#"
+                            className="py-3 text-md lg:py-1 w-full mx-5 px-3 xl:mx-0 mt-5 font-bold text-white uppercase  rounded-md cursor-pointer "
                             onClick={(e) => {
                               e.preventDefault();
-                              router('/message-page/' + singleEvent?.creatorId)
+                              router('/message-page/' + singleEvent?.creatorId);
                             }}
                           >
-                            {t('CHAT_ORGANIZER')}
-                          </button>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="#3B82F6" className="w-8 h-8 text-gray-800">
+  <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+</svg>
+
+  </a>
+                      
                         </div>
 
                       </>

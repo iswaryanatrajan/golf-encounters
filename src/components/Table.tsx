@@ -191,7 +191,7 @@ const Table: React.FunctionComponent<TableProps> = ({ events }) => {
                       borderSpacing: "0 20px",
                     }}
                   >
-                    <thead className="  flex-col">
+                    <thead className="flex-col">
                       <tr>
                         <th
                           scope="col"
