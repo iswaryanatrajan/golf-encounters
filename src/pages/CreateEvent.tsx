@@ -337,13 +337,15 @@ const CreateEvent: React.FC = () => {
                 <div className="py-6">
                   <button
                     type="button"
-                    className="  text-white bg-[#52FF86] hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-8 py-4 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    className="  text-[#626262] bg-[#52FF86] hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-8 py-4 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                   >
                     {t("PREV")}
                   </button>
                   <button
                     onClick={handleSubmit}
-                    className=" glow-on-hover text-black bg-[#ffff] border border-[#52FF86] shadow-xl ring-blue-300  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-8 py-4 text-center me-2 mb-2 "
+                    className=" glow-on-hover text-black bg-[#ffff] border border-[#52FF86] 
+                    shadow-xl ring-blue-300  focus:outline-none focus:ring-4 focus:ring-blue-300
+                     font-medium rounded-full text-sm px-8 py-4 text-center me-2 mb-2 "
                   >
                     {submitting ? t("CREATING_EVENT") : t("UPDATE")}
                   </button>

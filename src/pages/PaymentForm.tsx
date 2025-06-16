@@ -46,6 +46,27 @@ export const PaymentForm: React.FC<PaymentFormProps> = () => {
       formdata.append("user_id", userId);
       formdata.append("event_id", eventID || "");
 
+      // form field values
+    const paymentFullName = e.target.paymentFullName?.value || "";
+    const paymentTelPhone = e.target.paymentTelPhone?.value || "";
+    const paymentEmailAddress = e.target.paymentEmailAddress?.value || "";
+    const paymentHandicap = e.target.PaymentHandiCap?.value || "";
+
+     if (singleEvent?.fullNameCheckBox == 1) {
+      formdata.append("memberFullName", paymentFullName);
+    }
+    if (singleEvent?.telephoneCheckBox == 1) {
+      formdata.append("memberTelPhone", paymentTelPhone);
+    }
+    if (singleEvent?.emailCheckBox == 1) {
+      formdata.append("memberEmailAddress", paymentEmailAddress);
+    }
+    if (singleEvent?.handicapCheckBox == 1) {
+      formdata.append("memberHandicap", paymentHandicap);
+    }
+
+    console.log("formdata:",formdata);
+    
       const response = await axios.post(
         API_ENDPOINTS.JOINEDEVENTS + singleEvent.id,
         formdata,
@@ -295,8 +316,16 @@ export const PaymentForm: React.FC<PaymentFormProps> = () => {
                     </div>
 
                     <div className="flex items-center justify-end">
-                      <h3 className="text-white">{t("CONTACT_HOST")}</h3>
+                       <a href="#"
+                            className="py-3  lg:py-1 mx-5 px-3 xl:mx-0 mt-5  text-black items-center gap-1 rounded-md cursor-pointer inline-flex text-blue-700"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              router('/message-page/' + singleEvent?.creatorId);
+                            }}
+                          >
+                            <h3 className="text-white">{t("CONTACT_HOST")}</h3>
                       <div>
+
                         <div className="ml-1 cursor-pointer">
                           <svg
                             width="60"
@@ -322,6 +351,8 @@ export const PaymentForm: React.FC<PaymentFormProps> = () => {
                           </svg>
                         </div>
                       </div>
+                          </a>
+                      
                     </div>
                   </div>
                 </div>

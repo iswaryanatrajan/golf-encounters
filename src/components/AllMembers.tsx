@@ -251,7 +251,8 @@ export default function AllMembers() {
           </h2>
           <table className="">
             <tbody className=" gap-2">
-              {waitingUsers && waitingUsers.length > 0 ? (
+                {isCreated ? (
+              waitingUsers && waitingUsers.length > 0 ? (
                 waitingUsers.slice(0, visibleCount).map((player: any) => {
                   // Debugging: Log the player object
                   console.log("Waiting Member:", player);
@@ -264,6 +265,7 @@ export default function AllMembers() {
                   }
 
                   return (
+                    
                     <tr key={player.id} className="border-b ">
                       <td className="px-3 py-2 text-[16px] text-gray-500">
                         <div className="flex items-center">
@@ -289,6 +291,7 @@ export default function AllMembers() {
                               <CheckBadgeIcon className="w-6 h-6 text-white" />
                               {t("ACCEPT")}
                             </button>
+
                             <button
                               className="flex items-center gap-1 cursor-pointer bg-transparent border border-solid border-[#17b3a6] rounded-lg my-2 py-1 text-[#17b3a6]"
                               onClick={(e) => {
@@ -317,7 +320,14 @@ export default function AllMembers() {
                     {t("NO_WAITING")}
                   </td>
                 </tr>
-              )}
+              )
+            ) : (
+              <tr>
+                <td className="px-3 py-2 text-lg font-medium text-gray-500 text-center" colSpan={2}>
+                  {t("Waiting Members")}: {waitingUsers?.length || 0}
+                </td>
+              </tr>
+            )}
             </tbody>
           </table>
 

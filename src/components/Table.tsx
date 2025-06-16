@@ -274,7 +274,7 @@ const Table: React.FunctionComponent<TableProps> = ({ events }) => {
                       return (
                         <React.Fragment key={index}>
                           <tr
-                            className="mt-4 p-1 rounded-lg cursor-pointer  hover:rounded-lg hover:bg-[#f0faf9] hover:text-black shadow-md"
+                            className="mt-4 p-1 rounded-lg cursor-pointer  hover:rounded-lg hover:bg-[#f0faf9] hover:text-black shadow-[0px_0px_5px_rgba(0,_0,_0,_0.10)]"
                             style={{
                               width: "100%",
                               borderRadius: "10px",

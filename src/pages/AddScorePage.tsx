@@ -36,7 +36,18 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
   const [contests, setContests] = useState<any[]>([]);
   const [pinContests, setPinContests] = useState<any[]>([]);
 
+  const [selectedMember, setSelectedMember] = useState<any>(null);
+  const [showMemberModal, setShowMemberModal] = useState(false);
 
+  const handlePlayerClick = (member: any) => {
+    setSelectedMember(member);
+    setShowMemberModal(true);
+  };
+
+  const closeMemberModal = () => {
+    setShowMemberModal(false);
+    setSelectedMember(null);
+  };
 
   const holes = Array.from({ length: 18 }, (_, index: number) => index + 1);
   const [sums, setSums] = useState<{ [key: string]: any }>({});
@@ -521,7 +532,13 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
                       <tr
                         key={memberIndex}
                         className="py-4 pl-4 whitespace-nowrap"
-                      >
+                      ><td>
+                        <button
+    type="button"
+    className="focus:outline-none"
+    onClick={() => handlePlayerClick(member)}
+    style={{ background: "none", border: "none", padding: 0, margin: 0 }}
+  >
                         <Player
                           isCreator={isCreated}
                           key={memberIndex}
@@ -530,7 +547,7 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
                           // onDelete={() => { }}
                           name={member.nickName}
                           imageUrl={member.imageUrl}
-                        />
+                        /></button></td>
                         {holes.map((hole, holeIndex: number) => {
                           return (
                             <td key={holeIndex} >
@@ -675,6 +692,13 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
 
                   return (
                     <tr key={memberIndex} className="whitespace-nowrap ">
+                     <td> 
+                   {isCreator ? (
+                        <button
+                        type="button"
+                        className="focus:outline-none text-[#17b3a6] hover:underline pointer"
+                        onClick={() => handlePlayerClick(member)}
+                        style={{ background: "none", border: "none", padding: 0, margin: 0 }}>
                       <Player
                         isCreator={isCreated}
                         key={memberIndex}
@@ -683,7 +707,17 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
                         onDelete={() => { }}
                         name={member.nickName}
                         imageUrl={member.imageUrl}
-                      />
+                      /></button>
+                   ):( <Player
+                        isCreator={isCreated}
+                        key={memberIndex}
+                        showNumber={false}
+                        enableHover={false}
+                        onDelete={() => { }}
+                        name={member.nickName}
+                        imageUrl={member.imageUrl}
+                      />)}
+                      </td>
                       {holes.map((hole, holeIndex: number) => {
 
                         return (
@@ -828,6 +862,29 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
           <div className="h-4 w-8 md:w-10 lg:w-16 bg-[#6effa4]"></div>
         </div>
       </div>
+      {showMemberModal && selectedMember && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+    <div className="bg-white rounded-lg p-6 min-w-[300px] max-w-[90vw] shadow-lg relative">
+      <button
+        className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+        onClick={closeMemberModal}
+      >
+        ×
+      </button>
+      <div className="flex flex-col items-center">
+        <img
+          src={selectedMember.imageUrl || "/default-avatar.png"}
+          alt={selectedMember.nickName}
+          className="w-20 h-20 rounded-full mb-2"
+        />
+        <h3 className="text-xl font-bold mb-1">{selectedMember.nickName}</h3>
+        <p className="text-gray-600 mb-1">{selectedMember.email || ""}</p>
+        {/* Add more member details as needed */}
+        <p className="text-gray-500">{selectedMember.userId && `User ID: ${selectedMember.userId}`}</p>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
 };

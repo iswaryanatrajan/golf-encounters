@@ -125,7 +125,7 @@ document.body.dir = i18n.dir();
             {t('NO_OF_PLAYERS')}
           </label>
           <input
-            className=" appearance-none block w-[50px] bg-white-200 text-[#51ff85] border border-[#51ff85]  rounded py-2 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+            className=" appearance-none block w-[50px] bg-white-200 text-[#626262] border border-[#51ff85]  rounded py-2 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
             id="grid-Event-Name"
             type="number"
             name="capacity"
@@ -145,7 +145,8 @@ document.body.dir = i18n.dir();
           >
             {t('INCLUDE_PLAYER')}
           </label>
-          <label className="relative flex items-center mb-8 cursor-pointer md:mb-5 lg:mb-5">
+          <span className="inline-flex items-center mb-8  md:mb-5 lg:mb-5"><small>OFF&nbsp;&nbsp; </small>
+          <label className="relative flex items-center cursor-pointer">
             <input
               type="checkbox"
               className="sr-only peer"
@@ -154,8 +155,13 @@ document.body.dir = i18n.dir();
               onChange={handleInputChange}
               required
             />
-            <div className="w-11 h-5 border border-solid border-[#626262] peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300  rounded-full peer  peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-[#626262] after:border-gray-300 bg-white after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-white-600"></div>
-          </label>
+            <div className="w-9 h-5 border border-solid border-[#626262] 
+            peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 
+             rounded-full peer  peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full 
+             peer-checked:after:border-white after:content-[''] after:absolute after:top-[3px] after:start-[2px]
+              after:bg-[#626262] after:border-gray-300 bg-white after:border after:rounded-full after:w-4 
+              after:h-4 after:transition-all dark:border-gray-600 peer-checked:bg-[#4b5563] peer-checked:after:bg-white"></div>
+          </label><small>&nbsp;ON</small></span>
 
         </div>
         {error && <p className="text-[red]">{error}</p>}

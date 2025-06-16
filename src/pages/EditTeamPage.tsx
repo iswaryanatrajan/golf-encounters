@@ -444,13 +444,14 @@ const EditTeamPage: FunctionComponent = () => {
                       <>
                         <div className=" flex justify-start text-center w-full">
                           <a href="#"
-                            className="py-3 text-md lg:py-1 w-full mx-5 px-3 xl:mx-0 mt-5 font-bold text-white uppercase  rounded-md cursor-pointer "
+                            className="py-3 text-md lg:py-1 w-full mx-5 px-3 xl:mx-0 mt-5  text-black items-center gap-1   rounded-md cursor-pointer inline-flex text-blue-700"
                             onClick={(e) => {
                               e.preventDefault();
                               router('/message-page/' + singleEvent?.creatorId);
                             }}
                           >
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="#3B82F6" className="w-8 h-8 text-gray-800">
+                           <span className=""> {t("CONTACT")}</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="#3B82F6" className="w-8 h-8">
   <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
 </svg>
 
@@ -709,7 +710,7 @@ const EditTeamPage: FunctionComponent = () => {
                         </div>
                         <table className="w-full border-spacing-y-5 px-1 ">
                           <thead className="text-left text-whitesmoke-100">
-                            <tr className="shadow-[0px_4px_10px_rgba(0,_0,_0,_0.25)] bg-lightseagreen-200 h-[55px] text-xl  ">
+                            <tr className="shadow-[0px_4px_10px_rgba(0,_0,_0,_0.10)] bg-lightseagreen-200 h-[55px] text-xl  ">
                               <th className="pl-4 py-3 whitespace-nowrap rounded-s-[3px] leading-[10.25px] font-bold text-[13px] xl:text-[15px]">
                                 {t('TEAM_NAME')}
                               </th>
@@ -718,7 +719,7 @@ const EditTeamPage: FunctionComponent = () => {
                           </thead>
                           <tbody className="text-left text-black">
                             {teams?.map((team: any, index: any) => (
-                              <tr className="shadow-[0px_0px_10px_rgba(0,_0,_0,_0.25)] h-[69px] font-medium  overflow-scroll xl:overflow-hidden">
+                              <tr className="shadow-[0px_0px_10px_rgba(0,_0,_0,_0.10)] h-[69px] font-medium  overflow-scroll xl:overflow-hidden">
                                 <td className="whitespace-nowrap pl-1 relative top-1 tracking-[1.45px] leading-[9.22px] flex items-center justify-between min-w-[182px] rounded-s-[3px] ">
                                   <div className={`w-[156px] relative pl-3 rounded text-base h-[58px] flex items-center font-semibold leading-5 text-black bg-[#e0e0e0]`}>
                                     <h4>{team.name}</h4>

@@ -17,11 +17,33 @@ export default function Register(): JSX.Element {
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
+
+ const [hasInvalidPassword, setHasInvalidPassword] = useState(false);
+
+  const [confirmValid, setConfirmValid] = useState(true);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
+
+    if (name === "password") {
+    const isInvalid = /[^A-Za-z0-9]/.test(value) || value.length > 8;
+    setHasInvalidPassword(isInvalid);
+
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+     setConfirmValid(formData.confirmPassword === value);
+    return;
+  }
+ if (name === "confirmPassword") {
+    setConfirmValid(formData.password === value);
+  }
+
+
+    setFormData((prev) => ({
+      ...prev,
       [name]: value,
     }));
   };
@@ -132,6 +154,8 @@ export default function Register(): JSX.Element {
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required
+                  pattern="^[A-Za-z0-9]{1,8}$"
+                  title="大文字、小文字、数字を含め、8文字以内で設定してください。"
                   onChange={handleChange}
                 />
                 <div
@@ -144,7 +168,18 @@ export default function Register(): JSX.Element {
                         <EyeSlashIcon className="text-gray-600 h-6 w-8" />
                       )}
                     </div>
+                   
+
+
                     </div>
+                      <p className="text-[12px]  mt-1"   style={{
+    color: hasInvalidPassword ? 'red' : 'black',
+    fontSize: '14px',
+    marginTop: 4,
+  }}>
+    大文字、小文字、数字を含め、8文字以内で設定してください。
+  </p>
+                   
               </div>
               <div>
                 <label
