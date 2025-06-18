@@ -23,8 +23,7 @@ export const SingleTeamsContext = ({ children }: any) => {
         const fetchMembers = async () => {
             try {
                 const teamData = await fetchAllMembers(teamId);
-
-
+                console.log(teamData, 'teamData')
                 setWaitingUsers(teamData.waitingUsers);
                 setTotalJoinedMembers(teamData.waitingCount + teamData.joinedCount)
             } catch (error) {
@@ -70,7 +69,9 @@ export const SingleTeamsContext = ({ children }: any) => {
     const uId = localStorage.getItem('id');
     const isJoined = uniqueMembers?.some((member: any) => member.userId == uId);
 
-    console.log(waitingUsers)
+    console.log(waitingUsers);
+    console.log("uniquemembers",uniqueMembers);
+    console.log("teamMembers",teamMembers);
     const value = { handleSingleTeam, handleIsLoading, waitingUsers, joinedUsers, teamMembers, isJoined, uniqueMembers, totalJoinedMembers, isLoading, teams }
 
     return <SingleTeamContext.Provider value={value}> {children}</SingleTeamContext.Provider>

@@ -17,7 +17,10 @@ export const API_ENDPOINTS = {
   UPDATEUSER: `${API_BASE_URL}/${API_VERSION}/update-profile`,
   ALLUSERS: `${API_BASE_URL}/${API_VERSION}/get-total-users`,
   GETUSEREVENTS: `${API_BASE_URL}/${API_VERSION}/get-user-all-events/`,
-
+  EDITUSERIDPROOF: `${API_BASE_URL}/${API_VERSION}/edit-user-identification-image/`,
+  ISIDENTIFICATIONIMAGEUPLOADED: `${API_BASE_URL}/${API_VERSION}/is-identification-image-uploaded/`,
+ 
+  
   //event
   CREATEEVENT: `${API_BASE_URL}/${API_VERSION}/createEvent`,
   GETALLEVENT: `${API_BASE_URL}/${API_VERSION}/getAllEvents`,

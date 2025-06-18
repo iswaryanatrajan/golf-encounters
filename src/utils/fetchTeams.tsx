@@ -20,6 +20,7 @@ export const fetchTeams = async (setTeams: any, eventId: any, setTeamMembers: an
             },
         });
         const data = await response.json();
+         console.log(data,'fetchTeams')
         setTeams(data.teams);
         setTotalJoinedMembers(data.totalJoinedMembers);
         setTeamMembers(data.teams.map((team: any) => team.members))
@@ -50,7 +51,7 @@ export const fetchTeam = async (teamId: any) => {
                 headers
             }
         );
-
+        console.log(response.data,'fetchTeam')
         return response.data;
         
 

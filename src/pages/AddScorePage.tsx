@@ -23,7 +23,7 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
   document.body.dir = i18n.dir();
   const { isCreated, singleEvent } = singleEventContextStore();
   const { handleScore, score } = useScoreContext();
-  const { teams, isJoined } = singleTeamsContextStore();
+  const {  teams, isJoined } = singleTeamsContextStore();
 
   const hole = singleEvent ? singleEvent.selectedHoles : [];
   const newArrayHole = hole?.split(",").map(Number);
@@ -123,7 +123,15 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
     const formDataArray = [];
     for (const [userId, userScores] of Object.entries(userScoresMap)) {
       const totalScore = userScores.sums.reduce((acc, score) => acc + score, 0);
-      const roundedValue = isHandicap[userId]
+    // added if else part - remove if part if any error occurs
+      let roundedValue = 0;
+      if(selectedMember && selectedMember.memberHandicap != undefined) {
+        console.log("selectedMember:", selectedMember);
+         roundedValue = Number(selectedMember.memberHandicap);
+         console.log("roundedValue:", roundedValue);
+      }
+      else {
+       roundedValue = isHandicap[userId]
         ? Math.round(
           (totalScore *
             (singleEvent?.scoringType === "single"
@@ -135,7 +143,9 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
           0.8
         )
         : 0;
+      }
       const netValue = totalPar - roundedValue;
+
       const newValueObj = contests.find(
         (newValue) => newValue.userId == userId
       );
@@ -534,11 +544,11 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
                         className="py-4 pl-4 whitespace-nowrap"
                       ><td>
                         <button
-    type="button"
-    className="focus:outline-none"
-    onClick={() => handlePlayerClick(member)}
-    style={{ background: "none", border: "none", padding: 0, margin: 0 }}
-  >
+                          type="button"
+                          className="focus:outline-none"
+                          onClick={() => handlePlayerClick(member)}
+                          style={{ background: "none", border: "none", padding: 0, margin: 0 }}
+                        >
                         <Player
                           isCreator={isCreated}
                           key={memberIndex}
@@ -804,7 +814,7 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
                       {isCreator && (
                         <>
                           <td className="px-2 py-3 text-center">
-                            {roundedValue}
+                            {member.memberHandicap ? member.memberHandicap : roundedValue}
                           </td>
                           <td className="px-2 py-3 text-center">
                             {netValue}
@@ -878,9 +888,12 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
           className="w-20 h-20 rounded-full mb-2"
         />
         <h3 className="text-xl font-bold mb-1">{selectedMember.nickName}</h3>
-        <p className="text-gray-600 mb-1">{selectedMember.email || ""}</p>
-        {/* Add more member details as needed */}
-        <p className="text-gray-500">{selectedMember.userId && `User ID: ${selectedMember.userId}`}</p>
+</div>
+      <div className="mt-4">
+        {selectedMember.memberFullName && ( <p className="text-gray-500"><label className="text-black">Name: &nbsp;</label> {selectedMember.memberFullName }</p>)}
+        {selectedMember.memberEmailAddress && ( <p className="text-gray-500"><label className="text-black">Email: &nbsp;</label> {selectedMember.memberEmailAddress }</p>)}
+        {selectedMember.memberTelPhone && ( <p className="text-gray-500"><label className="text-black">Phone:&nbsp;</label> {selectedMember.memberTelPhone }</p>)}
+        {selectedMember.memberHandicap && ( <p className="text-gray-500"><label className="text-black">Handicap Score:&nbsp;</label> {selectedMember.memberHandicap}</p>)}
       </div>
     </div>
   </div>

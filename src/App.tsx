@@ -71,6 +71,7 @@ import { TeacherAppointments } from "./pages/Appointments";
 import AllStripeSessions from "./components/payment/PaymentForm";
 import Coupons from "./pages/Coupons";
 import CompletedEvents from "./pages/CompletedEvents";
+import CompleteProfile from "./pages/CompleteProfile";
 import StudentActivitiesNew from "./components/StudentActivitiesNew";
 import GigDetails from "./components/GigDetails";
 import AllGigs from "./components/AllGigs";
@@ -78,6 +79,7 @@ import UpdateGig from "./components/UpdateGig";
 import UpdateSchedules from "./components/UpdateSchedules";
 import EditTeacherProfile from "./components/EditTeacherPro";
 import ReservationDetails from "./components/TeacherReservedGigs"
+import ProtectedCreateEvent from "./components/ProtectedCreateEvent"
 // import StudentActivitiesPage from "./components/StudentActivitiesPage";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -381,9 +383,12 @@ function App() {
               </TeacherContext>
             }
           />
+          <Route path="/complete-profile" element={<CompleteProfile />} />
           <Route
             path="/create-event/:id"
-            element={token ? <CreateEvent /> : <LoginPage />}
+            element={token ?   <ProtectedCreateEvent>
+    <CreateEvent />
+  </ProtectedCreateEvent> : <LoginPage />}
           />
           <Route
             path={isTeacher ? "/update-schedules/:id" : "/teacher-page"}

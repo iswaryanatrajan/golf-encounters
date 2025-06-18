@@ -1,10 +1,13 @@
 import { FunctionComponent, useState, useEffect } from "react";
 import SearchEventContainer from "../components/SearchMainEventFilter";
 import SideIconMenu from "../components/SideIconMenu";
+import axios from "axios";
+import { API_ENDPOINTS } from "../appConfig";
+
 import { Clip } from "../components/Clip";
 import Tabs from "../components/Tabs";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams,useNavigate } from "react-router-dom";
 import { ToastProvider } from '../utils/ToastProvider';
 import { useTranslation } from "react-i18next";
 import { eventContextStore } from "../contexts/eventContext";
@@ -23,7 +26,7 @@ const EventMainPage: FunctionComponent = () => {
   const [selectedLocations, setSelectedLocations] = useState<any[]>([]);
   const [currentTab, setCurrentTab] = useState<string>("ALL");
   const { handleLocationFilter, clearFilter, eventFee} = eventContextStore();
-
+const router = useNavigate();
 
 
 
@@ -66,8 +69,11 @@ const EventMainPage: FunctionComponent = () => {
   }, [clearFilter]);
 
  
+  const userId = localStorage.getItem("id");
+  console.log("userId:",userId)
 
   const { user } = userAuthContext();
+
 
   async function getTotalAmountPaid(customerId: any) {
     try {
@@ -80,12 +86,12 @@ const EventMainPage: FunctionComponent = () => {
   
       const totalAmountPaid = customers.data.find((data: any) => "dero@gmail.com" === data.email);
 
-      console.log(totalAmountPaid, "asd")
+      console.log(totalAmountPaid, "totalAmountPaid")
     
       const payments = await stripe.paymentIntents.list({
         customer: customerId,
       });
-      console.log(payments, "aswwd")
+      console.log(payments, "payments")
 
       
       const subscriptions = await stripe.subscriptions.list({
@@ -115,14 +121,45 @@ const EventMainPage: FunctionComponent = () => {
     });
 
 
+const isProfileComplete = async (userId: string, token: string): Promise<boolean> => {
+  try {
+    const [profileRes, imageRes] = await Promise.all([
+      axios.get( API_ENDPOINTS.GET_USER + userId, {
+        headers: { Authorization: `Bearer ${token}` }
+      }),
+      axios.get(API_ENDPOINTS.ISIDENTIFICATIONIMAGEUPLOADED + userId, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+    ]);
 
+    const address = profileRes.data?.user?.address;
+    const hasImage = imageRes.data?.user?.identificationImage !== null && imageRes.data?.user?.identificationImage !== undefined;
+    console.log("Address:", address, "Has Image:", hasImage,imageRes.data?.identificationImage);
+    console.log(" imageRes.data", imageRes.data)
+    return !!address && hasImage;
+  } catch (err) {
+    return false;
+  }
+};
 
   const handleCheckout = async (e: any) => {
 
     e.preventDefault();
 
     try {
-      const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("id");
+
+    if (!token || !userId) {
+      return (window.location.href = "/login-page");
+    }
+
+    const complete = await isProfileComplete(userId, token);
+    if (!complete) {
+      return router("/complete-profile");
+    }
+    
+
       if (token) {
 
 

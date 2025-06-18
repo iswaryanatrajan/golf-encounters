@@ -42,9 +42,10 @@ export const PaymentForm: React.FC<PaymentFormProps> = () => {
         toast.error(`ログインされていません`);
         return;
       }
-      const formdata = new FormData();
-      formdata.append("user_id", userId);
-      formdata.append("event_id", eventID || "");
+      const payload: any = {
+      user_id: userId,
+      event_id: eventID || "",
+    };
 
       // form field values
     const paymentFullName = e.target.paymentFullName?.value || "";
@@ -52,24 +53,24 @@ export const PaymentForm: React.FC<PaymentFormProps> = () => {
     const paymentEmailAddress = e.target.paymentEmailAddress?.value || "";
     const paymentHandicap = e.target.PaymentHandiCap?.value || "";
 
-     if (singleEvent?.fullNameCheckBox == 1) {
-      formdata.append("memberFullName", paymentFullName);
+   if (singleEvent?.fullNameCheckBox == 1) {
+      payload.memberFullName = paymentFullName;
     }
     if (singleEvent?.telephoneCheckBox == 1) {
-      formdata.append("memberTelPhone", paymentTelPhone);
+      payload.memberTelPhone = paymentTelPhone;
     }
     if (singleEvent?.emailCheckBox == 1) {
-      formdata.append("memberEmailAddress", paymentEmailAddress);
+      payload.memberEmailAddress = paymentEmailAddress;
     }
     if (singleEvent?.handicapCheckBox == 1) {
-      formdata.append("memberHandicap", paymentHandicap);
+      payload.memberHandicap = paymentHandicap;
     }
 
-    console.log("formdata:",formdata);
+ console.log(payload);
     
       const response = await axios.post(
         API_ENDPOINTS.JOINEDEVENTS + singleEvent.id,
-        formdata,
+        payload,
         {
           headers: {
             Authorization: `Bearer ${token}`,
