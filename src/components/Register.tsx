@@ -24,10 +24,9 @@ export default function Register(): JSX.Element {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     
     const { name, value } = e.target;
-
+    const passwordRegex = /^(?=.*[^A-Za-z0-9]).{5,8}$/;
     if (name === "password") {
-    const isInvalid = /[^A-Za-z0-9]/.test(value) || value.length > 8;
-    setHasInvalidPassword(isInvalid);
+    setHasInvalidPassword(!passwordRegex.test(value));
 
 
     setFormData((prev) => ({
@@ -154,8 +153,8 @@ export default function Register(): JSX.Element {
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required
-                  pattern="^[A-Za-z0-9]{1,8}$"
-                  title="大文字、小文字、数字を含め、8文字以内で設定してください。"
+                  pattern="^(?=.*[^A-Za-z0-9])[A-Za-z\d\S]{5,8}$"
+                  title="5〜8文字で、少なくとも1つの記号（@、#、!など）を含めてください。"
                   onChange={handleChange}
                 />
                 <div
@@ -172,12 +171,12 @@ export default function Register(): JSX.Element {
 
 
                     </div>
-                      <p className="text-[12px]  mt-1"   style={{
-    color: hasInvalidPassword ? 'red' : 'black',
+                      <p className="text-[12px]  mt-1 text-black dark:text-white"   style={{
+    color: hasInvalidPassword ? 'red' : '',
     fontSize: '14px',
     marginTop: 4,
   }}>
-    大文字、小文字、数字を含め、8文字以内で設定してください。
+    5〜8文字で、少なくとも1つの記号（@、#、!など）を含めてください。
   </p>
                    
               </div>
