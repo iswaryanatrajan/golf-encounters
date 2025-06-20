@@ -277,7 +277,7 @@ export const PaymentForm: React.FC<PaymentFormProps> = () => {
                           htmlFor="team"
                           className="text-xl font-medium text-white capitalize font-poppins "
                         >
-                          {t("HANDICAP_SCORE")}
+                          {t("HDCP_INDEX")}
                         </label>
 
                         <div className="relative flex items-center w-full my-3 capitalize ">
@@ -300,7 +300,7 @@ export const PaymentForm: React.FC<PaymentFormProps> = () => {
                             type="text"
                             name="PaymentHandiCap"
                             id="PaymentHandiCap"
-                            placeholder={t("HANDICAP_SCORE")}
+                            placeholder={t("HDCP_INDEX")}
                             required
                             // value={singleEvent?.participationFee}
                             className="w-full py-4 text-base font-normal text-gray-600 border-none rounded-md pl-14 bg-gray-50 font-poppins"

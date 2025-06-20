@@ -85,10 +85,11 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
    
   };
 
-  const handleInputChange = (
+ /* const handleInputChange = (
     userId: string,
     teamId: any,
     teamName: any,
+    memberHandicap: number,
     holeIndex: number,
     value: number
   ) => {
@@ -120,12 +121,12 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
       };
       userScoresMap[userId].filteredSums.push(...userFilteredSums);
     }
-
+let totalScore=0;
     const formDataArray = [];
     for (const [userId, userScores] of Object.entries(userScoresMap)) {
-      const totalScore = userScores.sums.reduce((acc, score) => acc + score, 0);
+       totalScore = userScores.sums.reduce((acc, score) => acc + score, 0);
       console.log("userScores:", userScores, "totalScore:", totalScore);
-      let roundedValue = 0;
+      let roundedValue =   0;
 
        roundedValue = isHandicap[userId]
         ? Math.round(
@@ -139,9 +140,15 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
           0.8
         )
         : 0;
-      
-      const netValue = totalPar - roundedValue;
 
+
+      //const netValue = totalPar - roundedValue;
+      const netValue =
+  typeof totalScore === "number" && !isNaN(totalScore)
+    ? Math.max(0, totalScore - roundedValue)
+    : "";
+console.log("totalScore:", totalScore, "userId:", userId);
+console.log("netValue:", netValue, "userId:", userId);
       const newValueObj = contests.find(
         (newValue) => newValue.userId == userId
       );
@@ -202,8 +209,121 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
     }
 
     setSums(updatedSums);
-  };
-  console.log(formData, "sad");
+  };*/
+
+  const handleInputChange = (
+  userId: string,
+  teamId: any,
+  teamName: any,
+  memberHandicap: string | number | undefined,
+  holeIndex: number,
+  value: number
+) => {
+  const updatedSums = { ...sums };
+
+  // Initialize scores if not present
+  if (!updatedSums[userId]) {
+    updatedSums[userId] = Array.from({ length: holes.length }, () => 0);
+  }
+
+  // Update the score for the current hole (skip 18 & 19 for scorePerShot)
+  if (holeIndex !== 18 && holeIndex !== 19) {
+    updatedSums[userId][holeIndex] = value;
+  }
+
+  // Compute total score per user
+  const userScoresMap: { [userId: string]: UserScores } = {};
+  for (const [id, userSums] of Object.entries(updatedSums)) {
+    userScoresMap[id] = {
+      sums: userSums,
+      filteredSums: filteredSums[id] || [],
+    };
+  }
+
+  const formDataArray: any[] = [];
+
+  for (const [id, scores] of Object.entries(userScoresMap)) {
+    const totalScore = scores.sums.reduce((acc, score) => acc + score, 0);
+
+    // Determine rounded value (either manual or calculated)
+    let roundedValue = 0;
+    console.log("memberHandicap:", memberHandicap, "id:", id, "totalScore:", totalScore);
+    if (memberHandicap !== undefined && memberHandicap !== null) {
+
+      roundedValue = Number(memberHandicap);
+    } else if (isHandicap[id]) {
+      const multiplier =
+        singleEvent?.scoringType === "single"
+          ? 3
+          : singleEvent?.scoringType === "double"
+          ? 1.5
+          : 2;
+
+      roundedValue = Math.round((totalScore * multiplier - totalPar) * 0.8);
+    }
+
+    const netValue =
+      typeof totalScore === "number" && !isNaN(totalScore)
+        ? Math.max(0, totalScore - roundedValue)
+        : "";
+
+    const newValueObj = contests.find((c) => c.userId == id);
+    const newPinValueObj = pinContests.find((p) => p.userId == id);
+console.log("Rounded Value:", roundedValue, "Net Value:", netValue, "totalScore:", totalScore, "userId:", id);
+    formDataArray.push({
+      userId: Number(id),
+      scorePerShot: scores.sums,
+      handiCapPerShot: singleEvent?.selectedHoles,
+      totalScore,
+      handiCapValue: roundedValue,
+      netValue:netValue,
+      eventId: singleEvent?.id,
+      nearPinContest: newPinValueObj?.newValue,
+      driverContest: newValueObj?.newValue,
+      teamId,
+    });
+  }
+ console.log(formDataArray, "formDataArray");
+  // Update formData
+  const updatedFormData = formData.map((data: any) => {
+    if (data.userId == userId) {
+      // Update score first
+      if (holeIndex !== 18 && holeIndex !== 19) {
+        data.scorePerShot[holeIndex] = value;
+      }
+
+      data.totalScore = data.scorePerShot.reduce(
+        (acc: number, score: number) => acc + score,
+        0
+      );
+       data.netValue = typeof data.totalScore === "number" && !isNaN(data.totalScore)
+        ? Math.max(0, data.totalScore - data.handiCapValue)
+        : "";
+
+
+
+
+
+      const newValueObj = contests.find((c) => c.userId === userId);
+      const newPinValueObj = pinContests.find((p) => p.userId === userId);
+
+      data.driverContest = newValueObj?.newValue;
+      data.nearPinContest = newPinValueObj?.newValue;
+    }
+
+    return data;
+  });
+
+  // Decide whether to fully replace or update formData
+  if (formData.length === uniqueMembers.length) {
+    setFormData(updatedFormData);
+  } else {
+    setFormData(formDataArray);
+  }
+
+  setSums(updatedSums);
+};
+  console.log(formData, "formData");
 
   const handlePinContests = (
     userId: number,
@@ -260,12 +380,12 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
       );
       totalSums[userId] = totalScore;
     }
-
+    
     return totalSums;
   };
 
   const totalScores = calculateTotalSum();
-
+console.log("totalScores:", totalScores);
   const handleHandicap = (playerId: string) => {
     setIsHandicap((prev) => ({
       ...prev,
@@ -283,12 +403,19 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
       return acc;
     }, []);
 
-  useEffect(() => {
+  /*useEffect(() => {
     const newFormData = score?.reduce((acc: any, item: any) => {
       const isMember = uniqueMembers?.find(
         (member: any) => member.userId === item.userId
       );
       if (isMember) {
+     
+        const member = uniqueMembers?.find(
+          (member: any) => member.userId === item.userId
+        );
+        console.log('member:', member);
+        item.memberHandicap = member?.memberHandicap;
+
         const scorePerShot =
           typeof item?.scorePerShot === "string"
             ? JSON?.parse(item?.scorePerShot)
@@ -298,13 +425,42 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
             ? JSON?.parse(item?.handiCapPerShot)
             : item.handiCapPerShot;
 
+             const totalScore = Array.isArray(scorePerShot)
+        ? scorePerShot.reduce((acc, val) => acc + Number(val || 0), 0)
+        : 0;
+
+        let roundedValue = 0;
+        if (item.memberHandicap !== undefined && item.memberHandicap !== null) {
+          roundedValue = Number(item.memberHandicap);
+        } else if (isHandicap[item.userId]) {
+          const multiplier =
+            singleEvent?.scoringType === "single"
+              ? 3
+              : singleEvent?.scoringType === "double"
+              ? 1.5
+              : 2;
+
+          roundedValue = Math.round(
+            (totalScore * multiplier - totalPar) * 0.8
+          );
+        }
+
+
+   const netValue =
+      typeof totalScore === "number" && !isNaN(totalScore)
+        ? Math.max(0, totalScore - roundedValue)
+        : "";
+
         acc.push({
           scorePerShot: scorePerShot,
-          totalScore: item.totalScore,
+          //totalScore: item.totalScore,
+          totalScore: totalScore,
           userId: item.userId,
           handiCapPerShot: handiCapPerShot,
-          handiCapValue: item.handiCapValue,
-          netValue: item.netValue,
+          //handiCapValue: item.handiCapValue,
+          handiCapValue: roundedValue,
+          //netValue: item.netValue,
+          netValue: netValue,
           eventId: item.eventId,
           nearPinContest: item.nearPinContest,
           driverContest: item.driverContest,
@@ -316,7 +472,72 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
     }, []);
     setFormData(newFormData);
 
-  }, [score]);
+  }, [score]);*/
+
+  useEffect(() => {
+  const newFormData = score?.reduce((acc: any, item: any) => {
+    const member = uniqueMembers?.find(
+      (member: any) => member.userId === item.userId
+    );
+    if (!member) return acc;
+
+    const memberHandicap = member.memberHandicap;
+
+    const scorePerShot =
+      typeof item?.scorePerShot === "string"
+        ? JSON.parse(item.scorePerShot)
+        : item.scorePerShot;
+
+    const handiCapPerShot =
+      typeof item?.handiCapPerShot === "string"
+        ? JSON.parse(item.handiCapPerShot)
+        : item.handiCapPerShot;
+
+    const totalScore = Array.isArray(scorePerShot)
+      ? scorePerShot.reduce((acc, val) => acc + Number(val || 0), 0)
+      : 0;
+
+    let roundedValue = 0;
+    if (memberHandicap !== undefined && memberHandicap !== null) {
+      roundedValue = Number(memberHandicap);
+    } else if (isHandicap[item.userId]) {
+      const multiplier =
+        singleEvent?.scoringType === "single"
+          ? 3
+          : singleEvent?.scoringType === "double"
+          ? 1.5
+          : 2;
+
+      roundedValue = Math.round((totalScore * multiplier - totalPar) * 0.8);
+    }
+
+   console.log("totalScore:", totalScore);
+console.log("roundedValue:", roundedValue);
+
+const netValue = Math.max(0, totalScore - roundedValue);
+
+console.log("netValue:", netValue);
+
+
+    acc.push({
+      scorePerShot,
+      totalScore,
+      userId: item.userId,
+      handiCapPerShot,
+      handiCapValue: roundedValue,
+      netValue:netValue,
+      eventId: item.eventId,
+      nearPinContest: item.nearPinContest,
+      driverContest: item.driverContest,
+      teamId: item.teamId,
+      teamName: item.name,
+    });
+
+    return acc;
+  }, []);
+
+  setFormData(newFormData);
+}, [score]);
 
   const handleContests = (
     userId: number,
@@ -464,7 +685,7 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
                 <th className="px-2 py-3 text-center">Total</th>
                 {isCreator && (
                   <>
-                    <th className="px-2 py-3 text-center">HDCP</th>
+                    <th className="px-2 py-3 text-center">{t("HDCP_INDEX")}</th>
                     <th className="px-2 py-3 text-center">Net</th>
                   </>
                 )}
@@ -513,7 +734,7 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
                   .map((member: any, memberIndex: number) => {
                     const playerHandicap = isHandicap[member.userId] || false;
 
-                    let roundedValue = 0;
+                    /*let roundedValue = 0;
                     if (playerHandicap) {
                       if (singleEvent?.scoringType == "single") {
                         roundedValue = Math.round(
@@ -534,10 +755,25 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
                         );
                       }
                     }
-                    const netValue = totalPar - roundedValue;
-                    const playerData = formData?.find(
+                    const netValue = totalPar - roundedValue;*/
+                        const playerData = formData?.find(
                       (data: any) => data.userId == member.userId
                     );
+                    const rawScore =
+  playerData?.totalScore != null
+    ? Number(playerData.totalScore)
+    : formData
+    ? Number(totalScores[member.userId])
+    : null;
+
+const roundedValue = Number(member.memberHandicap ?? 0);
+
+const netValue =
+  typeof rawScore === "number" && !isNaN(rawScore)
+    ? Math.max(0, rawScore - roundedValue)
+    : "";
+
+                
 
                     return (
                       <tr
@@ -581,6 +817,7 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
                                     member.userId,
                                     member.teamId,
                                     member.name,
+                                    member.memberHandicap,
                                     holeIndex,
                                     parseInt(e.target.value)
                                   )
@@ -633,9 +870,7 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
                           );
                         })}
                         <td className="px-2 py-3 text-center">
-                          {playerData?.totalScore || formData
-                            ? playerData?.totalScore
-                            : totalScores[member.userId]}{" "}
+                       {rawScore}
                         </td>
                         {isCreator && (
                           <>
@@ -701,9 +936,9 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
                     }
                   }
 
-                  const netValue = totalPar - roundedValue;
+                  //const netValue = totalPar - roundedValue;
                   console.log("selectedHoleSum:", selectedHoleSum);
-                  console.log("netValue:", netValue);
+                  //console.log("netValue:", netValue);
                   console.log("roundedValue:", roundedValue); 
                   console.log("totalPar:", totalPar); 
 
@@ -711,12 +946,18 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
                     (data: any) => data.userId == member.userId
                   );
 const rawScore =
-  playerData?.totalScore || formData
-    ? Number(playerData?.totalScore)
-    : Number(totalScores[member.userId]);
+  playerData?.totalScore != null
+    ? Number(playerData.totalScore)
+    : formData
+    ? Number(totalScores[member.userId])
+    : null;
 
 const memberHandicap = Number(member.memberHandicap ?? 0);
-const membernetValue = Math.max(0, rawScore - memberHandicap);
+
+const membernetValue =
+  typeof rawScore === "number" && !isNaN(rawScore)
+    ? Math.max(0, rawScore - memberHandicap)
+    : "";
 
                   return (
                     <tr key={memberIndex} className="whitespace-nowrap ">
@@ -763,6 +1004,7 @@ const membernetValue = Math.max(0, rawScore - memberHandicap);
                                   member.userId,
                                   member.teamId,
                                   member.teamName,
+                                  member.memberHandicap,
                                   holeIndex,
                                   parseInt(e.target.value)
                                 )
@@ -786,6 +1028,7 @@ const membernetValue = Math.max(0, rawScore - memberHandicap);
                                       member.userId,
                                       member.teamId,
                                       member.teamName,
+                                      member.memberHandicap,
                                       18,
                                       parseInt(e.target.value)
                                     )
@@ -812,6 +1055,7 @@ const membernetValue = Math.max(0, rawScore - memberHandicap);
                                       member.userId,
                                       member.teamId,
                                       member.teamName,
+                                      member.memberHandicap,
                                       19,
                                       parseInt(e.target.value)
                                     )
