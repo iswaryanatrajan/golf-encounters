@@ -93,6 +93,7 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
     value: number
   ) => {
     const updatedSums = { ...sums };
+    console.log("handleInputChange called with value:", value,  "at holeIndex:", holeIndex,"updatedSums:", updatedSums);
 
     // Skip indices 18 and 19
     if (holeIndex !== 18 && holeIndex !== 19) {
@@ -104,7 +105,7 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
 
     const userScoresMap: { [userId: string]: UserScores } = {};
 
-    for (const [userId, userSums] of Object.entries(sums)) {
+    for (const [userId, userSums] of Object.entries(updatedSums)) {
       userScoresMap[userId] = userScoresMap[userId] || {
         sums: [],
         filteredSums: [],
@@ -123,14 +124,9 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
     const formDataArray = [];
     for (const [userId, userScores] of Object.entries(userScoresMap)) {
       const totalScore = userScores.sums.reduce((acc, score) => acc + score, 0);
-    // added if else part - remove if part if any error occurs
+      console.log("userScores:", userScores, "totalScore:", totalScore);
       let roundedValue = 0;
-      if(selectedMember && selectedMember.memberHandicap != undefined) {
-        console.log("selectedMember:", selectedMember);
-         roundedValue = Number(selectedMember.memberHandicap);
-         console.log("roundedValue:", roundedValue);
-      }
-      else {
+
        roundedValue = isHandicap[userId]
         ? Math.round(
           (totalScore *
@@ -143,7 +139,7 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
           0.8
         )
         : 0;
-      }
+      
       const netValue = totalPar - roundedValue;
 
       const newValueObj = contests.find(
@@ -359,8 +355,9 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
 
 
   const handleParChange = (index: number, value: string) => {
+    //console.log("handleParChange called with value:", value, "at index:", index);
     const numValue = Number(value);
-  
+    //console.log("numValue:", numValue, "index:", index, "editablePar:", editablePar);
     // Ensure the value is a valid number (not NaN)
     if (!isNaN(numValue)) {
       setEditablePar((prevPar) => {
@@ -377,7 +374,11 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
 
   const saveParToApi = async (parArray: number[]) => {
     const formdata = new FormData();
-    formdata.append("shotsPerHoles", JSON.stringify(parArray));
+     console.log("parArray:", parArray);
+  
+   // formdata.append("shotsPerHoles", JSON.stringify(parArray));
+   formdata.append("shotsPerHoles", parArray.join(","));
+    console.log("parArray:", parArray);
   
     // Include other necessary fields
     const selectedScoringType = localStorage.getItem("score") ?? "";
@@ -395,7 +396,7 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
         },
       });
   
-      if (response.status === 201) {
+      if (response.status === 200) {
         console.log("Par updated and event created!");
       } else {
         console.log("ERROR_OCCURED");
@@ -676,6 +677,11 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
                   const playerHandicap = isHandicap[member.userId] || false;
 
                   let roundedValue = 0;
+                  // Check if the member has a predefined handicap
+               if (member.memberHandicap) {
+                    roundedValue = member.memberHandicap;
+                  } 
+                    // Calculate the rounded value based on the scoring type
                   if (playerHandicap) {
                     if (singleEvent?.scoringType == "single") {
                       roundedValue = Math.round(
@@ -696,9 +702,21 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
                   }
 
                   const netValue = totalPar - roundedValue;
+                  console.log("selectedHoleSum:", selectedHoleSum);
+                  console.log("netValue:", netValue);
+                  console.log("roundedValue:", roundedValue); 
+                  console.log("totalPar:", totalPar); 
+
                   const playerData = formData?.find(
                     (data: any) => data.userId == member.userId
                   );
+const rawScore =
+  playerData?.totalScore || formData
+    ? Number(playerData?.totalScore)
+    : Number(totalScores[member.userId]);
+
+const memberHandicap = Number(member.memberHandicap ?? 0);
+const membernetValue = Math.max(0, rawScore - memberHandicap);
 
                   return (
                     <tr key={memberIndex} className="whitespace-nowrap ">
@@ -806,10 +824,9 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
                           </td>
                         );
                       })}
+
                       <td className="px-2 py-3 text-center">
-                        {playerData?.totalScore || formData
-                          ? playerData?.totalScore
-                          : totalScores[member.userId]}
+                        {rawScore}
                       </td>
                       {isCreator && (
                         <>
@@ -817,7 +834,7 @@ const AddScorePage: React.FC<GolfScoreProps> = ({ onSaveScores }) => {
                             {member.memberHandicap ? member.memberHandicap : roundedValue}
                           </td>
                           <td className="px-2 py-3 text-center">
-                            {netValue}
+                            {membernetValue}
                           </td>
                         </>
                       )}
