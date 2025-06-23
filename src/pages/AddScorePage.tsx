@@ -231,14 +231,26 @@ console.log("netValue:", netValue, "userId:", userId);
     updatedSums[userId][holeIndex] = value;
   }
 
-  // Compute total score per user
-  const userScoresMap: { [userId: string]: UserScores } = {};
-  for (const [id, userSums] of Object.entries(updatedSums)) {
-    userScoresMap[id] = {
-      sums: userSums,
-      filteredSums: filteredSums[id] || [],
-    };
-  }
+
+   const userScoresMap: { [userId: string]: UserScores } = {};
+
+    for (const [userId, userSums] of Object.entries(updatedSums)) {
+      userScoresMap[userId] = userScoresMap[userId] || {
+        sums: [],
+        filteredSums: [],
+      };
+      userScoresMap[userId].sums.push(...userSums);
+    }
+
+    for (const [userId, userFilteredSums] of Object.entries(filteredSums)) {
+      userScoresMap[userId] = userScoresMap[userId] || {
+        sums: [],
+        filteredSums: [],
+      };
+      userScoresMap[userId].filteredSums.push(...userFilteredSums);
+    }
+
+
 
   const formDataArray: any[] = [];
 
@@ -266,6 +278,8 @@ console.log("netValue:", netValue, "userId:", userId);
       typeof totalScore === "number" && !isNaN(totalScore)
         ? Math.max(0, totalScore - roundedValue)
         : "";
+
+
 
     const newValueObj = contests.find((c) => c.userId == id);
     const newPinValueObj = pinContests.find((p) => p.userId == id);
@@ -296,9 +310,6 @@ console.log("Rounded Value:", roundedValue, "Net Value:", netValue, "totalScore:
         (acc: number, score: number) => acc + score,
         0
       );
-       data.netValue = typeof data.totalScore === "number" && !isNaN(data.totalScore)
-        ? Math.max(0, data.totalScore - data.handiCapValue)
-        : "";
 
 
 
@@ -403,7 +414,7 @@ console.log("totalScores:", totalScores);
       return acc;
     }, []);
 
-  /*useEffect(() => {
+  useEffect(() => {
     const newFormData = score?.reduce((acc: any, item: any) => {
       const isMember = uniqueMembers?.find(
         (member: any) => member.userId === item.userId
@@ -413,7 +424,6 @@ console.log("totalScores:", totalScores);
         const member = uniqueMembers?.find(
           (member: any) => member.userId === item.userId
         );
-        console.log('member:', member);
         item.memberHandicap = member?.memberHandicap;
 
         const scorePerShot =
@@ -431,7 +441,7 @@ console.log("totalScores:", totalScores);
 
         let roundedValue = 0;
         if (item.memberHandicap !== undefined && item.memberHandicap !== null) {
-          roundedValue = Number(item.memberHandicap);
+          roundedValue = Number(member?.memberHandicap);
         } else if (isHandicap[item.userId]) {
           const multiplier =
             singleEvent?.scoringType === "single"
@@ -472,72 +482,7 @@ console.log("totalScores:", totalScores);
     }, []);
     setFormData(newFormData);
 
-  }, [score]);*/
-
-  useEffect(() => {
-  const newFormData = score?.reduce((acc: any, item: any) => {
-    const member = uniqueMembers?.find(
-      (member: any) => member.userId === item.userId
-    );
-    if (!member) return acc;
-
-    const memberHandicap = member.memberHandicap;
-
-    const scorePerShot =
-      typeof item?.scorePerShot === "string"
-        ? JSON.parse(item.scorePerShot)
-        : item.scorePerShot;
-
-    const handiCapPerShot =
-      typeof item?.handiCapPerShot === "string"
-        ? JSON.parse(item.handiCapPerShot)
-        : item.handiCapPerShot;
-
-    const totalScore = Array.isArray(scorePerShot)
-      ? scorePerShot.reduce((acc, val) => acc + Number(val || 0), 0)
-      : 0;
-
-    let roundedValue = 0;
-    if (memberHandicap !== undefined && memberHandicap !== null) {
-      roundedValue = Number(memberHandicap);
-    } else if (isHandicap[item.userId]) {
-      const multiplier =
-        singleEvent?.scoringType === "single"
-          ? 3
-          : singleEvent?.scoringType === "double"
-          ? 1.5
-          : 2;
-
-      roundedValue = Math.round((totalScore * multiplier - totalPar) * 0.8);
-    }
-
-   console.log("totalScore:", totalScore);
-console.log("roundedValue:", roundedValue);
-
-const netValue = Math.max(0, totalScore - roundedValue);
-
-console.log("netValue:", netValue);
-
-
-    acc.push({
-      scorePerShot,
-      totalScore,
-      userId: item.userId,
-      handiCapPerShot,
-      handiCapValue: roundedValue,
-      netValue:netValue,
-      eventId: item.eventId,
-      nearPinContest: item.nearPinContest,
-      driverContest: item.driverContest,
-      teamId: item.teamId,
-      teamName: item.name,
-    });
-
-    return acc;
-  }, []);
-
-  setFormData(newFormData);
-}, [score]);
+  }, [score]);
 
   const handleContests = (
     userId: number,
