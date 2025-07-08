@@ -4,10 +4,15 @@ import { useNavigate } from "react-router-dom";
 import { userAuthContext } from "../contexts/authContext";
 import { API_ENDPOINTS } from "../appConfig";
 import { eventContextStore } from "../contexts/eventContext";
+import { useTranslation } from "react-i18next";
 import { add } from "date-fns";
 const stripe = require("stripe")(process.env.REACT_APP_STRIPE_TEST_SECRET_KEY);
 
 const CompleteProfile = () => {
+    const { t, i18n } = useTranslation();
+  document.body.dir = i18n.dir();
+  const [name, setName] = useState("");
+const [phoneNumber, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
   const [idImage, setIdImage] = useState<File | null>(null);
     const { handleLocationFilter, clearFilter, eventFee} = eventContextStore();
@@ -70,7 +75,7 @@ const CompleteProfile = () => {
       // 1. Update address
       const response = await axios.put(
         API_ENDPOINTS.UPDATEUSERPROFILE + userId,
-        {address},
+        {name,phoneNumber,address},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -147,11 +152,32 @@ const CompleteProfile = () => {
     <form onSubmit={handleSubmit} className="max-w-md mx-auto  p-4 border rounded">
       <h2 className="text-lg font-bold mb-4 mt-5">Complete Your Profile</h2>
 
-      <label className="block mb-2">Address</label>
+     
+      <label className="block mb-2 ">{t('FULL_NAME')}</label>
+      <input
+        type="text"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        className="w-full border p-2 mb-4 rounded-md"
+        required
+      />
+
+    
+
+      <label className="block mb-2"> {t('ADDRESS')}</label>
       <input
         type="text"
         value={address}
         onChange={(e) => setAddress(e.target.value)}
+        className="w-full border p-2 mb-4 rounded-md"
+        required
+      />
+
+        <label className="block mb-2">{t('PHONE_NUM')}</label>
+      <input
+        type="text"
+        value={phoneNumber}
+        onChange={(e) => setPhoneNumber(e.target.value)}
         className="w-full border p-2 mb-4 rounded-md"
         required
       />

@@ -304,12 +304,24 @@ useEffect(() => {
     setAutocomplete(auto);
   };
 
+   const [isPrivate, setIsPrivate] = useState(false);
+  const [privatePassword, setPrivatePassword] = useState("");
+
+  useEffect(() => {
+  setFormData((prev: any) => ({
+    ...prev,
+    isPublic: !isPrivate,
+    privatePassword: isPrivate ? privatePassword : "",
+  }));
+}, [isPrivate, privatePassword]);
+
   //test
   return (
     <motion.div
       className="px-2 mx-auto lg:max-w-7xl "
       animate={{ x: [0, 100, 0] }}
     >
+
       <div
         className="p-4 mt-4 rounded-md bg-clip-padding "
         style={{
@@ -318,7 +330,46 @@ useEffect(() => {
         }}
       >
         <h2 className="text-4xl text-[#626262] ">{t("BASIC_INFORMATION")}</h2>
+          {/* Public/Private Toggle */}
+  <div className="flex items-center mt-8 mb-4">
+      <label className="block mb-2 text-lg tracking-wide text-[#626262] mr-4">
+        {t("EVENT_TYPE")}:
+      </label>
+      <button
+        type="button"
+        className={`px-4 py-3 rounded-l ${
+          !isPrivate ? "bg-[#17b3a6] text-white" : "bg-gray-200"
+        }`}
+        onClick={() => {
+          setIsPrivate(false);
+          setPrivatePassword(""); // reset password when switching to Public
+        }}
+      >
+        Public
+      </button>
+      <button
+        type="button"
+        className={`px-4 py-3 rounded-r ${
+          isPrivate ? "bg-[#17b3a6] text-white" : "bg-gray-200"
+        }`}
+        onClick={() => setIsPrivate(true)}
+      >
+        Private
+      </button>
+      </div>
+      <div className="flex items-center">
+      {isPrivate && (
+        <input
+          type="password"
+          className="block w-[1/2]  py-4 mb-3 leading-tight text-gray-800 transition duration-300 ease-in-out transform bg-white border border-gray-300 hover:border-gray-400 rounded shadow appearance-none focus:outline-none focus:"
+          placeholder={t("ENTER_PASSWORD")}
+          value={privatePassword}
+          onChange={(e) => setPrivatePassword(e.target.value)}
+        />
+      )}
+    </div>
         <div className="grid grid-cols-9 py-8 mx-auto lg:gap-x-16 ">
+              
           <div className="col-span-8 py-2 lg:col-span-4 md:col-span-5 md:mr-0 md:mb-3 ">
             <label
               className="block mb-2 text-lg tracking-wide text-[#626262] captilize "

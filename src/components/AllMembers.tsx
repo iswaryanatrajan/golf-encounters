@@ -280,6 +280,7 @@ export default function AllMembers() {
                             </div>
                           </div>
                         </div>
+                        </td>
                         <td className=" text-right">
                         {isCreated && (
                           <div className="flex flex-row space-x-2">
@@ -309,7 +310,7 @@ export default function AllMembers() {
                           </div>
                         )}
                       </td>
-                      </td>
+                      
                      
                     </tr>
                   );

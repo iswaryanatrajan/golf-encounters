@@ -161,6 +161,7 @@
     "MOBILE": "Mobile",
     "SHOW_MORE": "Show More",
     "TEl_NUM": "telephone number",
+    "PHONE_NUM": "Phone number",
     "ENTER_MOBILE": "Enter Mobile",
     "LOCATION": "Location",
     "Prefectures": "Prefectures",
@@ -488,5 +489,8 @@
     "COMPLETE_LESSON": "Complete Lesson",
     "WRITE_FEEDBACK": "Write feedback",
     "CONFIRM_ALL": "Mark all as read",
-    "HDCP_INDEX": "Handicap Index"
+    "HDCP_INDEX": "Handicap Index",
+    "ENTER_PASSWORD": "Please enter the password",
+    "PRIVATE_EVENT": "Private",
+    "PUBLIC_EVENT": "Public"
 }

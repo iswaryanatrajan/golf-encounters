@@ -347,6 +347,7 @@
     "EMAIL_EXAMPLE": "info@golf.com が有効になっていることを確認してください",
     "TELEPHONE_EXAMPLE": "半角数字",
     "TELEPHONE": "電話番号",
+    "PHONE_NUM": "電話番号",
     "HANDICAP_SCORE": "ハンディのスコア",
     "HANDICAP_EXAMPLE": "試合前のハンディキャップスコア",
     "SCORING_CATEGORY": "コンペスタイル",
@@ -488,6 +489,9 @@
     "COMPLETE_LESSON": "レッスンを完了する",
     "WRITE_FEEDBACK": "フィードバックを書く",
     "CONFIRM_ALL": "すべてを既読にする",
-    "HDCP_INDEX": "ハンディインデックス"
+    "HDCP_INDEX": "ハンディインデックス",
+    "ENTER_PASSWORD": "パスワードを入力",
+     "PRIVATE_EVENT": "クローズド",
+    "PUBLIC_EVENT": "パブリック"
 
 }

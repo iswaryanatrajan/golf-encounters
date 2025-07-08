@@ -24,6 +24,7 @@ import {
 } from "../contexts/eventContext";
 import { useTranslation } from "react-i18next";
 import { deleteEvent } from "../utils/fetchEvents";
+import PasswordModal  from "./PasswordModal";
 import socket from "../socket";
 interface TableProps {
   events?: Array<{
@@ -172,8 +173,63 @@ const Table: React.FunctionComponent<TableProps> = ({ events }) => {
     };
   }, []);
 
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [passwordInput, setPasswordInput] = useState("");
+  const [joinEventItem, setjoinEventItem] = useState<any | null>(null);
+  const [passwordError, setPasswordError] = useState("");
+
+  // Handler for join button click
+  const handleJoinClick = (item: any) => {
+    console.log("item.isPublic:",item.isPublic)
+    if (item.isPublic === false) {
+      setjoinEventItem(item);
+      setShowPasswordModal(true);
+      setPasswordInput("");
+      setPasswordError("");
+    } else {
+      router("/pay-now/" + item.id);
+    }
+  };
+
+  // Handler for password modal submit
+  const handlePasswordSubmit = () => {
+    // Replace this with real password check logic as needed
+    if (passwordInput.trim() === "") {
+      setPasswordError("Password is required");
+      return;
+    }
+    if (!joinEventItem || passwordInput.trim() !== joinEventItem.privatePassword) {
+      console.log("joinEventItem",joinEventItem)
+    setPasswordError("Incorrect password");
+    return;
+  }
+    setShowPasswordModal(false);
+    setPasswordInput("");
+    setPasswordError("");
+    if (joinEventItem) {
+      router("/pay-now/" + joinEventItem.id);
+    }
+  };
+
+  // Handler for closing modal
+  const handleClosePasswordModal = () => {
+    setShowPasswordModal(false);
+    setPasswordInput("");
+    setPasswordError("");
+  };
+
   return (
     <div className="animate__animated animate__fadeInLeft">
+      {/* Password Modal */}
+      {showPasswordModal && (
+  <PasswordModal
+    passwordInput={passwordInput}
+    setPasswordInput={setPasswordInput}
+    passwordError={passwordError}
+    setShowPasswordModal={setShowPasswordModal}
+    handlePasswordSubmit={handlePasswordSubmit}
+  />
+)}
       {(eventss || []).length === 0 ? (
         <div className="p-5 text-center">
           <span className="text-lg font-medium">No events yet</span>
@@ -476,7 +532,7 @@ const Table: React.FunctionComponent<TableProps> = ({ events }) => {
                                       }} className="bg-[#fff] border-solid border-blue-500 border p-2 text-center my-2 shadow-light-all text-blue-500 rounded-lg m-0 hover:bg-blue-500 hover:text-white   w-max" style={{
                                       }}> {t("JOINING_OVER")} </div> : <div onClick={(e) => {
                                         e.preventDefault();
-                                        router("/pay-now/" + event.id);
+                                         handleJoinClick(event);
                                       }} className="bg-blue-500 text-white  p-2 text-center my-2 rounded-lg m-0 hover:bg-blue-600 hover:text-white w-max shadow-light-all" style={{
                                       }}>{t("JOIN_NOW")}</div>
                                     }
@@ -720,13 +776,18 @@ const Table: React.FunctionComponent<TableProps> = ({ events }) => {
                                     }} className="bg-[#ddf4f2]  p-2 text-center text-[#17B3A6] rounded-lg m-0 hover:bg-black hover:text-white " style={{
                                       boxShadow:
                                         "rgb(253 253 255 / 0%) 0px 0px 0px 0px, rgba(0, 0, 0, 0.3) 0px 1px 11px 1px",
-                                    }}> {t("JOINING_OVER")} </span> : <span onClick={(e) => {
-                                      e.preventDefault();
-                                      router("/pay-now/" + item.id);
-                                    }} className="bg-white  p-2 text-center rounded-lg m-0 hover:bg-black hover:text-white" style={{
-                                      boxShadow:
-                                        "rgb(253 253 255 / 0%) 0px 0px 0px 0px, rgba(0, 0, 0, 0.3) 0px 1px 11px 1px",
-                                    }}>{t("JOIN")}</span>
+                                    }}> {t("JOINING_OVER")} </span> : 
+                                    <span
+                                      onClick={e => {
+                                        e.preventDefault();
+                                        handleJoinClick(item);
+                                      }}
+                                      className="bg-white  p-2 text-center rounded-lg m-0 hover:bg-black hover:text-white"
+                                      style={{
+                                        boxShadow:
+                                          "rgb(253 253 255 / 0%) 0px 0px 0px 0px, rgba(0, 0, 0, 0.3) 0px 1px 11px 1px",
+                                      }}
+                                    >{t("JOIN")}</span>
                                   }
 
 
