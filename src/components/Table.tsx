@@ -192,12 +192,16 @@ const Table: React.FunctionComponent<TableProps> = ({ events }) => {
   };
 
   // Handler for password modal submit
-  const handlePasswordSubmit = () => {
+ /* const handlePasswordSubmit = () => {
     // Replace this with real password check logic as needed
     if (passwordInput.trim() === "") {
       setPasswordError("Password is required");
       return;
     }
+
+
+
+
     if (!joinEventItem || passwordInput.trim() !== joinEventItem.privatePassword) {
       console.log("joinEventItem",joinEventItem)
     setPasswordError("Incorrect password");
@@ -209,7 +213,47 @@ const Table: React.FunctionComponent<TableProps> = ({ events }) => {
     if (joinEventItem) {
       router("/pay-now/" + joinEventItem.id);
     }
-  };
+  };*/
+  const handlePasswordSubmit = async () => {
+  if (passwordInput.trim() === "") {
+    setPasswordError("Password is required");
+    return;
+  }
+
+  try {
+    const response = await fetch("/api/join-event", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        eventId: joinEventItem?.id,
+        password: passwordInput.trim(),
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      // Assume backend sends error message
+      setPasswordError(data.message || "Incorrect password");
+      return;
+    }
+
+    // Password correct
+    setShowPasswordModal(false);
+    setPasswordInput("");
+    setPasswordError("");
+
+    if (joinEventItem) {
+      router("/pay-now/" + joinEventItem.id);
+    }
+
+  } catch (error) {
+    console.error("Password check failed:", error);
+    setPasswordError("An error occurred. Please try again.");
+  }
+};
 
   // Handler for closing modal
   const handleClosePasswordModal = () => {
@@ -228,6 +272,7 @@ const Table: React.FunctionComponent<TableProps> = ({ events }) => {
     passwordError={passwordError}
     setShowPasswordModal={setShowPasswordModal}
     handlePasswordSubmit={handlePasswordSubmit}
+    handleClosePasswordModal ={handleClosePasswordModal}
   />
 )}
       {(eventss || []).length === 0 ? (
