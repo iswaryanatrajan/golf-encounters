@@ -215,45 +215,54 @@ const Table: React.FunctionComponent<TableProps> = ({ events }) => {
     }
   };*/
   const handlePasswordSubmit = async () => {
-  if (passwordInput.trim() === "") {
-    setPasswordError("Password is required");
+      const token = localStorage.getItem("token");
+
+       if (!token) {
+    router("/login-page"); // or your login route
     return;
   }
 
-  try {
-    const response = await fetch("/api/join-event", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        eventId: joinEventItem?.id,
-        password: passwordInput.trim(),
-      }),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      // Assume backend sends error message
-      setPasswordError(data.message || "Incorrect password");
+    if (passwordInput.trim() === "") {
+      setPasswordError("Password is required");
       return;
     }
+    let eventId = joinEventItem?.id;
+    let password = passwordInput.trim();
+    try {
+      const response = await axios.post(
+        API_ENDPOINTS.JOINPRIVATEEVENT,
+        { eventId, password },
+        {
+          headers: {
+          Authorization: `Bearer ${token}` 
+          },
+        }
+      );
 
-    // Password correct
-    setShowPasswordModal(false);
-    setPasswordInput("");
-    setPasswordError("");
+      // If backend returns error, handle it
+      if (response.data && response.data.success === false) {
+        setPasswordError(response.data.message || "Incorrect password");
+        return;
+      }
 
-    if (joinEventItem) {
-      router("/pay-now/" + joinEventItem.id);
+      // Password correct
+      setShowPasswordModal(false);
+      setPasswordInput("");
+      setPasswordError("");
+
+      if (joinEventItem) {
+        router("/pay-now/" + joinEventItem.id);
+      }
+    } catch (error: any) {
+      // Try to extract backend error message
+      let msg = "An error occurred. Please try again.";
+      if (error.response && error.response.data && error.response.data.message) {
+        msg = error.response.data.message;
+      }
+      setPasswordError(msg);
     }
+  };
 
-  } catch (error) {
-    console.error("Password check failed:", error);
-    setPasswordError("An error occurred. Please try again.");
-  }
-};
 
   // Handler for closing modal
   const handleClosePasswordModal = () => {
