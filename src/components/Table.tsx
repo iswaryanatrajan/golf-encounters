@@ -238,6 +238,7 @@ const Table: React.FunctionComponent<TableProps> = ({ events }) => {
           },
         }
       );
+      
 
       // If backend returns error, handle it
       if (response.data && response.data.success === false) {
@@ -255,10 +256,16 @@ const Table: React.FunctionComponent<TableProps> = ({ events }) => {
       }
     } catch (error: any) {
       // Try to extract backend error message
-      let msg = "An error occurred. Please try again.";
-      if (error.response && error.response.data && error.response.data.message) {
-        msg = error.response.data.message;
-      }
+      let msg = "Error joining private event.Please try again.";
+ if (
+    error.response &&
+    error.response.data &&
+    (error.response.data.error || error.response.data.message)
+  ) {
+    msg = error.response?.data?.error || error.response?.data?.message || msg;
+  }
+
+    
       setPasswordError(msg);
     }
   };
