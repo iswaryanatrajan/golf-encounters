@@ -72,6 +72,36 @@ const ScoringCategory: React.FC<ScoringTypeProps> = ({
 
   const [holeValues, setHoleValues] = useState<number[]>([]);
 
+type ShotsTemplate = {
+  [templateName: string]: number[]; // index signature for dynamic keys
+};
+
+const [shotTemplates, setShotTemplates] = useState<ShotsTemplate>({});
+const [selectedTemplate, setSelectedTemplate] = useState("");
+
+
+useEffect(() => {
+  const fetchTemplates = async () => {
+    try {
+      const response = await fetch("/api/shot-templates"); // change URL to your actual API
+      const data: ShotsTemplate = await response.json();
+      setShotTemplates(data);
+    } catch (error) {
+      console.error("Failed to fetch templates", error);
+    }
+  };
+
+  fetchTemplates();
+}, []);
+
+const handleTemplateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const templateName = e.target.value;
+  setSelectedTemplate(templateName);
+
+  if (shotTemplates[templateName]) {
+    setHoleValues([...shotTemplates[templateName]]);
+  }
+};
 
   useEffect(() => {
     // Check if formdataa is defined and has shotsPerHoles
@@ -373,7 +403,7 @@ const ScoringCategory: React.FC<ScoringTypeProps> = ({
             <div className="flex-wrap xl:flex-nowrap xl:flex gap-0 xl:gap-10">
               <div>
                 <input
-                  className="rounded-full"
+                  className="rounded-full border-[#CCC] border-1 border-solid"
                   type="checkbox"
                   checked={showScoringType ? selectedScoringType === Tab.Regular : false}
                   name={Tab.Regular}
@@ -393,7 +423,7 @@ const ScoringCategory: React.FC<ScoringTypeProps> = ({
               </div>
               <div>
                 <input
-                  className="rounded-full"
+                  className="rounded-full border-[#CCC] border-1 border-solid"
                   type="checkbox"
                   checked={selectedScoringType === Tab.Single}
                   name={Tab.Single}
@@ -413,7 +443,7 @@ const ScoringCategory: React.FC<ScoringTypeProps> = ({
               </div>
               <div>
                 <input
-                  className="rounded-full"
+                  className="rounded-full border-[#CCC] border-1 border-solid"
                   type="checkbox"
                   checked={selectedScoringType === Tab.Double}
                   name={Tab.Double}
@@ -433,7 +463,7 @@ const ScoringCategory: React.FC<ScoringTypeProps> = ({
               </div>
               <div>
                 <input
-                  className="rounded-full"
+                  className="rounded-full border-[#CCC] border-1 border-solid"
                   type="checkbox"
                   checked={selectedScoringType === Tab.Triple}
                   name={Tab.Triple}
@@ -452,7 +482,24 @@ const ScoringCategory: React.FC<ScoringTypeProps> = ({
                 </button>
               </div>
             </div>
-            {selectedScoringType === Tab.Regular && (
+
+            <div className="my-4">
+  <label className="text-[#626262] mr-2">{t("Select Template")}:</label>
+<select
+  value={selectedTemplate}
+  onChange={handleTemplateChange}
+  className="border border-[#51ff85] rounded px-3 py-1"
+>
+  <option value="">-- Choose a template --</option>
+  {Object.keys(shotTemplates).map((name) => (
+    <option key={name} value={name}>
+      {name}
+    </option>
+  ))}
+</select>
+</div>
+
+        {selectedScoringType === Tab.Regular && (
               <div className="grid grid-cols-9 mx-auto lg:gap-x-16">
                 <div className="col-span-8  py-2 lg:col-span-12 md:col-span-5 md:mr-0 md:mb-3">
                   <h4 className="text-[#626262] hidden">{t("PLEASE_HOLE")} </h4>
