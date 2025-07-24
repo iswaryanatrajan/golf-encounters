@@ -1106,6 +1106,47 @@ const EditTeamPage: FunctionComponent = () => {
                 </>
               )}
 
+             {/* Added to show add score option in individual match type*/} 
+             {singleEvent?.eventType === "個人(individual)" && (
+                <>
+                  <div className="max-w-5xl mx-auto xl:mx-auto ">
+                    <div className="xl:flex items-center justify-between   gap-40 py-8">
+                      {isJoined ? (
+                        <>
+
+                          <div className="flex items-center gap-4">
+
+                          </div>
+                          {!isEventOver || !isDeadlineOver ? <div className="flex justify-end w-full">
+                            <button
+                              className="p-4 font-normal text-white uppercase bg-blue-500 rounded cursor-pointer hover:bg-blue-700"
+                              onClick={() => router(`/add-score-page/${singleEvent?.id}`)}
+                            >
+                              {t('Add Score')}
+                            </button>
+                          </div> : <div className="flex justify-end w-full">
+                            <button
+                              className="px-6 py-4 font-medium text-white uppercase bg-red-500 rounded cursor-pointer hover:bg-blue-700"
+                              onClick={() => router(`/score-board/${singleEvent?.id}`)}
+                            >
+                              {t('View Score')}
+                            </button>
+                          </div>}
+
+                        </>
+                      ) : (
+                        <>
+
+
+                        </>
+                      )}
+                    </div>
+               
+                  </div>
+
+                </>
+              )}
+
               <table className="w-full mt-4 mb-4">
                 <CommentModel eventIsd={singleEvent?.id} closeModal={() => { }} />
 
