@@ -43,6 +43,8 @@ export const API_ENDPOINTS = {
   SEARCH_EVENT_NAME: `${API_BASE_URL}/${API_VERSION}/get-event-col-data`,
   GETMEMBERSLIST: `${API_BASE_URL}/${API_VERSION}/get-joined-and-wait-list/`,
   JOINPRIVATEEVENT: `${API_BASE_URL}/${API_VERSION}/verify-event-private-password/`,
+
+  GETTEMPLATES: `${API_BASE_URL}/admin/get-course-events`,
   
 
   // EVent ceremony

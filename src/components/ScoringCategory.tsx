@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { API_ENDPOINTS } from "../appConfig";
+import axios from "axios";
 
 interface ScoringTypeProps {
   onChange: (
@@ -72,20 +74,34 @@ const ScoringCategory: React.FC<ScoringTypeProps> = ({
 
   const [holeValues, setHoleValues] = useState<number[]>([]);
 
-type ShotsTemplate = {
-  [templateName: string]: number[]; // index signature for dynamic keys
+type Hole = {
+  par: number;
+  holeNumber: number;
 };
 
-const [shotTemplates, setShotTemplates] = useState<ShotsTemplate>({});
-const [selectedTemplate, setSelectedTemplate] = useState("");
+type Template = {
+  id: number;
+  name: string;
+  address: string;
+  holes: Hole[]; // this is key!
+};
+
+const [shotTemplates, setShotTemplates] = useState<Template[]>([]);
 
 
+const [selectedTemplateId, setSelectedTemplateId] = useState<number | "">("");
+
+ const token = localStorage.getItem("token");
 useEffect(() => {
   const fetchTemplates = async () => {
     try {
-      const response = await fetch("/api/shot-templates"); // change URL to your actual API
-      const data: ShotsTemplate = await response.json();
-      setShotTemplates(data);
+      const response = await axios.get(API_ENDPOINTS.GETTEMPLATES,{
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setShotTemplates(response.data.courseEvents || {});
+      console.log("Shot templates:", shotTemplates);
     } catch (error) {
       console.error("Failed to fetch templates", error);
     }
@@ -95,11 +111,15 @@ useEffect(() => {
 }, []);
 
 const handleTemplateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  const templateName = e.target.value;
-  setSelectedTemplate(templateName);
+  const selectedId = Number(e.target.value);
+  setSelectedTemplateId(selectedId);
 
-  if (shotTemplates[templateName]) {
-    setHoleValues([...shotTemplates[templateName]]);
+  const selected = shotTemplates.find((t) => t.id === selectedId);
+  if (selected) {
+   const parValues = selected.holes
+  .sort((a, b) => a.holeNumber - b.holeNumber)
+  .map((hole) => hole.par);
+    setHoleValues(parValues);
   }
 };
 
@@ -485,15 +505,11 @@ const handleTemplateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 
             <div className="my-4">
   <label className="text-[#626262] mr-2">{t("Select Template")}:</label>
-<select
-  value={selectedTemplate}
-  onChange={handleTemplateChange}
-  className="border border-[#51ff85] rounded px-3 py-1"
->
-  <option value="">-- Choose a template --</option>
-  {Object.keys(shotTemplates).map((name) => (
-    <option key={name} value={name}>
-      {name}
+<select value={selectedTemplateId} onChange={handleTemplateChange}>
+  <option value="">-- Select a template --</option>
+  {shotTemplates.map((template) => (
+    <option key={template.id} value={template.id}>
+      {template.name}
     </option>
   ))}
 </select>
