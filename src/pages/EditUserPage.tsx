@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext,useState } from "react";
 import { useTranslation } from "react-i18next";
 import InputWithIcon from "../components/FormComponents";
 import { MapPinIcon, PhoneIcon, UserIcon } from "@heroicons/react/24/outline";
@@ -11,6 +11,8 @@ const UpdateProfilePage: React.FC = () => {
   const { t, i18n } = useTranslation();
   const { userFormData, setUserFormData, handleUpdateUser, message } =
     userAuthContext(); // Use useContext to access context values
+
+    const [errors, setErrors] = useState<{ [key: string]: boolean }>({});
    
     
 
@@ -22,6 +24,7 @@ const UpdateProfilePage: React.FC = () => {
       const updatedValues = { ...prev, [name]: value };
       return updatedValues;
     });
+    setErrors((prev) => ({ ...prev, [name]: false }));
   };
   const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files?.[0];
@@ -40,13 +43,40 @@ const UpdateProfilePage: React.FC = () => {
       reader.readAsDataURL(files);
     }
   };
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+
+  const newErrors = {
+    nickName: (userFormData.nickName || "").trim() === "",
+    email: (userFormData.email || "").trim() === "",
+    password: (userFormData.password || "").trim() === "",
+    confirmPassword: (userFormData.confirmPassword || "").trim() === "",
+  };
+
+  setErrors(newErrors);
+
+  if (Object.values(newErrors).some(Boolean)) {
+    toast.error("Please fill out all required fields.");
+    return;
+  }
+
+  if (userFormData.password !== userFormData.confirmPassword) {
+    toast.error("Passwords do not match. Please try again.");
+    setErrors((prev) => ({ ...prev, confirmPassword: true }));
+    return;
+  }
+
+  await handleUpdateUser();
+  toast.success("Profile updated successfully!");
+};
+ /* const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(userFormData);
     if (
       !userFormData.nickName ||
       !userFormData.email ||
-      !userFormData.password
+      !userFormData.password ||
+      !userFormData.confirmPassword
     ) {
       toast.error("Please fill out all required fields.");
       return;
@@ -54,12 +84,13 @@ const UpdateProfilePage: React.FC = () => {
 
     if (userFormData.confirmPassword === userFormData.password) {
       await handleUpdateUser();
-      toast.success("Updated Succuss");
+      toast.success("Profile updated successfully!");
     } else {
-      toast.error("Password Does Not Matched")
+      toast.error("Passwords do not match. Please try again.");
+      return;
 
     }
-  };
+  };*/
   return (
     <div className=" max-w-7xl mx-auto">
       <form onSubmit={handleSubmit} className="py-20" style={{
@@ -118,6 +149,7 @@ const UpdateProfilePage: React.FC = () => {
                   colSpanSm={6}
                   colSpanMd={4}
                   colSpanLg={2}
+                  hasError={errors.nickName}
                 />
               </div>
 
@@ -132,7 +164,9 @@ const UpdateProfilePage: React.FC = () => {
                   colSpanSm={6}
                   colSpanMd={4}
                   colSpanLg={2}
+                   hasError={errors.email}
                 />
+
               </div>
 
               <div className="ml-[0.5px] mr-10 xl:ml-0 xl:mr-0">
@@ -147,6 +181,7 @@ const UpdateProfilePage: React.FC = () => {
                   colSpanSm={6}
                   colSpanMd={4}
                   colSpanLg={2}
+                    hasError={errors.password}
                 />
               </div>
 
@@ -162,6 +197,7 @@ const UpdateProfilePage: React.FC = () => {
                   colSpanSm={6}
                   colSpanMd={4}
                   colSpanLg={2}
+                  hasError={errors.confirmPassword}
                 />
               </div>
 

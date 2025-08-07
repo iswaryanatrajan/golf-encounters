@@ -72,7 +72,7 @@ const LeaderBoardTables: FunctionComponent = () => {
               } px-4 py-2 border rounded-full`}
 
           >
-            {t("HANDICAP_SCORE")}
+            {t("HDCP_INDEX")}
           </button>
           </div>
         </div>

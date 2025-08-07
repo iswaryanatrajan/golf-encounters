@@ -121,7 +121,7 @@ const ScoringTabs = ({ singleEvent }: any) => {
                 } px-4 py-2   rounded-full`}
               onClick={() => handleTabClick("HANDICAP")}
             >
-              {t("HANDICAP_SCORE")}
+              {t("HDCP_INDEX")}
             </button>
           </div>
         </div>

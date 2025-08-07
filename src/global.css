@@ -261,6 +261,13 @@ table.leaderboard_tbl tr td::after {
   right: 0;
 }
 
+.input-error input {
+  border: 2px solid #ff4d4f;
+  background-color: #fff0f0;
+}
+
+
+
 /*header{
   top: 0px;
   z-index: 1006;

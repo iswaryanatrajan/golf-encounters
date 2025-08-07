@@ -19,6 +19,7 @@ interface InputWithIconProps {
   handleImageChange?: any;
   handleLocationChange?: any;
   handleLevelChange?: any;
+  hasError?: boolean;
 }
 
 interface OptionType {
@@ -43,6 +44,7 @@ const InputWithIcon: React.FC<InputWithIconProps> = ({
   handleImageChange,
   handleLocationChange,
   handleLevelChange,
+  hasError = false,
 }) => {
   const { t } = useTranslation();
 
@@ -166,7 +168,7 @@ const InputWithIcon: React.FC<InputWithIconProps> = ({
   return (
     <div>
       <div
-        className={`col-span-12 mx-0 lg:mx-4 sm:col-span-${colSpanSm} md:col-span-${colSpanMd} lg:col-span-${colSpanLg} py-0 xl:py-2 md:mr-0 md:mb-0`}
+        className={`col-span-12 mx-0 lg:mx-4 sm:col-span-${colSpanSm} md:col-span-${colSpanMd} lg:col-span-${colSpanLg} py-0 xl:py-2 md:mr-0 md:mb-0 input-with-icon ${hasError ? "input-error" : ""}`}
       >
         <label
           className="mb-2 text-xs font-bold tracking-wide text-gray-700 capitalize flex items-center gap-2"
