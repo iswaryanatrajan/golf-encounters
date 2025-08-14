@@ -13,6 +13,7 @@ import { singleEventContextStore } from "../contexts/eventContext";
 import { GoogleMap, LoadScript, Marker, Autocomplete } from "@react-google-maps/api";
 
 
+
 interface BasicInfoProps {
   onChange: (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -171,6 +172,8 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
       handleUpdateEventMedia(updateEventMedia);
     }
   }, [updateEventMedia]);
+
+
 
   const handleSelectedImage = (selectedImage: any, eId: any) => {
 

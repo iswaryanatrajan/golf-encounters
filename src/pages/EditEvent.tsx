@@ -60,7 +60,7 @@ const EditEvent: React.FC = () => {
         isEventPublished: singleEvent?.isEventPublished,
         hideParticipantName: singleEvent?.hideParticipantName,
         isRequiresApproval: singleEvent?.isRequiresApproval,
-        scoringType: singleEvent?.scoringType,
+        scoringType: singleEvent?.scoringType,      
         selectedHoles: singleEvent?.selectedHoles,
         shotsPerHoles: singleEvent?.shotsPerHoles,
         driverContest:  singleEvent?.driverContest,
@@ -306,6 +306,52 @@ const EditEvent: React.FC = () => {
       setFormData({ ...formData, [name]: value });
     }
   };
+
+    type Hole = {
+  par: number;
+  holeNumber: number;
+};
+  type Template = {
+  id: number;
+  name: string;
+  address: string;
+  prefecture: string;
+  holes: Hole[]; // this is key!
+};
+  
+  const [shotTemplates, setShotTemplates] = useState<Template[]>([]); // shared data
+    const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
+   const token = localStorage.getItem("token");
+    
+    
+  useEffect(() => {
+    const fetchTemplates = async () => {
+      try {
+        const response = await axios.get(API_ENDPOINTS.GETTEMPLATES, {
+          headers: {
+            Authorization: `Bearer ${token}`, // make sure token is available here
+          },
+        });
+        setShotTemplates(response.data.courseEvents || {});
+        console.log("Shot templates:", response.data.courseEvents);
+      } catch (error) {
+        console.error("Failed to fetch templates", error);
+      }
+    };
+
+    fetchTemplates();
+  }, []); 
+
+    const handleTemplateSelect = (template: Template) => {
+  setSelectedTemplate(template);
+  setFormData((prev:any) => ({
+    ...prev,
+    place: template.prefecture || '',
+    shotsPerHoles: template.holes
+      .sort((a, b) => Number(a.holeNumber) - Number(b.holeNumber))
+      .map((hole) => hole.par)
+  }));
+};
   
 
   const itemInstructions = (updatedValues: any) => {
@@ -335,7 +381,7 @@ const EditEvent: React.FC = () => {
         </div>
 
         <form method="post" id="foirm" encType="multipart/form-data">
-          <BasicInfo onChange={handleChange} setFormData={setFormData} formData={formData}/>
+          <BasicInfo onChange={handleChange} setFormData={setFormData} formData={formData} />
 
           <Recuitments setFormData={setFormData} onChange={handleRecruitmentTabsChange} formData={formData}/>
 
@@ -345,6 +391,8 @@ const EditEvent: React.FC = () => {
             onInputChange={handleChange}
             selectedHoles={formData.selectedHoles || []}
             formdataa={formData}
+            shotTemplates={shotTemplates}
+            onTemplateSelect={handleTemplateSelect}
           />
 
           <PaymentDetails setFormData={setFormData} onChange={handlePaymentDetailsChange} formData={formData}/>

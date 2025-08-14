@@ -3,6 +3,19 @@ import { useTranslation } from "react-i18next";
 import { API_ENDPOINTS } from "../appConfig";
 import axios from "axios";
 
+type Hole = {
+  par: number;
+  holeNumber: number;
+};
+
+type Template = {
+  id: number;
+  name: string;
+  address: string;
+  prefecture: string;
+  holes: Hole[]; // this is key!
+};
+
 interface ScoringTypeProps {
   onChange: (
     scoringType: string,
@@ -11,6 +24,8 @@ interface ScoringTypeProps {
   onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   selectedHoles: string[];
   formdataa?:any;
+  shotTemplates: Template[];
+  onTemplateSelect?: (template: Template) => void;
 }
 
 enum Tab {
@@ -63,7 +78,9 @@ const ScoringCategory: React.FC<ScoringTypeProps> = ({
   onChange,
   onInputChange,
   selectedHoles,
-  formdataa
+  formdataa,
+  shotTemplates,
+  onTemplateSelect,
 }) => {
   const { t, i18n } = useTranslation();
   document.body.dir = i18n.dir();
@@ -74,25 +91,15 @@ const ScoringCategory: React.FC<ScoringTypeProps> = ({
 
   const [holeValues, setHoleValues] = useState<number[]>([]);
 
-type Hole = {
-  par: number;
-  holeNumber: number;
-};
 
-type Template = {
-  id: number;
-  name: string;
-  address: string;
-  holes: Hole[]; // this is key!
-};
 
-const [shotTemplates, setShotTemplates] = useState<Template[]>([]);
+//const [shotTemplates, setShotTemplates] = useState<Template[]>([]);
 
 
 const [selectedTemplateId, setSelectedTemplateId] = useState<number | "">("");
 
  const token = localStorage.getItem("token");
-useEffect(() => {
+/*useEffect(() => {
   const fetchTemplates = async () => {
     try {
       const response = await axios.get(API_ENDPOINTS.GETTEMPLATES,{
@@ -108,20 +115,31 @@ useEffect(() => {
   };
 
   fetchTemplates();
-}, []);
+}, []);*/
 
-const handleTemplateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+ useEffect(() => {
+    if (shotTemplates) {
+      console.log("ScoringCategory got templates:", shotTemplates);
+      // Use directly — no fetch here anymore
+    }
+  }, [shotTemplates]);
+
+/*const handleTemplateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
   const selectedId = Number(e.target.value);
   setSelectedTemplateId(selectedId);
 
   const selected = shotTemplates.find((t) => t.id === selectedId);
   if (selected) {
+ //   setSelectedTemplateId(selectedId); // your own state for selected ID
+  onTemplateSelect?.(selected); // send to parent
    const parValues = selected.holes
   .sort((a, b) => a.holeNumber - b.holeNumber)
   .map((hole) => hole.par);
     setHoleValues(parValues);
   }
-};
+};*/
+
+
 
   useEffect(() => {
     // Check if formdataa is defined and has shotsPerHoles
@@ -151,6 +169,26 @@ const handleTemplateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       setHoleValues(Array.from({ length: numHoles }, () => 4));
     }
   }, [formdataa, numHoles]);
+
+  const handleTemplateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const selectedId = Number(e.target.value);
+  setSelectedTemplateId(selectedId);
+
+  const selected = shotTemplates.find((t) => t.id === selectedId);
+
+  if (selected) {
+    onTemplateSelect?.(selected);
+
+    const parValues = selected.holes
+      .sort((a, b) => Number(a.holeNumber) - Number(b.holeNumber))
+      .map((hole) => hole.par);
+
+    console.log("Par values:", parValues); // debug
+    setHoleValues(parValues); // local state
+    // OR if holeValues is from parent:
+    // onHoleValuesChange?.(parValues);
+  }
+};
   
 
   const handleParInputChange = (e: any, index: any) => {

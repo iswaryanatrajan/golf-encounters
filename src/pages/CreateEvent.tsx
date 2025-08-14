@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import TournamentBg from "../components/TournamentBg";
 import BasicInfo from "../components/BasicInfo";
 import Recuitments, { Tab } from "../components/Recruitment";
@@ -146,12 +146,49 @@ const CreateEvent: React.FC = () => {
     }
   };
   const [submitting, setSubmitting] = useState(false);
+  type Hole = {
+  par: number;
+  holeNumber: number;
+};
+  type Template = {
+  id: number;
+  name: string;
+  address: string;
+  prefecture: string;
+  holes: Hole[]; // this is key!
+};
   
-  
-  
+  const [shotTemplates, setShotTemplates] = useState<Template[]>([]); // shared data
+  const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
+   const token = localStorage.getItem("token");
     
     
+  useEffect(() => {
+    const fetchTemplates = async () => {
+      try {
+        const response = await axios.get(API_ENDPOINTS.GETTEMPLATES, {
+          headers: {
+            Authorization: `Bearer ${token}`, // make sure token is available here
+          },
+        });
+        setShotTemplates(response.data.courseEvents || {});
+        console.log("Shot templates:", response.data.courseEvents);
+      } catch (error) {
+        console.error("Failed to fetch templates", error);
+      }
+    };
 
+    fetchTemplates();
+  }, []); 
+
+  const handleTemplateSelect = (template: Template) => {
+  setSelectedTemplate(template);
+  console.log("Selected template:", template);
+  setFormData((prev) => ({
+    ...prev,
+    place: template.prefecture || ''
+  }));
+};
   
     
   const getDefaultImageFile = async (imagePath: string): Promise<File> => {
@@ -318,7 +355,7 @@ const CreateEvent: React.FC = () => {
         </div>
 
         <form method="post" id="foirm" encType="multipart/form-data">
-          <BasicInfo onChange={handleChange} setFormData={setFormData} />
+          <BasicInfo onChange={handleChange} setFormData={setFormData}   formData={formData}/>
           <PaymentDetails setFormData={setFormData} onChange={handlePaymentDetailsChange} formData={formData}/>
           <Recuitments setFormData={setFormData} onChange={handleRecruitmentTabsChange} />
 
@@ -327,6 +364,8 @@ const CreateEvent: React.FC = () => {
             onChange={handleScoringTypeChange}
             onInputChange={handleChange}
             selectedHoles={formData.selectedHoles || []}
+            shotTemplates={shotTemplates}
+            onTemplateSelect={handleTemplateSelect}
            
           />
 
