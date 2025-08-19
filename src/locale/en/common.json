@@ -492,5 +492,12 @@
     "HDCP_INDEX": "Handicap Index",
     "ENTER_PASSWORD": "Please enter the password",
     "PRIVATE_EVENT": "Private",
-    "PUBLIC_EVENT": "Public"
+    "PUBLIC_EVENT": "Public",
+    "COMPLETE_PROFILE" : "Complete Profile",
+    "COMPLETE_PROFILE_DESCRIPTION" : "As an event organizer, you are required to submit an ID proof as you will be handling financial transactions and personal information. We appreciate your cooperation.",
+    "ID_IMAGE": "ID Image (Driver's License, Passport, etc.)",
+     "PROFILE_SUBMIT": "SUBMIT",
+     "ADD_SIZE": "Add",
+     "SELECT_TEMPLATE":"Select Template"
+
 }

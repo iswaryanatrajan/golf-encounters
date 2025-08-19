@@ -306,7 +306,7 @@ document.body.dir = i18n.dir();
                   type="button"
                   onClick={() => {handleTabClick("チーム(team)", "message")}}
                 >
-                  {t('Add')}
+                  {t('ADD_SIZE')}
                 </button>
                   </div>
                   </div>

@@ -150,7 +150,9 @@ const [phoneNumber, setPhoneNumber] = useState("");
 
   return (
     <form onSubmit={handleSubmit} className="max-w-md mx-auto  p-4 border rounded">
-      <h2 className="text-lg font-bold mb-4 mt-5">Complete Your Profile</h2>
+      <h2 className="text-lg font-bold mb-4 mt-5">{t('COMPLETE_PROFILE')}
+</h2>
+<p className="text-lg mb-4 mt-5">{t('COMPLETE_PROFILE_DESCRIPTION')}</p>
 
      
       <label className="block mb-2 ">{t('FULL_NAME')}</label>
@@ -182,7 +184,7 @@ const [phoneNumber, setPhoneNumber] = useState("");
         required
       />
 
-      <label className="block mb-2">Identification Image</label>
+      <label className="block mb-2">{t('ID_IMAGE')}</label>
       <input
         type="file"
         accept="image/*"
@@ -195,7 +197,7 @@ const [phoneNumber, setPhoneNumber] = useState("");
         type="submit"
         className="bg-blue-600  text-white px-4 py-2 rounded mt-2 hover:bg-blue-700 transition-colors"
       >
-        Submit
+        {t('SUBMIT')}
       </button>
     </form>
   );

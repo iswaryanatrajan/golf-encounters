@@ -347,8 +347,8 @@ useEffect(() => {
           setIsPrivate(false);
           setPrivatePassword(""); // reset password when switching to Public
         }}
-      >
-        Public
+      >  {t("PUBLIC_EVENT")}
+        
       </button>
       <button
         type="button"
@@ -357,14 +357,14 @@ useEffect(() => {
         }`}
         onClick={() => setIsPrivate(true)}
       >
-        Private
+        {t("PRIVATE_EVENT")}
       </button>
       </div>
       <div className="flex items-center">
       {isPrivate && (
         <input
           type="password"
-          className="block w-[1/2]  py-4 mb-3 leading-tight text-gray-800 transition duration-300 ease-in-out transform bg-white border border-gray-300 hover:border-gray-400 rounded shadow appearance-none focus:outline-none focus:"
+          className="block w-[250px]  py-4 mb-3 leading-tight text-gray-800 transition duration-300 ease-in-out transform bg-white border border-gray-300 hover:border-gray-400 rounded shadow appearance-none focus:outline-none focus:"
           placeholder={t("ENTER_PASSWORD")}
           value={privatePassword}
           onChange={(e) => setPrivatePassword(e.target.value)}

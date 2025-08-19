@@ -542,9 +542,9 @@ const [selectedTemplateId, setSelectedTemplateId] = useState<number | "">("");
             </div>
 
             <div className="my-4">
-  <label className="text-[#626262] mr-2">{t("Select Template")}:</label>
+  <label className="text-[#626262] mr-2">{t("SELECT_TEMPLATE")}:</label>
 <select value={selectedTemplateId} onChange={handleTemplateChange}>
-  <option value="">-- Select a template --</option>
+  <option value="">{t("SELECT_TEMPLATE")}</option>
   {shotTemplates.map((template) => (
     <option key={template.id} value={template.id}>
       {template.name}

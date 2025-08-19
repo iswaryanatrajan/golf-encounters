@@ -490,8 +490,14 @@
     "WRITE_FEEDBACK": "フィードバックを書く",
     "CONFIRM_ALL": "すべてを既読にする",
     "HDCP_INDEX": "ハンディインデックス",
-    "ENTER_PASSWORD": "パスワードを入力",
-     "PRIVATE_EVENT": "クローズド",
-    "PUBLIC_EVENT": "パブリック"
+    "ENTER_PASSWORD": "パスワードを設定してください。",
+     "PRIVATE_EVENT": "公開しない個人イベント",
+    "PUBLIC_EVENT": "一般公開",
+    "COMPLETE_PROFILE": "【イベント管理者の設定】",
+    "COMPLETE_PROFILE_DESCRIPTION": "管理者は金銭の授受、個人情報の取り扱いが発生しますので身分証明書をご提出いただいております。ご協力お願いします。",
+    "ID_IMAGE": "身分証明書（運転免許証、パスポートなど）",
+    "PROFILE_SUBMIT": "提出",
+     "ADD_SIZE": "設定",
+     "SELECT_TEMPLATE":"登録済のコース"
 
 }
