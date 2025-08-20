@@ -674,19 +674,25 @@ const EditTeamPage: FunctionComponent = () => {
                           <div className="flex items-center gap-4">
 
                           </div>
-                          {!isEventOver || !isDeadlineOver ? <div className="flex justify-end w-full">
+                          {!isEventOver || !isDeadlineOver ? <div className="flex gap-4 justify-end w-full">
                             <button
                               className="p-4 font-normal text-white uppercase bg-blue-500 rounded cursor-pointer hover:bg-blue-700"
                               onClick={() => router(`/add-score-page/${singleEvent?.id}`)}
                             >
-                              {t('Add Score')}
+                              {t('ADDSCORE')}
                             </button>
-                          </div> : <div className="flex justify-end w-full">
+                             <button
+                              className="px-6 py-4 font-medium text-white uppercase bg-blue-500 rounded cursor-pointer hover:bg-blue-700"
+                              onClick={() => router(`/score-board/${singleEvent?.id}`)}
+                            >
+                              {t('CHECK_THE_RESULT')}
+                            </button>
+                          </div>: <div className="flex justify-end w-full">
                             <button
                               className="px-6 py-4 font-medium text-white uppercase bg-red-500 rounded cursor-pointer hover:bg-blue-700"
                               onClick={() => router(`/score-board/${singleEvent?.id}`)}
                             >
-                              {t('View Score')}
+                             {/*t('View Score')*/}  {t('CHECK_THE_RESULT')}
                             </button>
                           </div>}
 

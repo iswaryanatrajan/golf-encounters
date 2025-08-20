@@ -198,6 +198,8 @@
     "ABOUT_ME": "About Me",
     "ABOUT_THE_EVENT": "About The Event",
     "EVENT_BELOW": "Event details are below. Thank you so much for joining the event.",
+    "EVENT_BELOW_1": "Event details",
+    "EVENT_BELOW_2": "Thank you for joining the event",
     "MAIN_VIDEO": " Main Video/ Image",
     "Video_Portfolio":"Portfolio Videos",
     "BIO": "Tell us about yourself...",
@@ -498,6 +500,8 @@
     "ID_IMAGE": "ID Image (Driver's License, Passport, etc.)",
      "PROFILE_SUBMIT": "SUBMIT",
      "ADD_SIZE": "Add",
-     "SELECT_TEMPLATE":"Select Template"
+     "SELECT_TEMPLATE":"Select Template",
+     "ADDSCORE":"Add Score",
+     "CHECK_THE_RESULT":"Check the result"
 
 }

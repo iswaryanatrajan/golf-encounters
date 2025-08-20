@@ -422,9 +422,11 @@
     "LOAD_COMMENTS": "もっと見る",
     "ABOUT_THE_EVENT": "このイベントについて",
     "EVENT_BELOW": "イベントにご参加ありがとうございます。イベントの詳細、まとめましたのでお楽しみください。",
+    "EVENT_BELOW_1": "イベントにご参加ありがとうございます。",
+    "EVENT_BELOW_2": "イベントの詳細、まとめましたので、ご確認ください。",
     "EVENT_TYPE":"イベントタイプ",
     "EVENT_LOCATION":"イベントの場所",
-    "EVENT_ADDRESS":"イベントアドレス",
+    "EVENT_ADDRESS":"住所",
     "TOTAL_PARTICIPANT":"総参加者数",   
     "JOINED_MEMBER":"加入メンバー",
     "JOIN_NOW":"今すぐ参加",
@@ -498,6 +500,8 @@
     "ID_IMAGE": "身分証明書（運転免許証、パスポートなど）",
     "PROFILE_SUBMIT": "提出",
      "ADD_SIZE": "設定",
-     "SELECT_TEMPLATE":"登録済のコース"
+     "SELECT_TEMPLATE":"登録済のコース",
+     "ADDSCORE":"スコアを追加",
+     "CHECK_THE_RESULT":"結果を確認"
 
 }

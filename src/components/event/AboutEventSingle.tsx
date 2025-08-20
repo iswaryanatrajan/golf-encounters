@@ -109,7 +109,7 @@ export const AboutEvent = ({ totalJoinedMembers }: any) => {
       {/* Header */}
       <div className="xl:flex items-center gap-10 justify-center bg-[#17b3a6] rounded-t-lg py-2 px-8">
         <h2 className="leading-[15px] font-semibold text-white text-2xl">{t('ABOUT_EVENT')}</h2>
-        <h2 className="text-white text-xl m-0">{singleEvent?.eventName}</h2>
+       {/* <h2 className="text-white text-xl m-0">{singleEvent?.eventName}</h2> */}
       </div>
 
       {/* Content */}
