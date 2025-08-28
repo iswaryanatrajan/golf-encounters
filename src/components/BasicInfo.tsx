@@ -20,8 +20,21 @@ interface BasicInfoProps {
   ) => void;
   setFormData: React.Dispatch<React.SetStateAction<any>>;
   formData?: any;
+  selectedTemplate: Template | null;
+  courseMode?: "custom" | "preset";
 }
 
+  type Template = {
+  id: number;
+  name: string;
+  address: string;
+  prefecture: string;
+  holes: Hole[]; // this is key!
+};
+  type Hole = {
+  par: number;
+  holeNumber: number;
+};
 interface OptionType {
   label: string;
   value: string;
@@ -38,6 +51,8 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
   onChange,
   setFormData,
   formData,
+  selectedTemplate,
+  courseMode
 }) => {
   const { t } = useTranslation();
   const params = useParams<{ id: string }>();
@@ -524,9 +539,17 @@ useEffect(() => {
             >
               {t("PLACE")}
             </label>
+             {courseMode==="preset" ?
+        (   <input
+              type="text"
+              className="w-3/4 md:w-1/2 p-2 rounded-md focus:outline-none border-[#52FF86]"
+              value={formData?.place}
+              readOnly
+            />):(<div>
             <Select
               name="place"
               required
+              value={formData?.place || ""}
               placeholder={formData?.place}
               options={
                 JapanCities as OptionsOrGroups<
@@ -543,6 +566,7 @@ useEffect(() => {
                 Please enter a location within Japan.
               </p>
             )}
+            </div>)}
           </div>
          {/* <div className="col-span-8 py-2 lg:col-span-6 md:col-span-5 md:mr-0 md:mb-3">
             <label
@@ -600,6 +624,18 @@ useEffect(() => {
             </button>
           </div>
         </div>*/}
+         {courseMode==="preset" ? 
+        ( 
+         <div>
+        <label  className="block mb-2 text-lg tracking-wide text-[#626262] captilize"> {t("ADDRESS")}</label>
+      <input
+              type="text"
+              className="w-3/4 md:w-1/2 p-2 rounded-md focus:outline-none border-[#52FF86]"
+              placeholder={t("SEARCH_LOCATION")}
+              required
+              readOnly
+              value={formData?.address}
+            /></div>):(
 
     <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_API_KEY || ""} libraries={["places"]}>
       <div>
@@ -618,12 +654,35 @@ useEffect(() => {
         />
       </Autocomplete>
 
-        <GoogleMap mapContainerStyle={mapContainerStyle} center={mapCenter} zoom={14}>
-          <Marker position={markerPosition} />
-        </GoogleMap>
+      <GoogleMap mapContainerStyle={mapContainerStyle} center={mapCenter} zoom={14}>
+  <Marker
+    position={markerPosition}
+    draggable={true}
+    onDragEnd={(e) => {
+      const lat = e.latLng?.lat();
+      const lng = e.latLng?.lng();
+      if (lat && lng) {
+        setMarkerPosition({ lat, lng });
+        const geocoder = new window.google.maps.Geocoder();
+        geocoder.geocode({ location: { lat, lng } }, (results, status) => {
+          if (status === "OK" && results && results[0]) {
+            const newAddress = results[0].formatted_address;
+            setInputValue(newAddress);
+            setFormData((prev: any) => ({
+              ...prev,
+              address: newAddress,
+              latitude: lat,
+              longitude: lng,
+            }));
+          }
+        });
+      }
+    }}
+  />
+</GoogleMap>
 
       </div>
-    </LoadScript>
+    </LoadScript>)}
       </div>
       <div
         className="grid grid-cols-9 px-4 py-4 mx-auto lg:gap-x-16 my-6 rounded-md"

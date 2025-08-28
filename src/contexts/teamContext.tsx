@@ -67,11 +67,15 @@ export const SingleTeamsContext = ({ children }: any) => {
         return setIsLoading(value);
     }, [isLoading]);
     const uId = localStorage.getItem('id');
-    const isJoined = uniqueMembers?.some((member: any) => member.userId == uId);
 
-    console.log(waitingUsers);
-    console.log("uniquemembers",uniqueMembers);
+    const isJoined = uniqueMembers?.some(
+  (member: any) => member.userId == uId && member.status === "joined"
+);
+
+   // console.log("waitingUsers",waitingUsers);
+   // console.log("uniquemembers",uniqueMembers);
     console.log("teamMembers",teamMembers);
+    console.log("isJoined",isJoined);
     const value = { handleSingleTeam, handleIsLoading, waitingUsers, joinedUsers, teamMembers, isJoined, uniqueMembers, totalJoinedMembers, isLoading, teams }
 
     return <SingleTeamContext.Provider value={value}> {children}</SingleTeamContext.Provider>

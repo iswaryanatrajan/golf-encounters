@@ -28,13 +28,13 @@ import AllMembers from "../components/AllMembers";
 import CeremonyModal from "../components/CeremonyModal";
 import { useLocation } from 'react-router-dom';
 interface Team {
-  id: string;
+  id: number;
   name: string;
   imageUrl?: string;
   members: Members[];
 }
 interface Members {
-  imageUrl: string | undefined;
+  imageUrl?: string | undefined;
   nickName: string;
   userId: string;
   teamId: any;
@@ -157,7 +157,7 @@ const EditTeamPage: FunctionComponent = () => {
   const [selectedTeamName, setSelectedTeamName] = useState("");
   const [currentTeamSize, setCurrentTeamSize] = useState(singleEvent?.teamSize);
   const [capacity, setCapacity] = useState(singleEvent?.capacity);
-  const [selectedTeamId, setSelectedTeamId] = useState("");
+  const [selectedTeamId, setSelectedTeamId] = useState<number | null>(null);
   const [selectedUserId, setSelectedUserId] = useState<any>([]);
   const [showPlayerList, setShowPlayerList] = useState(false);
   const [showWideSlider, setShowWideSlider] = useState(window.innerWidth > 1080);
@@ -170,9 +170,10 @@ const EditTeamPage: FunctionComponent = () => {
 
   const teamCapacity = singleEvent?.capacity;
 
-  const updateTeamLocal = (event: React.FormEvent<HTMLFormElement>) => {
+  const updateTeamLocal = async(event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    handleSingleTeam((prev: Team[]) => {
+    console.log({ selectedPlayerNickname, selectedTeamName, selectedTeamId, selectedUserId, teamCapacity }, "updateTeamLocal");
+   /* handleSingleTeam((prev: Team[]) => {
       let newState = [...prev].map((team: any) => {
         console.log({ team });
         if (team.id == selectedTeamId && team.members?.length < teamCapacity) {
@@ -186,7 +187,9 @@ const EditTeamPage: FunctionComponent = () => {
                 userId: selectedUserId,
               },
             ],
+          
           };
+          
         } else {
           return {
             ...team,
@@ -198,7 +201,68 @@ const EditTeamPage: FunctionComponent = () => {
       });
 
       return [...newState];
+    });*/
+ let updatedTeams: Team[] = [];
+ handleSingleTeam((prev: Team[]) => {
+    updatedTeams = prev.map((team: Team) => {
+      const filteredMembers = team.members.filter(
+        (member) => member.userId !== selectedUserId
+      );
+      console.log({ filteredMembers }, "filteredMembers",team.id,selectedTeamId, team.id === selectedTeamId, filteredMembers.length < teamCapacity, "teamCapacity", teamCapacity);
+      // Only add if not already present
+    const alreadyInTeam = filteredMembers.some(
+      (member) => member.userId === selectedUserId
+    );
+      if (team.id === selectedTeamId && filteredMembers.length < teamCapacity && !alreadyInTeam) {
+        console.log("Adding member to team:", team.name);
+        return {
+          ...team,
+          members: [
+            ...filteredMembers,
+            {
+              nickName: selectedPlayerNickname,
+              teamId: selectedTeamId,
+              userId: selectedUserId,
+            },
+          ],
+        };
+      }
+
+      return { ...team, members: filteredMembers };
     });
+
+    return updatedTeams;
+  });
+
+  // Persist this move only
+  try {
+    const formDataObj = {
+      eventId: singleEvent?.id,
+      teams: updatedTeams,
+      teamSize: singleEvent?.teamSize,
+      capacity: capacity === undefined ? totalCapacity : Number(capacity),
+    };
+    console.log("formDataObj", formDataObj);
+
+    const response = await axios.put(
+      API_ENDPOINTS.UPDATETEAMMEMBER,
+      JSON.stringify(formDataObj),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+
+    if (response.status !== 200) throw new Error("Failed to update");
+
+    toast.success("Player moved successfully");
+  } catch (error) {
+    console.error("Error moving player:", error);
+    toast.error("Failed to move player in backend");
+  }
+
   };
   const [centerIndex, setCenterIndex] = useState(0);
   console.log(centerIndex, "cc")
@@ -239,6 +303,7 @@ const EditTeamPage: FunctionComponent = () => {
       capacity: capacity === undefined ? totalCapacity : Number(capacity),
       teams,
     };
+    console.log("formDataObj in updateTeams", formDataObj);
 
     try {
       const response = await axios.put(
@@ -270,9 +335,9 @@ const EditTeamPage: FunctionComponent = () => {
     localStorage.setItem("showEditTeamDialog", open.toString());
   }, [open]);
   const [opens, setEditOpen] = useState(false);
-  useEffect(() => {
+  /*useEffect(() => {
     localStorage.setItem("showEditTeamDialog", opens.toString());
-  }, [open]);
+  }, [open]);*/
   useEffect(() => {
     const handleResize = () => {
       setShowWideSlider(window.innerWidth > 1080);
@@ -608,15 +673,15 @@ const EditTeamPage: FunctionComponent = () => {
                             <div className="flex-wrap  xl:flex items-center gap-2 m-4 xl:m-0">
                               <label
                                 className="block mb-2 text-xs font-normal tracking-wide text-black capitalize"
-                                htmlFor="teamSize"
+                                htmlFor="capacity"
                               >
                                 {t('CAPACITY')}
                               </label>
                               <input
                                 className="appearance-none block w-[80px] bg-gray-200 text-green border border-[#51ff85] bg-transparent rounded py-2 px-2 mb-0 leading-tight focus:outline-none "
-                                id="teamSize"
+                                id="capacity"
                                 type="number"
-                                name="teamSize"
+                                name="capacity"
                                 value={capacity === undefined ? totalCapacity : capacity}
                                 onChange={(e) => setCapacity(e.target.value)}
                                 min="0"
@@ -1050,7 +1115,7 @@ const EditTeamPage: FunctionComponent = () => {
                                           id="teamSelect"
                                           className="w-1/2 py-3 text-gray-900 border-none rounded-md bg-gray-50 sm:text-sm"
                                           onChange={(e) =>
-                                            setSelectedTeamId(e.target.value)
+                                            setSelectedTeamId(Number(e.target.value))
                                           }
                                         >
                                           <option value="" disabled selected>
@@ -1087,7 +1152,7 @@ const EditTeamPage: FunctionComponent = () => {
                                         type="submit"
                                         className="cursor-pointer mt-3 inline-flex w-full justify-center rounded-full bg-[#00FF92] px-4 py-3 text-sm font-semibold text-gray-900 shadow-sm  hover:bg-gray-50 sm:mt-0 sm:w-auto"
                                         onClick={() => setEditOpen(false)}
-                                        ref={cancelButtonRef}
+                                        //ref={cancelButtonRef}
                                       >
                                         Confirm
                                       </button>

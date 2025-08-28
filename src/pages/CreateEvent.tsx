@@ -56,6 +56,8 @@ interface CreateEventType {
   shotsPerHoles?: string[];
   driverContest?: number;
   nearPinContest?: number;
+  courseMode?: "custom" | "preset";
+  selectedTemplateId?: string;
   
 }
 
@@ -109,6 +111,8 @@ const CreateEvent: React.FC = () => {
     emailCheckBox: 0,
     telephoneCheckBox: 0,
     handicapCheckBox: 0,
+    courseMode: "custom", // "preset" or "custom"
+    selectedTemplateId: "", // ID of the selected template
   });
 
   console.log(formData, 'CBZ')
@@ -160,7 +164,11 @@ const CreateEvent: React.FC = () => {
   
   const [shotTemplates, setShotTemplates] = useState<Template[]>([]); // shared data
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
+
+
+    const [selectedTemplateId, setSelectedTemplateId] = useState("");
    const token = localStorage.getItem("token");
+
     
     
   useEffect(() => {
@@ -183,13 +191,27 @@ const CreateEvent: React.FC = () => {
 
   const handleTemplateSelect = (template: Template) => {
   setSelectedTemplate(template);
-  console.log("Selected template:", template);
+ 
   setFormData((prev) => ({
     ...prev,
-    place: template.prefecture || ''
+    place: template.prefecture || '',
+    address: template.address || '',
+    courseMode: template.id ? "preset" : "custom",
+    selectedTemplateId: template.id.toString(),
+  }));
+
+};
+
+const handleCourseModeChange = (mode: "custom" | "preset") => {
+  setFormData((prev) => ({
+    ...prev,
+    courseMode: mode,
+    selectedTemplateId: "", // let user select later
   }));
 };
-  
+
+
+ 
     
   const getDefaultImageFile = async (imagePath: string): Promise<File> => {
     const response = await fetch(imagePath);
@@ -355,7 +377,7 @@ const CreateEvent: React.FC = () => {
         </div>
 
         <form method="post" id="foirm" encType="multipart/form-data">
-          <BasicInfo onChange={handleChange} setFormData={setFormData}   formData={formData}/>
+          <BasicInfo onChange={handleChange} setFormData={setFormData} formData={formData}  selectedTemplate={selectedTemplate} courseMode={formData.courseMode} />
           <PaymentDetails setFormData={setFormData} onChange={handlePaymentDetailsChange} formData={formData}/>
           <Recuitments setFormData={setFormData} onChange={handleRecruitmentTabsChange} />
 
@@ -366,7 +388,9 @@ const CreateEvent: React.FC = () => {
             selectedHoles={formData.selectedHoles || []}
             shotTemplates={shotTemplates}
             onTemplateSelect={handleTemplateSelect}
-           
+           setFormData={setFormData}
+           formdataa={formData}
+           onCourseModeChange={handleCourseModeChange}
           />
 
           

@@ -26,6 +26,8 @@ interface ScoringTypeProps {
   formdataa?:any;
   shotTemplates: Template[];
   onTemplateSelect?: (template: Template) => void;
+  setFormData: React.Dispatch<React.SetStateAction<any>>;
+  onCourseModeChange?: (mode: "custom" | "preset") => void;
 }
 
 enum Tab {
@@ -81,6 +83,7 @@ const ScoringCategory: React.FC<ScoringTypeProps> = ({
   formdataa,
   shotTemplates,
   onTemplateSelect,
+  onCourseModeChange
 }) => {
   const { t, i18n } = useTranslation();
   document.body.dir = i18n.dir();
@@ -93,10 +96,68 @@ const ScoringCategory: React.FC<ScoringTypeProps> = ({
 
 
 
+  
+
 //const [shotTemplates, setShotTemplates] = useState<Template[]>([]);
 
 
 const [selectedTemplateId, setSelectedTemplateId] = useState<number | "">("");
+
+ /* const [courseMode, setCourseMode] = useState<"preset" | "custom">(
+    selectedTemplateId !== "" ? "preset" : "custom"
+  );*/
+
+  const [courseMode, setCourseMode] = useState<"preset" | "custom">("custom");
+  //const [selectedTemplateId, setSelectedTemplateId] = useState("");
+
+useEffect(() => {
+  if (courseMode === "preset") {
+    setSelectedTemplateId(shotTemplates.length > 0 ? shotTemplates[0].id : "");
+  } else {
+    setSelectedTemplateId("");
+  }
+  console.log(courseMode, "courseMode in useEffect"); 
+}, [courseMode, shotTemplates]);
+
+   // Update courseMode and coursesetting in formData when changed
+  useEffect(() => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      courseMode,
+      coursesetting: selectedTemplateId,
+    }));
+  }, [courseMode, selectedTemplateId]);
+
+  useEffect(() => {
+  if (formdataa) {
+    console.log(formdataa, "formdataa in scoring category");
+      if (formdataa.courseMode) {
+      setCourseMode(formdataa.courseMode);
+    }
+    if (formdataa.selectedTemplateId !== undefined) {
+      setSelectedTemplateId(formdataa.selectedTemplateId);
+    }
+    setFormData((prev) => ({
+      ...prev,
+      ...formdataa, // this will update all keys present in formdataa
+    }));
+
+    // If you want to update holeValues as well:
+    const shotsPerHoles = formdataa.shotsPerHoles;
+    if (Array.isArray(shotsPerHoles)) {
+      setHoleValues([...shotsPerHoles]);
+    } else if (typeof shotsPerHoles === "string") {
+      try {
+        const parsedHoles = JSON.parse(shotsPerHoles);
+        if (Array.isArray(parsedHoles)) {
+          setHoleValues(parsedHoles);
+        }
+      } catch (error) {
+        // fallback or error handling
+      }
+    }
+  }
+}, [formdataa]);
 
  const token = localStorage.getItem("token");
 /*useEffect(() => {
@@ -146,28 +207,39 @@ const [selectedTemplateId, setSelectedTemplateId] = useState<number | "">("");
     console.log("formdataa updated:", formdataa);
   
     const shotsPerHoles = formdataa?.shotsPerHoles;
-  
+  console.log(shotsPerHoles, "shotperholes");
     if (Array.isArray(shotsPerHoles)) {
       // If shotsPerHoles is already an array, set it to holeValues
       setHoleValues([...shotsPerHoles]);
     } else if (typeof shotsPerHoles === "string") {
-      // If shotsPerHoles is a string, parse it into an array
-      try {
-        const parsedHoles = JSON.parse(shotsPerHoles);
-        if (Array.isArray(parsedHoles)) {
-          setHoleValues(parsedHoles);
-        } else {
-          console.error("Invalid format for shotsPerHoles:", parsedHoles);
-          setHoleValues(Array.from({ length: numHoles }, () => 4)); // Default to 4
-        }
-      } catch (error) {
-        console.error("Error parsing shotsPerHoles:", error);
-        setHoleValues(Array.from({ length: numHoles }, () => 4)); // Default to 4
-      }
+  try {
+    // Try to parse as JSON array
+    const parsedHoles = JSON.parse(shotsPerHoles);
+    if (Array.isArray(parsedHoles)) {
+      setHoleValues(parsedHoles);
     } else {
-      // If no valid shotsPerHoles, default to an array of 4s
+      // If not an array, maybe it's a CSV string
+      const csvArray = shotsPerHoles.split(",").map(Number);
+      if (csvArray.every((n) => !isNaN(n))) {
+        setHoleValues(csvArray);
+      } else {
+        // fallback: default values
+        setHoleValues(Array.from({ length: numHoles }, () => 4));
+      }
+    }
+  } catch (error) {
+    // If parsing fails, try CSV fallback
+    const csvArray = shotsPerHoles.split(",").map(Number);
+    if (csvArray.every((n) => !isNaN(n))) {
+      setHoleValues(csvArray);
+    } else {
       setHoleValues(Array.from({ length: numHoles }, () => 4));
     }
+  }
+} else {
+  // fallback: default values
+  setHoleValues(Array.from({ length: numHoles }, () => 4));
+}
   }, [formdataa, numHoles]);
 
   const handleTemplateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -190,7 +262,10 @@ const [selectedTemplateId, setSelectedTemplateId] = useState<number | "">("");
   }
 };
   
-
+const handleCourseModeChange = (mode: "custom" | "preset") => {
+    setCourseMode(mode);
+    onCourseModeChange?.(mode); // notify parent
+  }
   const handleParInputChange = (e: any, index: any) => {
     const newValue = parseInt(e.target.value);
     if (!isNaN(newValue) && newValue >= 0) {
@@ -417,6 +492,30 @@ const [selectedTemplateId, setSelectedTemplateId] = useState<number | "">("");
     }));
   };
 
+  useEffect(() => {
+  if (formdataa) {
+    setFormData((prev) => ({
+      ...prev,
+      ...formdataa, // this will update all keys present in formdataa
+    }));
+
+    // If you want to update holeValues as well:
+    const shotsPerHoles = formdataa.shotsPerHoles;
+    if (Array.isArray(shotsPerHoles)) {
+      setHoleValues([...shotsPerHoles]);
+    } else if (typeof shotsPerHoles === "string") {
+      try {
+        const parsedHoles = JSON.parse(shotsPerHoles);
+        if (Array.isArray(parsedHoles)) {
+          setHoleValues(parsedHoles);
+        }
+      } catch (error) {
+        // fallback or error handling
+      }
+    }
+  }
+}, [formdataa]);
+
   console.log(formData, "sccore");
   return (
     <div className="px-2 py-10 mx-auto lg:max-w-7xl">
@@ -540,18 +639,47 @@ const [selectedTemplateId, setSelectedTemplateId] = useState<number | "">("");
                 </button>
               </div>
             </div>
+      <div className="mt-10 mb-5">
+        {/* Radio buttons for custom or preset template */}
+        <label className="mr-4">
+          <input
+            type="radio"
+            name="courseMode"
+            value="preset"
+            checked={courseMode === "preset"}
+            onChange={() => {
+             handleCourseModeChange("preset");
+            }}
+          />
+          {t("PRESET_TEMPLATE")}
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="courseMode"
+            value="custom"
+            checked={courseMode === "custom"}
+            onChange={() => {
+           handleCourseModeChange("custom")
+          }}
+          />
+          {t("CUSTOM_TEMPLATE")}
+        </label>
+      </div>
 
-            <div className="my-4">
-  <label className="text-[#626262] mr-2">{t("SELECT_TEMPLATE")}:</label>
-<select value={selectedTemplateId} onChange={handleTemplateChange}>
-  <option value="">{t("SELECT_TEMPLATE")}</option>
-  {shotTemplates.map((template) => (
-    <option key={template.id} value={template.id}>
-      {template.name}
-    </option>
-  ))}
-</select>
-</div>
+          {courseMode === "preset" && (
+        <div className="my-4">
+        <label className="text-[#626262] mr-2">{t("SELECT_TEMPLATE")}:</label>
+      <select name="coursesetting" value={selectedTemplateId} onChange={handleTemplateChange}>
+        <option value="">{t("SELECT_TEMPLATE")}</option>
+        {shotTemplates.map((template) => (
+          <option key={template.id} value={template.id}>
+            {template.name}
+          </option>
+        ))}
+      </select>
+      </div>
+      )}
 
         {selectedScoringType === Tab.Regular && (
               <div className="grid grid-cols-9 mx-auto lg:gap-x-16">
@@ -595,6 +723,7 @@ const [selectedTemplateId, setSelectedTemplateId] = useState<number | "">("");
                               value={holeValues[index]}
                               min="0"
                               onChange={(e) => handleParInputChange(e, index)}
+                              readOnly={selectedTemplateId !== ""} 
                             />
                           </div>
                         </div>
@@ -648,6 +777,7 @@ const [selectedTemplateId, setSelectedTemplateId] = useState<number | "">("");
                             value={holeValues[index]}
                             min="0"
                             onChange={(e) => handleParInputChange(e, index)}
+                             readOnly={selectedTemplateId !== ""} 
                           />
                         </div>
                       </div>
@@ -700,6 +830,7 @@ const [selectedTemplateId, setSelectedTemplateId] = useState<number | "">("");
                             value={holeValues[index]}
                             min="0"
                             onChange={(e) => handleParInputChange(e, index)}
+                             readOnly={selectedTemplateId !== ""} 
                           />
                         </div>
                       </div>
@@ -749,6 +880,7 @@ const [selectedTemplateId, setSelectedTemplateId] = useState<number | "">("");
                             value={holeValues[index]}
                             min="0"
                             onChange={(e) => handleParInputChange(e, index)}
+                             readOnly={selectedTemplateId !== ""} 
                           />
                         </div>
                       </div>

@@ -266,7 +266,13 @@ table.leaderboard_tbl tr td::after {
   background-color: #fff0f0;
 }
 
-
+/* Highlight all readonly input fields */
+input:read-only {
+  background-color: #f5f5f5;
+  color: #b0b0b0;
+  cursor: not-allowed;
+  opacity: 1; /* keep text visible */
+}
 
 /*header{
   top: 0px;

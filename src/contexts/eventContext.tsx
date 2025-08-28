@@ -245,6 +245,8 @@ export interface CreateEventType {
   shotsPerHoles?: string[];
   driverContest?: number;
   nearPinContest?: number;
+  courseMode?: string;
+  selectedTemplateId?: string;
 }
 const SingleEventContext = React.createContext<any>({});
 

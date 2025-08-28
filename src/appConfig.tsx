@@ -44,7 +44,7 @@ export const API_ENDPOINTS = {
   GETMEMBERSLIST: `${API_BASE_URL}/${API_VERSION}/get-joined-and-wait-list/`,
   JOINPRIVATEEVENT: `${API_BASE_URL}/${API_VERSION}/verify-event-private-password/`,
 
-  GETTEMPLATES: `${API_BASE_URL}/admin/get-course-events`,
+  GETTEMPLATES: `${API_BASE_URL}/${API_VERSION}/get-course-events`,
   
 
   // EVent ceremony

@@ -65,11 +65,14 @@ const EditEvent: React.FC = () => {
         shotsPerHoles: singleEvent?.shotsPerHoles,
         driverContest:  singleEvent?.driverContest,
         nearPinContest:  singleEvent?.nearPinContest,
+        courseMode: singleEvent?.courseMode, // "preset" or "custom"
+        selectedTemplateId: singleEvent?.selectedTemplateId, // ID of the selected template
         creatorId: userId,
         fullNameCheckBox: "",
         emailCheckBox: "",
         telephoneCheckBox: "",
         handicapCheckBox: "",
+
 
   });
 
@@ -198,7 +201,7 @@ const EditEvent: React.FC = () => {
         formdata.append(key, value);
       }
     });
-
+    console.log(formdata, "formdata editing event");
     try {
       const response = await axios.put(API_ENDPOINTS.UPDATE_EVENT + singleEvent?.id, formdata, {
         headers: {
@@ -233,8 +236,6 @@ const EditEvent: React.FC = () => {
       ...prevFormData,
       ...formDataUpdate,
       paymentType,
-    
-      
     }));
   };
 
@@ -289,6 +290,8 @@ const EditEvent: React.FC = () => {
         nearPinContest:  singleEvent?.nearPinContest,
         cancellationFee:  singleEvent?.cancellationFee,
         creatorId: userId,
+        courseMode: singleEvent?.courseMode, // "preset" or "custom"
+        selectedTemplateId: singleEvent?.selectedTemplateId, // ID of the selected template
       });
       
     }
@@ -347,12 +350,22 @@ const EditEvent: React.FC = () => {
   setFormData((prev:any) => ({
     ...prev,
     place: template.prefecture || '',
+    address: template.address || '',
+    courseMode: template.id ? "preset" : "custom",
+    selectedTemplateId: template.id.toString(),
     shotsPerHoles: template.holes
       .sort((a, b) => Number(a.holeNumber) - Number(b.holeNumber))
       .map((hole) => hole.par)
   }));
 };
   
+const handleCourseModeChange = (mode: "custom" | "preset") => {
+  setFormData((prev:any) => ({
+    ...prev,
+    courseMode: mode,
+    selectedTemplateId: "", // let user select later
+  }));
+};
 
   const itemInstructions = (updatedValues: any) => {
     const convertedValues = {
@@ -381,7 +394,7 @@ const EditEvent: React.FC = () => {
         </div>
 
         <form method="post" id="foirm" encType="multipart/form-data">
-          <BasicInfo onChange={handleChange} setFormData={setFormData} formData={formData} />
+          <BasicInfo onChange={handleChange} setFormData={setFormData} formData={formData} selectedTemplate={selectedTemplate}  courseMode={formData.courseMode}/>
 
           <Recuitments setFormData={setFormData} onChange={handleRecruitmentTabsChange} formData={formData}/>
 
@@ -393,6 +406,8 @@ const EditEvent: React.FC = () => {
             formdataa={formData}
             shotTemplates={shotTemplates}
             onTemplateSelect={handleTemplateSelect}
+            setFormData={setFormData}
+            onCourseModeChange={handleCourseModeChange}
           />
 
           <PaymentDetails setFormData={setFormData} onChange={handlePaymentDetailsChange} formData={formData}/>
