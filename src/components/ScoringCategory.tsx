@@ -108,7 +108,19 @@ const [selectedTemplateId, setSelectedTemplateId] = useState<number | "">("");
   );*/
 
   const [courseMode, setCourseMode] = useState<"preset" | "custom">("custom");
+  const [selectedPrefecture, setSelectedPrefecture] = useState("");
+
   //const [selectedTemplateId, setSelectedTemplateId] = useState("");
+const prefectures = [
+  "北海道 (Hokkaido)",
+  "青森県 (Aomori Prefecture)", "岩手県 (Iwate Prefecture)", "宮城県 (Miyagi Prefecture)", "秋田県 (Akita Prefecture)", "山形県 (Yamagata Prefecture)", "福島県 (Fukushima Prefecture)",
+  "茨城県 (Ibaraki Prefecture)", "栃木県 (Tochigi Prefecture)", "群馬県 (Gunma Prefecture)", "埼玉県 (Saitama Prefecture)", "千葉県 (Chiba Prefecture)", "東京都 (Tokyo)",
+  "神奈川県 (Kanagawa Prefecture)", "新潟県 (Niigata Prefecture)", "富山県 (Toyama Prefecture)", "石川県 (Ishikawa Prefecture)", "福井県 (Fukui Prefecture)", "山梨県 (Yamanashi Prefecture)", "長野県 (Nagano Prefecture)", "岐阜県 (Gifu Prefecture)",
+  "静岡県 (Shizuoka Prefecture)", "愛知県 (Aichi Prefecture)", "三重県 (Mie Prefecture)", "滋賀県 (Shiga Prefecture)", "京都府 (Kyoto)", "大阪府 (Osaka)", "兵庫県 (Hyogo Prefecture)", "奈良県 (Nara Prefecture)", "和歌山県 (Wakayama Prefecture)",
+  "鳥取県 (Tottori Prefecture)", "島根県 (Shimane Prefecture)", "岡山県 (Okayama Prefecture)", "広島県 (Hiroshima Prefecture)", "山口県 (Yamaguchi Prefecture)", "徳島県 (Tokushima Prefecture)", "香川県 (Kagawa Prefecture)",
+  "愛媛県 (Ehime Prefecture)", "高知県 (Kochi Prefecture)", "福岡県 (Fukuoka Prefecture)", "佐賀県 (Saga Prefecture)", "長崎県 (Nagasaki Prefecture)", "熊本県 (Kumamoto Prefecture)", "大分県 (Oita Prefecture)", "宮崎県 (Miyazaki Prefecture)",
+  "鹿児島県 (Kagoshima Prefecture)", "沖縄県 (Okinawa Prefecture)"
+];
 
 useEffect(() => {
   if (courseMode === "preset") {
@@ -266,6 +278,11 @@ const handleCourseModeChange = (mode: "custom" | "preset") => {
     setCourseMode(mode);
     onCourseModeChange?.(mode); // notify parent
   }
+
+const filteredTemplates = shotTemplates.filter(
+  (template) => template.prefecture === selectedPrefecture
+);
+
   const handleParInputChange = (e: any, index: any) => {
     const newValue = parseInt(e.target.value);
     if (!isNaN(newValue) && newValue >= 0) {
@@ -668,16 +685,35 @@ const handleCourseModeChange = (mode: "custom" | "preset") => {
       </div>
 
           {courseMode === "preset" && (
-        <div className="my-4">
+        <div className="my-4 flex items-center gap-4">
+          <div>
+           <label className="text-[#626262] mr-2">{t("PLACE")}:</label>
+             <select
+    value={selectedPrefecture}
+    onChange={(e) => {   setSelectedPrefecture(e.target.value);
+    setSelectedTemplateId("");
+    setHoleValues(Array.from({ length: numHoles }, () => 4));
+ }}
+    className="border px-2 py-1 rounded"
+  >
+    <option value="">Select a prefecture</option>
+    {prefectures.map((pref) => (
+      <option key={pref} value={pref}>
+        {pref}
+      </option>
+    ))}
+  </select></div>
+  <div>
         <label className="text-[#626262] mr-2">{t("SELECT_TEMPLATE")}:</label>
       <select name="coursesetting" value={selectedTemplateId} onChange={handleTemplateChange}>
         <option value="">{t("SELECT_TEMPLATE")}</option>
-        {shotTemplates.map((template) => (
+        {filteredTemplates.map((template) => (
           <option key={template.id} value={template.id}>
             {template.name}
           </option>
         ))}
       </select>
+      </div>
       </div>
       )}
 

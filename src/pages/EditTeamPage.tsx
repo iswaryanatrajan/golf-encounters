@@ -170,38 +170,10 @@ const EditTeamPage: FunctionComponent = () => {
 
   const teamCapacity = singleEvent?.capacity;
 
-  const updateTeamLocal = async(event: React.FormEvent<HTMLFormElement>) => {
+  /*const updateTeamLocal = async(event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log({ selectedPlayerNickname, selectedTeamName, selectedTeamId, selectedUserId, teamCapacity }, "updateTeamLocal");
-   /* handleSingleTeam((prev: Team[]) => {
-      let newState = [...prev].map((team: any) => {
-        console.log({ team });
-        if (team.id == selectedTeamId && team.members?.length < teamCapacity) {
-          return {
-            ...team,
-            members: [
-              ...team.members,
-              {
-                nickName: selectedPlayerNickname,
-                teamId: selectedTeamId,
-                userId: selectedUserId,
-              },
-            ],
-          
-          };
-          
-        } else {
-          return {
-            ...team,
-            members: team.members.filter(
-              (member: any) => member.userId !== selectedUserId
-            ),
-          };
-        }
-      });
-
-      return [...newState];
-    });*/
+ 
  let updatedTeams: Team[] = [];
  handleSingleTeam((prev: Team[]) => {
     updatedTeams = prev.map((team: Team) => {
@@ -263,7 +235,76 @@ const EditTeamPage: FunctionComponent = () => {
     toast.error("Failed to move player in backend");
   }
 
-  };
+  };*/
+  const updateTeamLocal = async (event: React.FormEvent<HTMLFormElement>) => {
+  event.preventDefault();
+
+  handleSingleTeam((prev: Team[]) => {
+    const newTeams = prev.map((team) => {
+      if (team.id === selectedTeamId) {
+        // Add to selected team if not already there & within capacity
+        if (
+          team.members.length < teamCapacity &&
+          !team.members.some((m) => m.userId === selectedUserId)
+        ) {
+          return {
+            ...team,
+            members: [
+              ...team.members,
+              {
+                nickName: selectedPlayerNickname,
+                teamId: selectedTeamId,
+                userId: selectedUserId,
+                imageUrl: selectedPlayerImageUrl,
+              },
+            ],
+          };
+        }
+        return team; // no change if already in or full
+      }
+
+      // Remove from other teams
+      return {
+        ...team,
+        members: team.members.filter((m) => m.userId !== selectedUserId),
+      };
+    });
+
+    // Persist the updated teams right after computing them
+    persistTeams(newTeams);
+
+    return newTeams;
+  });
+};
+
+const persistTeams = async (teams: Team[]) => {
+  try {
+    const formDataObj = {
+      eventId: singleEvent?.id,
+      teams,
+      teamSize: singleEvent?.teamSize,
+      capacity: capacity === undefined ? totalCapacity : Number(capacity),
+    };
+
+    const response = await axios.put(
+      API_ENDPOINTS.UPDATETEAMMEMBER,
+      JSON.stringify(formDataObj),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+
+    if (response.status !== 200) throw new Error("Failed to update");
+
+    toast.success("Player moved successfully");
+  } catch (error) {
+    console.error("Error moving player:", error);
+    toast.error("Failed to move player in backend");
+  }
+};
   const [centerIndex, setCenterIndex] = useState(0);
   console.log(centerIndex, "cc")
   const updateTeams = async (event: any) => {
@@ -318,13 +359,18 @@ const EditTeamPage: FunctionComponent = () => {
       );
 
       if (response.status !== 200) {
+         toast.error(response.data?.error || "Failed to update");
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       toast.success(t('MEMBER_UPDATED_SUCCESS'));
       window.location.reload();
-    } catch (error) {
-      console.error("Error updating team:", error);
-      toast.error("Please make changes before updating.");
+    } catch (error:any) {
+       if (error.response && error.response.data && error.response.data.error) {
+    toast.error(error.response.data.error);
+  } else {
+    toast.error(error.message || "Please make changes before updating.");
+  }
+  console.error("Error updating team:", error);
     }
   };
 
@@ -803,9 +849,9 @@ const EditTeamPage: FunctionComponent = () => {
                                     </div>
                                   </div>
                                 </td>
-                                {team.members?.filter((member: any) => member.status === 'joined').map((member: any, memberIndex: any) => (
+                                {team.members?.map((member: any, memberIndex: any) => (
                                   <td className="py-4 pl-4 whitespace-nowrap" key={memberIndex}>
-                                    <Player
+                                    <Player key={member.userId}
                                       isCreator={isCreated}
                                       showNumber={false}
                                       enableHover={true}
